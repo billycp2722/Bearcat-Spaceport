@@ -1,0 +1,456 @@
+﻿<Window x:Class="Rocket_TM_BSC.MainWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rocket_TM_BSC"
+        xmlns:s3D="http://schemas.abtsoftware.co.uk/scichart3D" 
+        xmlns:object="clr-namespace:SciChart.Charting3D.Visuals.Object;assembly=SciChart.Charting3D"
+        xmlns:ext="http://schemas.abtsoftware.co.uk/scichart/exampleExternals" 
+        xmlns:vm="clr-namespace:Rocket_TM_BSC.ViewModel"
+        xmlns:controls="clr-namespace:Rocket_TM_BSC.View"
+        mc:Ignorable="d"
+        Title="AddObjectsToA3DChart" 
+        Height="1080" 
+        Width="1920">
+
+    <Window.DataContext>
+        <vm:BSCViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+
+        <object:ObjectModelSource x:Key="test" Source="pack://application:,,,/Modeling/RocketFile.obj" />
+
+        <object:Rotation3D x:Key="ObjRotationState" Axis="YAxis" Angle="90"/>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource ThemedChartBackground}">
+
+        <!--<s3D:SciChart3DSurface Grid.Column="3" Name="sciChart3DSurface2"
+                       s3D:SceneObjects="{Binding SceneObj}"
+                       BorderThickness="1"
+                       WorldDimensions="10,10,10" >
+
+            <s3D:SciChart3DSurface.Camera>
+                <s3D:Camera3D x:Name="Camera3D2" ZoomToFitOnAttach="True"/>
+            </s3D:SciChart3DSurface.Camera>
+
+            <s3D:SciChart3DSurface.XAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                       DrawMajorTicks="True"
+                       DrawMinorGridLines="False"
+                       DrawMinorTicks="False"
+                       PlaneBorderThickness="0.1"/>
+            </s3D:SciChart3DSurface.XAxis>
+
+            <s3D:SciChart3DSurface.YAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                       DrawMajorTicks="True"
+                       DrawMinorGridLines="False"
+                       DrawMinorTicks="False" 
+                       PlaneBorderThickness="0.1"/>
+            </s3D:SciChart3DSurface.YAxis>
+
+            <s3D:SciChart3DSurface.ZAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                       DrawMajorTicks="True"
+                       DrawMinorGridLines="False"
+                       DrawMinorTicks="False" 
+                       PlaneBorderThickness=".1"/>
+            </s3D:SciChart3DSurface.ZAxis>
+
+            <s3D:SciChart3DSurface.ChartModifier>
+                <s3D:ModifierGroup3D>
+                    <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
+                    <s3D:MouseWheelZoomModifier3D/>
+                    <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
+                </s3D:ModifierGroup3D>
+            </s3D:SciChart3DSurface.ChartModifier>
+
+
+
+
+
+        </s3D:SciChart3DSurface>
+        <s3D:SciChart3DSurface Grid.Column="2" Name="sciChart3DSurface3"
+                s3D:SceneObjects="{Binding SceneObj}"
+                BorderThickness="1"
+                WorldDimensions="10,10,10" >
+
+            <s3D:SciChart3DSurface.Camera>
+                <s3D:Camera3D x:Name="Camera3D3" ZoomToFitOnAttach="True"/>
+            </s3D:SciChart3DSurface.Camera>
+
+            <s3D:SciChart3DSurface.XAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                DrawMajorTicks="True"
+                DrawMinorGridLines="False"
+                DrawMinorTicks="False"
+                PlaneBorderThickness="0.1"/>
+            </s3D:SciChart3DSurface.XAxis>
+
+            <s3D:SciChart3DSurface.YAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                DrawMajorTicks="True"
+                DrawMinorGridLines="False"
+                DrawMinorTicks="False" 
+                PlaneBorderThickness="0.1"/>
+            </s3D:SciChart3DSurface.YAxis>
+
+            <s3D:SciChart3DSurface.ZAxis>
+                <s3D:NumericAxis3D DrawLabels="True"
+                DrawMajorTicks="True"
+                DrawMinorGridLines="False"
+                DrawMinorTicks="False" 
+                PlaneBorderThickness=".1"/>
+            </s3D:SciChart3DSurface.ZAxis>
+
+            <s3D:SciChart3DSurface.ChartModifier>
+                <s3D:ModifierGroup3D>
+                    <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
+                    <s3D:MouseWheelZoomModifier3D/>
+                    <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
+                </s3D:ModifierGroup3D>
+            </s3D:SciChart3DSurface.ChartModifier>
+
+
+
+
+
+        </s3D:SciChart3DSurface>-->
+        
+
+        <TabControl Background="{StaticResource ThemedChartBackground}">
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="2.5*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{StaticResource TeamLogo}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+                        <StackPanel Grid.Column="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Telemetry Status Indicators" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                                <TextBlock Text="Signal Strength (dB)" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                                
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Rocket TM" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding RockTMStat}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+                                <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Capsule 1 TM" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1TMStat}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+                                <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
+                            </Grid>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Capsule 2 TM" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                                <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap2TMStat}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+                                <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
+                            </Grid>
+                        </StackPanel>
+                        <controls:Graph5 Grid.Column="3" Margin="10"/>
+                    </Grid>
+                    
+                    <GroupBox Grid.Row="1" Grid.Column="0"  Header="Rocket" Foreground="White" BorderThickness="2" Margin="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="6*" />
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Text="Capsule Ejection Status" Grid.Column="0" HorizontalAlignment="Center" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding CapEject}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+
+                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                            
+                            <TextBlock Text="Apogee" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="System Pressure 1" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
+                            
+                            <TextBlock Text="System Pressure 2" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface" Margin="10"
+            s3D:SceneObjects="{Binding SceneObj}"
+            BorderThickness="1"
+            WorldDimensions="10,10,10" >
+
+                                <s3D:SciChart3DSurface.Camera>
+                                    <s3D:Camera3D x:Name="Camera3D" ZoomToFitOnAttach="True"/>
+                                </s3D:SciChart3DSurface.Camera>
+
+                                <s3D:SciChart3DSurface.XAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False"
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.XAxis>
+
+                                <s3D:SciChart3DSurface.YAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.YAxis>
+
+                                <s3D:SciChart3DSurface.ZAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness=".1"/>
+                                </s3D:SciChart3DSurface.ZAxis>
+
+                                <s3D:SciChart3DSurface.ChartModifier>
+                                    <s3D:ModifierGroup3D>
+                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
+                                        <s3D:MouseWheelZoomModifier3D/>
+                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
+                                    </s3D:ModifierGroup3D>
+                                </s3D:SciChart3DSurface.ChartModifier>
+
+
+
+
+
+                            </s3D:SciChart3DSurface>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Capsule 1" Foreground="White" BorderThickness="2" Margin="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="6*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="0" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="GPS Latitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
+
+                            <TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding ParachuteDeployCap1}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+                            <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+
+                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface2" Margin="10"
+            s3D:SceneObjects="{Binding SceneObj}"
+            BorderThickness="1"
+            WorldDimensions="10,10,10" >
+
+                                <s3D:SciChart3DSurface.Camera>
+                                    <s3D:Camera3D x:Name="Camera3D2" ZoomToFitOnAttach="True"/>
+                                </s3D:SciChart3DSurface.Camera>
+
+                                <s3D:SciChart3DSurface.XAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False"
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.XAxis>
+
+                                <s3D:SciChart3DSurface.YAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.YAxis>
+
+                                <s3D:SciChart3DSurface.ZAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness=".1"/>
+                                </s3D:SciChart3DSurface.ZAxis>
+
+                                <s3D:SciChart3DSurface.ChartModifier>
+                                    <s3D:ModifierGroup3D>
+                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
+                                        <s3D:MouseWheelZoomModifier3D/>
+                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
+                                    </s3D:ModifierGroup3D>
+                                </s3D:SciChart3DSurface.ChartModifier>
+
+
+
+
+
+                            </s3D:SciChart3DSurface>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.Column="2" Header="Capsule 2" Foreground="White" BorderThickness="2" Margin="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="6*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="0" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="GPS Latitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="1" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
+
+                            <TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding ParachuteDeployCap2}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
+                            <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+
+                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface3" Margin="10"
+            s3D:SceneObjects="{Binding SceneObj}"
+            BorderThickness="1"
+            WorldDimensions="10,10,10" >
+
+                                <s3D:SciChart3DSurface.Camera>
+                                    <s3D:Camera3D x:Name="Camera3D3" ZoomToFitOnAttach="True"/>
+                                </s3D:SciChart3DSurface.Camera>
+
+                                <s3D:SciChart3DSurface.XAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False"
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.XAxis>
+
+                                <s3D:SciChart3DSurface.YAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness="0.1"/>
+                                </s3D:SciChart3DSurface.YAxis>
+
+                                <s3D:SciChart3DSurface.ZAxis>
+                                    <s3D:NumericAxis3D DrawLabels="True"
+DrawMajorTicks="True"
+DrawMinorGridLines="False"
+DrawMinorTicks="False" 
+PlaneBorderThickness=".1"/>
+                                </s3D:SciChart3DSurface.ZAxis>
+
+                                <s3D:SciChart3DSurface.ChartModifier>
+                                    <s3D:ModifierGroup3D>
+                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
+                                        <s3D:MouseWheelZoomModifier3D/>
+                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
+                                    </s3D:ModifierGroup3D>
+                                </s3D:SciChart3DSurface.ChartModifier>
+
+
+
+
+
+                            </s3D:SciChart3DSurface>
+                        </Grid>
+                    </GroupBox>
+
+                    <Grid Grid.Column="4" Grid.RowSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <controls:Graph1 Grid.Row="0" Margin="5"/>
+                        <controls:Graph2 Grid.Row="1" Margin="5"/>
+                        <controls:Graph3 Grid.Row="2" Margin="5"/>
+                        <controls:Graph4 Grid.Row="3" Margin="5"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Hardware Setup">
+                
+            </TabItem>
+
+            <TabItem Header="Data Playback">
+                
+            </TabItem>
+        </TabControl>
+        
+    </Grid>
+    
+
+</Window>
