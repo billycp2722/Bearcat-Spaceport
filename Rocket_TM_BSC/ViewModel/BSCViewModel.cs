@@ -38,31 +38,18 @@ namespace Rocket_TM_BSC.ViewModel
             set { rock = value; OnPropertyChanged("RotateRocket"); }
         }
 
-        private string rocketposition = "20,20,0";
+        private string rocketposition = "10,20,0";
         public string RocketPosition
         {
             get { return rocketposition; }
             set { rocketposition = value; OnPropertyChanged("RocketPosition"); }
         }
         #endregion
-        private TestClass testStrings = new TestClass();
-        private SciChart3DSurface sceneobj;
-        public SciChart3DSurface SceneObj 
-        { get { return sceneobj; } 
-            set { sceneobj = value; OnPropertyChanged("SceneObj"); } 
         
-        }
+        
         public void Test(object obj)
         {
-            var obje = new ObjectModel3D();
-            SceneObj.SceneObjects.Add(obje);
-            obje.Position = new Vector3(0f, .5f, 0f);
-            obje.CoordinateMode = ObjectCoordinateMode.Relative;
-            obje.Scale = new Vector3(2f, 2f, 2f);
-
-            var streamForObject = StringToStream(testStrings._stringForStream);
-            var objModelSource = new ObjectModelSource(streamForObject);
-            obje.Source = objModelSource;
+            
 
             //throw new NotImplementedException();
         }

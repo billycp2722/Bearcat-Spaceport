@@ -20,9 +20,9 @@
     
     <Window.Resources>
 
-        <object:ObjectModelSource x:Key="test" Source="pack://application:,,,/Modeling/RocketFile.obj" />
+        
 
-        <object:Rotation3D x:Key="ObjRotationState" Axis="YAxis" Angle="90"/>
+        
     </Window.Resources>
 
     <Grid Background="{StaticResource ThemedChartBackground}">
@@ -222,9 +222,9 @@
                             <TextBox Style="{StaticResource TextboxCorner}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
                             <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface" Margin="10"
-            s3D:SceneObjects="{Binding SceneObj}"
-            BorderThickness="1"
-            WorldDimensions="10,10,10" >
+                                s3D:SceneObjects="{Binding SceneObj}"
+                                BorderThickness="1"
+                                WorldDimensions="10,10,10" >
 
                                 <s3D:SciChart3DSurface.Camera>
                                     <s3D:Camera3D x:Name="Camera3D" ZoomToFitOnAttach="True"/>
@@ -232,26 +232,26 @@
 
                                 <s3D:SciChart3DSurface.XAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False"
-PlaneBorderThickness="0.1"/>
-                                </s3D:SciChart3DSurface.XAxis>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False"
+                                        PlaneBorderThickness="0.1"/>
+                                    </s3D:SciChart3DSurface.XAxis>
 
                                 <s3D:SciChart3DSurface.YAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness="0.1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness="0.1"/>
                                 </s3D:SciChart3DSurface.YAxis>
 
                                 <s3D:SciChart3DSurface.ZAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness=".1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness=".1"/>
                                 </s3D:SciChart3DSurface.ZAxis>
 
                                 <s3D:SciChart3DSurface.ChartModifier>
@@ -300,9 +300,9 @@ PlaneBorderThickness=".1"/>
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
 
                             <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface2" Margin="10"
-            s3D:SceneObjects="{Binding SceneObj}"
-            BorderThickness="1"
-            WorldDimensions="10,10,10" >
+                                    s3D:SceneObjects="{Binding SceneObj}"
+                                    BorderThickness="1"
+                                    WorldDimensions="10,10,10" >
 
                                 <s3D:SciChart3DSurface.Camera>
                                     <s3D:Camera3D x:Name="Camera3D2" ZoomToFitOnAttach="True"/>
@@ -310,26 +310,26 @@ PlaneBorderThickness=".1"/>
 
                                 <s3D:SciChart3DSurface.XAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False"
-PlaneBorderThickness="0.1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False"
+                                        PlaneBorderThickness="0.1"/>
                                 </s3D:SciChart3DSurface.XAxis>
 
                                 <s3D:SciChart3DSurface.YAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness="0.1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness="0.1"/>        
                                 </s3D:SciChart3DSurface.YAxis>
 
                                 <s3D:SciChart3DSurface.ZAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness=".1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness=".1"/>
                                 </s3D:SciChart3DSurface.ZAxis>
 
                                 <s3D:SciChart3DSurface.ChartModifier>
@@ -378,9 +378,9 @@ PlaneBorderThickness=".1"/>
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
 
                             <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface3" Margin="10"
-            s3D:SceneObjects="{Binding SceneObj}"
-            BorderThickness="1"
-            WorldDimensions="10,10,10" >
+                                    s3D:SceneObjects="{Binding SceneObj}"
+                                    BorderThickness="1"
+                                    WorldDimensions="10,10,10" >
 
                                 <s3D:SciChart3DSurface.Camera>
                                     <s3D:Camera3D x:Name="Camera3D3" ZoomToFitOnAttach="True"/>
@@ -388,26 +388,26 @@ PlaneBorderThickness=".1"/>
 
                                 <s3D:SciChart3DSurface.XAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False"
-PlaneBorderThickness="0.1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False"
+                                        PlaneBorderThickness="0.1"/>
                                 </s3D:SciChart3DSurface.XAxis>
 
                                 <s3D:SciChart3DSurface.YAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness="0.1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness="0.1"/>
                                 </s3D:SciChart3DSurface.YAxis>
 
                                 <s3D:SciChart3DSurface.ZAxis>
                                     <s3D:NumericAxis3D DrawLabels="True"
-DrawMajorTicks="True"
-DrawMinorGridLines="False"
-DrawMinorTicks="False" 
-PlaneBorderThickness=".1"/>
+                                        DrawMajorTicks="True"
+                                        DrawMinorGridLines="False"
+                                        DrawMinorTicks="False" 
+                                        PlaneBorderThickness=".1"/>
                                 </s3D:SciChart3DSurface.ZAxis>
 
                                 <s3D:SciChart3DSurface.ChartModifier>

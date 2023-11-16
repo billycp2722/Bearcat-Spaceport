@@ -322,7 +322,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Modeling\RocketFile.obj" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -337,6 +336,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Bearcat_Spaceport_Cup_Logo1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modeling\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SciChart.DirectX.7.0.2.27161\build\SciChart.DirectX.targets" Condition="Exists('..\packages\SciChart.DirectX.7.0.2.27161\build\SciChart.DirectX.targets')" />
