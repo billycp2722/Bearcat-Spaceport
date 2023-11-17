@@ -13,7 +13,7 @@ using System.IO;
 using SciChart.Charting.Visuals;
 using SciChart.Charting3D.Model;
 using System.Windows.Controls;
-using System.Drawing;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Rocket_TM_BSC.ViewModel
@@ -54,7 +54,6 @@ namespace Rocket_TM_BSC.ViewModel
             if (Cap1_Alt != Rocket_Data.Data3) {Cap1_Alt = Rocket_Data.Data3;}
             if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4;}
             if (Cap1_SatCount != Rocket_Data.Data5) {Cap1_SatCount = Rocket_Data.Data5; }
-            
         }
 
         #region Public Bindings
