@@ -250,6 +250,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ViewCommand.cs" />
+    <Compile Include="Model\SerialPort_TMData.cs" />
     <Compile Include="Model\TestClass.cs" />
     <Compile Include="ViewModel\BSCViewModel.cs" />
     <Compile Include="View\Graph5.xaml.cs">
