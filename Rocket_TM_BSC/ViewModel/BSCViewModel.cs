@@ -14,31 +14,51 @@ using SciChart.Charting.Visuals;
 using SciChart.Charting3D.Model;
 using System.Windows.Controls;
 using System.Drawing;
+using System.Windows.Threading;
 
 namespace Rocket_TM_BSC.ViewModel
 {
+    
     public class BSCViewModel : BaseViewModel
     {
         #region Variables
 
         public ViewCommand TestCommand { get; set; }
-        
+        public ViewCommand TMCap1OpenCommand { get; set; }
+        public ViewCommand TMCap2OpenCommand { get; set; }
+        public ViewCommand TMRocketOpenCommand { get; set; }
+
+        private DispatcherTimer _timer;
+        private SerialPort_TMData Cap1_Data = new SerialPort_TMData();
+        private SerialPort_TMData Cap2_Data = new SerialPort_TMData();
+        private SerialPort_TMData Rocket_Data = new SerialPort_TMData();
+
         #endregion
         public BSCViewModel()
         {
             TestCommand = new ViewCommand(Test, CanTest);
+            TMCap1OpenCommand = new ViewCommand(TMCap1Open, CanTMCap1Open);
+            TMCap2OpenCommand = new ViewCommand(TMCap2Open, CanTMCap2Open);
+            TMRocketOpenCommand = new ViewCommand(TMRocketOpen, CanTMRocketOpen);
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromMilliseconds(5);
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
+
+        }
+
+        private void _timer_Tick(object sender, EventArgs e)
+        {
+            if (RocketAlt != Rocket_Data.Data1) {RocketAlt = Rocket_Data.Data1;}
+            if (ApogeeAlt != Rocket_Data.Data2) {ApogeeAlt = Rocket_Data.Data2;}
+            if (Cap1_Alt != Rocket_Data.Data3) {Cap1_Alt = Rocket_Data.Data3;}
+            if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4;}
+            if (Cap1_SatCount != Rocket_Data.Data5) {Cap1_SatCount = Rocket_Data.Data5; }
             
         }
 
         #region Public Bindings
-        private Rotation3D rock = new Rotation3D();
-
-        public Rotation3D RotateRocket
-        {
-            get { return rock; }
-            set { rock = value; OnPropertyChanged("RotateRocket"); }
-        }
-
+ 
         private string rocketposition = "10,20,0";
         public string RocketPosition
         {
@@ -185,11 +205,43 @@ namespace Rocket_TM_BSC.ViewModel
         public void Test(object obj)
         {
             
-
             //throw new NotImplementedException();
         }
 
         public bool CanTest(object obj)
+        {
+            return true;
+        }
+
+        public void TMCap1Open(object obj)
+        {
+
+            //throw new NotImplementedException();
+        }
+
+        public bool CanTMCap1Open(object obj)
+        {
+            return true;
+        }
+
+        public void TMCap2Open(object obj)
+        {
+
+            //throw new NotImplementedException();
+        }
+
+        public bool CanTMCap2Open(object obj)
+        {
+            return true;
+        }
+
+        public void TMRocketOpen(object obj)
+        {
+
+            //throw new NotImplementedException();
+        }
+
+        public bool CanTMRocketOpen(object obj)
         {
             return true;
         }
