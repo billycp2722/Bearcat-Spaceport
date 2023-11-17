@@ -82,7 +82,7 @@
         <!--  to the chart and is included for example purposes.  -->
         <!--  If you wish to know how to zoom and pan a chart then do a search for Zoom Pan in the Examples suite!  -->
 
-        <s:SciChartSurface x:Name="MainChartSurface" ChartTitle="Altitude" Grid.Column="1" RenderableSeries="{s:SeriesBinding RenderableSeriesViewModels}"  s:VisualXcceleratorEngine.IsEnabled="True" s:VisualXcceleratorEngine.FallbackType="{x:Type s:HighQualityRenderSurface}" s:VisualXcceleratorEngine.DowngradeWithoutException="False" s:VisualXcceleratorEngine.EnableImpossibleMode="True">
+        <s:SciChartSurface x:Name="MainChartSurface" ChartTitle="Altitude" Grid.Column="1" RenderableSeries="{s:SeriesBinding Graph1Series}"  s:VisualXcceleratorEngine.IsEnabled="True" s:VisualXcceleratorEngine.FallbackType="{x:Type s:HighQualityRenderSurface}" s:VisualXcceleratorEngine.DowngradeWithoutException="False" s:VisualXcceleratorEngine.EnableImpossibleMode="True">
             <s:SciChartSurface.XAxis>
                 <s:NumericAxis GrowBy="0,0.1" x:Name="XAxis" DrawMinorGridLines="True" DrawMinorTicks="True"  AxisTitle="Time" AutoRange="Always" MaxAutoTicks="20" />
             </s:SciChartSurface.XAxis>
