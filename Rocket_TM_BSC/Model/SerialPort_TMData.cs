@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO.Ports;
 using System.ComponentModel;
 
@@ -32,40 +32,57 @@ namespace Rocket_TM_BSC.Model
         public bool WakeCommand = false;
         private void TMDataWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            
+        }
+        private int flag = 0;
+        private string comport;
+        private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
             try
             {
-                string data = _serialport.ReadLine();
-                string[] values = data.Split(',');
-
-                if (values.Length == 5) 
-                { 
-                    Data1 = values[0];
-                    Data2 = values[1];
-                    Data3 = values[2];
-                    Data4 = values[3];
-                    Data5 = values[4];
-
-                }
-                else if (values.Length == 0)
+                if (flag == 0)
                 {
+                    _serialport = new SerialPort(comport, 57600, Parity.None, 8, StopBits.One);
+                    _serialport.Open();
                     
+                    flag = 1;
                 }
-                else
+                while (_serialport.IsOpen)
                 {
-                    Console.WriteLine("Bad Data Recieved");
+                    //int bytesToRead = _serialport.BytesToRead;
+                    //byte[] buffer = new byte[bytesToRead];
+                    //Read(buffer,0,bytesToRead);
+                    //_serialport.BaseStream.Read(buffer, 0, bytesToRead);
+
+                    //string receivedData = Encoding.UTF8.GetString(buffer);
+                    //Console.WriteLine(receivedData);
+                        string receivedValues = _serialport.ReadLine();
+                        string[] values = receivedValues.Split(',');
+
+                        if (values.Length == 5)
+                        {
+                            Data1 = values[0];
+                            Data2 = values[1];
+                            Data3 = values[2];
+                            Data4 = values[3];
+                            Data5 = values[4];
+
+                        }
+                        else if (values.Length == 0)
+                        {
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Bad Data Recieved");
+                        }
                 }
                 
-
             }
             catch
             {
 
             }
-        }
-
-        private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // Read Serial data and return the data to a 
         }
 
         private SerialPort _serialport;
@@ -74,8 +91,8 @@ namespace Rocket_TM_BSC.Model
         {
             try
             {
-                _serialport = new SerialPort(COM, Baud, parity, dataBits, stopBits);
-                _serialport.Open();
+                
+                comport = COM;
 
             }
             catch (Exception ex)

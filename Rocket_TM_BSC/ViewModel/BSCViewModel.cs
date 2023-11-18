@@ -18,6 +18,8 @@ using System.Windows.Threading;
 using SciChart.Charting.Model.ChartSeries;
 using SciChart.Charting.Model.DataSeries;
 using System.Collections.ObjectModel;
+using System.IO.Ports;
+using SciChart.Core.Extensions;
 
 namespace Rocket_TM_BSC.ViewModel
 {
@@ -30,6 +32,8 @@ namespace Rocket_TM_BSC.ViewModel
         public ViewCommand TMCap1OpenCommand { get; set; }
         public ViewCommand TMCap2OpenCommand { get; set; }
         public ViewCommand TMRocketOpenCommand { get; set; }
+        public ViewCommand UpdateComPortCommand { get; set; }
+        public ViewCommand OpenRocketCOMCommand { get; set; }
 
         private DispatcherTimer _timer;
         private SerialPort_TMData Cap1_Data = new SerialPort_TMData();
@@ -43,6 +47,9 @@ namespace Rocket_TM_BSC.ViewModel
             TMCap1OpenCommand = new ViewCommand(TMCap1Open, CanTMCap1Open);
             TMCap2OpenCommand = new ViewCommand(TMCap2Open, CanTMCap2Open);
             TMRocketOpenCommand = new ViewCommand(TMRocketOpen, CanTMRocketOpen);
+            UpdateComPortCommand = new ViewCommand(UpdateComPort, CanUpdateComPort);
+            OpenRocketCOMCommand = new ViewCommand(OpenRocketCOM, CanOpenRocketCOM);
+
             InitializeGraph();
             dataSeriesCap1G1.AcceptsUnsortedData = true;
             dataSeriesCap1G2.AcceptsUnsortedData = true;
@@ -71,16 +78,15 @@ namespace Rocket_TM_BSC.ViewModel
         private int i = 1;
         private void _timer_Tick(object sender, EventArgs e)
         {
-            if (RocketAlt != Rocket_Data.Data1) { RocketAlt = Rocket_Data.Data1; }
+            if (RocketAlt != Rocket_Data.Data1) { RocketAlt = Rocket_Data.Data1; dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble()); i++; }
             if (ApogeeAlt != Rocket_Data.Data2) { ApogeeAlt = Rocket_Data.Data2; }
             if (Cap1_Alt != Rocket_Data.Data3) { Cap1_Alt = Rocket_Data.Data3; }
             if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4; }
             if (Cap1_SatCount != Rocket_Data.Data5) { Cap1_SatCount = Rocket_Data.Data5; }
 
-            dataSeriesCap1G1.Append(i, 1);
-            dataSeriesCap2G1.Append(i, 2);
-            dataSeriesRocketG1.Append(i, 5);
-            i++;
+            dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
+            
+            
         }
 
         #region Public Bindings
@@ -215,14 +221,35 @@ namespace Rocket_TM_BSC.ViewModel
         public string Cap1_Alt
         {
             get { return cap1_Alt; }
-            set { cap1_Alt = value; OnPropertyChanged("Cap1_Alt "); }
+            set { cap1_Alt = value; OnPropertyChanged("Cap1_Alt"); }
         }
 
         private string cap2_Alt = "0";
         public string Cap2_Alt
         {
             get { return cap2_Alt; }
-            set { cap2_Alt = value; OnPropertyChanged("Cap2_Alt "); }
+            set { cap2_Alt = value; OnPropertyChanged("Cap2_Alt"); }
+        }
+
+        private ObservableCollection<string> rocketCOMPortList = new ObservableCollection<string>();
+        public ObservableCollection<string> RocketCOMPortList
+        {
+            get { return rocketCOMPortList; }
+            set
+            {
+                if (rocketCOMPortList != value)
+                {
+                    rocketCOMPortList = value;
+                    OnPropertyChanged(nameof(RocketCOMPortList));
+                }
+            }
+        }
+
+        private string rocketCOM = null;
+        public string RocketCOM
+        {
+            get { return rocketCOM; }
+            set { rocketCOM = value; OnPropertyChanged("RocketCOM"); }
         }
 
         #endregion
@@ -268,6 +295,43 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         public bool CanTMRocketOpen(object obj)
+        {
+            return true;
+        }
+
+        public void UpdateComPort(object obj)
+        {
+
+            //throw new NotImplementedException();
+            RocketCOMPortList.Clear();
+            string[] portNames = SerialPort.GetPortNames();
+            if (portNames.Length == 0)
+            {
+                RocketCOMPortList.Add("NONE");
+            }
+            else
+            {
+                foreach (string portName in portNames)
+                {
+                    RocketCOMPortList.Add(portName);
+                }
+            }
+            
+
+        }
+
+        public bool CanUpdateComPort(object obj)
+        {
+            return true;
+        }
+
+        public void OpenRocketCOM(object obj)
+        {
+            Console.WriteLine(RocketCOM);
+            Rocket_Data.OpenNewPort(RocketCOM, 57600, Parity.None, 8, StopBits.One);
+        }
+
+        public bool CanOpenRocketCOM(object obj)
         {
             return true;
         }
