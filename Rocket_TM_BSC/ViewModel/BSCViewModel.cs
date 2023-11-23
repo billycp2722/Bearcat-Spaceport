@@ -148,6 +148,20 @@ namespace Rocket_TM_BSC.ViewModel
             set { capEject = value; OnPropertyChanged("CapEject"); }
         }
 
+        private Brush cap1_ParachuteDep = Brushes.Red;
+        public Brush Cap1_ParachuteDep
+        {
+            get { return cap1_ParachuteDep; }
+            set { cap1_ParachuteDep = value; OnPropertyChanged("Cap1_ParachuteDep"); }
+        }
+
+        private Brush cap2_ParachuteDep = Brushes.Red;
+        public Brush Cap2_ParachuteDep
+        {
+            get { return cap2_ParachuteDep; }
+            set { cap2_ParachuteDep = value; OnPropertyChanged("Cap2_ParachuteDep"); }
+        }
+
         private string rocketAlt = null;
         public string RocketAlt
         {

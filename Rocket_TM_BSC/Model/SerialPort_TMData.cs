@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.IO.Ports;
 using System.ComponentModel;
+using System.Collections.Concurrent;
 
 namespace Rocket_TM_BSC.Model
 {
@@ -36,6 +37,7 @@ namespace Rocket_TM_BSC.Model
         }
         private int flag = 0;
         private string comport;
+        public ConcurrentQueue<string> TMData = new ConcurrentQueue<string>();
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -44,38 +46,34 @@ namespace Rocket_TM_BSC.Model
                 {
                     _serialport = new SerialPort(comport, 57600, Parity.None, 8, StopBits.One);
                     _serialport.Open();
-                    
                     flag = 1;
                 }
                 while (_serialport.IsOpen)
                 {
-                    //int bytesToRead = _serialport.BytesToRead;
-                    //byte[] buffer = new byte[bytesToRead];
-                    //Read(buffer,0,bytesToRead);
-                    //_serialport.BaseStream.Read(buffer, 0, bytesToRead);
+                    int bytesToRead = 29; // TM Data length
+                    byte[] buffer = new byte[bytesToRead];
+                    _serialport.BaseStream.Read(buffer, 0, bytesToRead);
 
-                    //string receivedData = Encoding.UTF8.GetString(buffer);
-                    //Console.WriteLine(receivedData);
-                        string receivedValues = _serialport.ReadLine();
-                        string[] values = receivedValues.Split(',');
-
-                        if (values.Length == 5)
+                    string receivedData = Encoding.UTF8.GetString(buffer);
+                    if (receivedData.Length == 0 || receivedData == "" || receivedData == null) 
+                    { }
+                    else
+                    {
+                        string[] tmp_string = receivedData.Split('\n'); // n number 
+                        for (int i = 0; i < tmp_string.Length; i++)
                         {
-                            Data1 = values[0];
-                            Data2 = values[1];
-                            Data3 = values[2];
-                            Data4 = values[3];
-                            Data5 = values[4];
+                            // Queue data for processing
+                            TMData.Enqueue(tmp_string[i]);
+                        }
+                        // Add each line to queue for processing?
 
-                        }
-                        else if (values.Length == 0)
-                        {
+                    }
+                    Console.WriteLine(receivedData);
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Bad Data Recieved");
-                        }
+                    //string receivedValues = _serialport.ReadLine();
+                    //string[] values = receivedValues.Split(',');
+
+                    
                 }
                 
             }
