@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Bearcat_Spaceport_Cup_Logo_ICO.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BinarySerializer, Version=7.5.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BinarySerializer.7.5.5\lib\netstandard1.3\BinarySerializer.dll</HintPath>
@@ -340,6 +343,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Assets\Bearcat_Spaceport_Cup_Logo_resized.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Bearcat_Spaceport_Cup_Logo_ICO.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Bearcat_Spaceport_Cup_Logo_ICO.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SciChart.DirectX.7.0.2.27161\build\SciChart.DirectX.targets" Condition="Exists('..\packages\SciChart.DirectX.7.0.2.27161\build\SciChart.DirectX.targets')" />

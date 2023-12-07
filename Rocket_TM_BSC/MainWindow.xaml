@@ -10,7 +10,7 @@
         xmlns:vm="clr-namespace:Rocket_TM_BSC.ViewModel"
         xmlns:controls="clr-namespace:Rocket_TM_BSC.View"
         mc:Ignorable="d"
-        Title="AddObjectsToA3DChart" 
+        Title="BSC Telemetry GUI" 
         Height="1080" 
         Width="1920">
 
