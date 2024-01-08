@@ -41,6 +41,7 @@ namespace Rocket_TM_BSC.ViewModel
         private SerialPort_TMData Rocket_Data = new SerialPort_TMData();
 
         #endregion
+
         public BSCViewModel()
         {
             TestCommand = new ViewCommand(Test, CanTest);
@@ -145,6 +146,20 @@ namespace Rocket_TM_BSC.ViewModel
         {
             get { return capEject; }
             set { capEject = value; OnPropertyChanged("CapEject"); }
+        }
+
+        private Brush cap1_ParachuteDep = Brushes.Red;
+        public Brush Cap1_ParachuteDep
+        {
+            get { return cap1_ParachuteDep; }
+            set { cap1_ParachuteDep = value; OnPropertyChanged("Cap1_ParachuteDep"); }
+        }
+
+        private Brush cap2_ParachuteDep = Brushes.Red;
+        public Brush Cap2_ParachuteDep
+        {
+            get { return cap2_ParachuteDep; }
+            set { cap2_ParachuteDep = value; OnPropertyChanged("Cap2_ParachuteDep"); }
         }
 
         private string rocketAlt = null;
@@ -254,7 +269,7 @@ namespace Rocket_TM_BSC.ViewModel
 
         #endregion
 
-
+        #region Commands
         public void Test(object obj)
         {
 
@@ -336,6 +351,8 @@ namespace Rocket_TM_BSC.ViewModel
             return true;
         }
 
+        #endregion
+
         #region SciChartTests
         public static Stream StringToStream(string src)
         {
@@ -344,17 +361,13 @@ namespace Rocket_TM_BSC.ViewModel
         }
         #endregion
 
-
         #region 2D Graphing
         
-
-
         private ObservableCollection<IRenderableSeriesViewModel> graph1Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph2Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph3Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph4Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph5Series { get; set; }
-
         public ObservableCollection<IRenderableSeriesViewModel> Graph1Series
         {
             get => graph1Series;
@@ -364,7 +377,6 @@ namespace Rocket_TM_BSC.ViewModel
                 OnPropertyChanged(nameof(Graph1Series));
             }
         }
-
         public ObservableCollection<IRenderableSeriesViewModel> Graph2Series
         {
             get => graph2Series;
@@ -374,7 +386,6 @@ namespace Rocket_TM_BSC.ViewModel
                 OnPropertyChanged(nameof(Graph2Series));
             }
         }
-
         public ObservableCollection<IRenderableSeriesViewModel> Graph3Series
         {
             get => graph3Series;
@@ -384,7 +395,6 @@ namespace Rocket_TM_BSC.ViewModel
                 OnPropertyChanged(nameof(Graph3Series));
             }
         }
-
         public ObservableCollection<IRenderableSeriesViewModel> Graph4Series
         {
             get => graph4Series;
@@ -394,7 +404,6 @@ namespace Rocket_TM_BSC.ViewModel
                 OnPropertyChanged(nameof(Graph4Series));
             }
         }
-
         public ObservableCollection<IRenderableSeriesViewModel> Graph5Series
         {
             get => graph5Series;
@@ -439,9 +448,9 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G1 = new XyDataSeries<double, double>();
             dataSeriesCap2G1 = new XyDataSeries<double, double>();
             dataSeriesRocketG1 = new XyDataSeries<double, double>();
-            dataSeriesCap1G1.SeriesName = "X-Axis";
-            dataSeriesCap2G1.SeriesName = "Y-Axis";
-            dataSeriesRocketG1.SeriesName = "Z-Axis";
+            dataSeriesCap1G1.SeriesName = "Capsule 1";
+            dataSeriesCap2G1.SeriesName = "Capsule 2";
+            dataSeriesRocketG1.SeriesName = "Rocket";
             dataSeriesCap1G1.AcceptsUnsortedData = true;
             dataSeriesCap2G1.AcceptsUnsortedData = true;
             dataSeriesRocketG1.AcceptsUnsortedData = true;
@@ -449,9 +458,9 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G2 = new XyDataSeries<double, double>();
             dataSeriesCap2G2 = new XyDataSeries<double, double>();
             dataSeriesRocketG2 = new XyDataSeries<double, double>();
-            dataSeriesCap1G2.SeriesName = "X-Axis";
-            dataSeriesCap2G2.SeriesName = "Y-Axis";
-            dataSeriesRocketG2.SeriesName = "Z-Axis";
+            dataSeriesCap1G2.SeriesName = "Capsule 1";
+            dataSeriesCap2G2.SeriesName = "Capsule 2";
+            //dataSeriesRocketG2.SeriesName = "Z-Axis";
             dataSeriesCap1G2.AcceptsUnsortedData = true;
             dataSeriesCap2G2.AcceptsUnsortedData = true;
             dataSeriesRocketG2.AcceptsUnsortedData = true;
@@ -459,9 +468,9 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G3 = new XyDataSeries<double, double>();
             dataSeriesCap2G3 = new XyDataSeries<double, double>();
             dataSeriesRocketG3 = new XyDataSeries<double, double>();
-            dataSeriesCap1G3.SeriesName = "X-Axis";
-            dataSeriesCap2G3.SeriesName = "Y-Axis";
-            dataSeriesRocketG3.SeriesName = "Z-Axis";
+            dataSeriesCap1G3.SeriesName = "Capsule 1";
+            dataSeriesCap2G3.SeriesName = "Capsule 2";
+            //dataSeriesRocketG3.SeriesName = "Z-Axis";
             dataSeriesCap1G3.AcceptsUnsortedData = true;
             dataSeriesCap2G3.AcceptsUnsortedData = true;
             dataSeriesRocketG3.AcceptsUnsortedData = true;
@@ -469,9 +478,9 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G4 = new XyDataSeries<double, double>();
             dataSeriesCap2G4 = new XyDataSeries<double, double>();
             dataSeriesRocketG4 = new XyDataSeries<double, double>();
-            dataSeriesCap1G4.SeriesName = "X-Axis";
-            dataSeriesCap2G4.SeriesName = "Y-Axis";
-            dataSeriesRocketG4.SeriesName = "Z-Axis";
+            dataSeriesCap1G4.SeriesName = "Capsule 1";
+            dataSeriesCap2G4.SeriesName = "Capsule 2";
+            //dataSeriesRocketG4.SeriesName = "Z-Axis";
             dataSeriesCap1G4.AcceptsUnsortedData = true;
             dataSeriesCap2G4.AcceptsUnsortedData = true;
             dataSeriesRocketG4.AcceptsUnsortedData = true;
@@ -479,9 +488,9 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G5 = new XyDataSeries<double, double>();
             dataSeriesCap2G5 = new XyDataSeries<double, double>();
             dataSeriesRocketG5 = new XyDataSeries<double, double>();
-            dataSeriesCap1G5.SeriesName = "X-Axis";
-            dataSeriesCap2G5.SeriesName = "Y-Axis";
-            dataSeriesRocketG5.SeriesName = "Z-Axis";
+            dataSeriesCap1G5.SeriesName = "Capsule 1";
+            dataSeriesCap2G5.SeriesName = "Capsule 2";
+            //dataSeriesRocketG5.SeriesName = "Z-Axis";
             dataSeriesCap1G5.AcceptsUnsortedData = true;
             dataSeriesCap2G5.AcceptsUnsortedData = true;
             dataSeriesRocketG5.AcceptsUnsortedData = true;
@@ -533,14 +542,14 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            Graph2Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesRocketG2,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            });
+            //Graph2Series.Add(new LineRenderableSeriesViewModel
+            //{
+            //    DataSeries = dataSeriesRocketG2,
+            //    AntiAliasing = false,
+            //    StrokeThickness = 1,
+            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
+            //});
 
             // Chart 3
             Graph3Series.Add(new LineRenderableSeriesViewModel
@@ -561,14 +570,14 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            Graph3Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesRocketG3,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            });
+            //Graph3Series.Add(new LineRenderableSeriesViewModel
+            //{
+            //    DataSeries = dataSeriesRocketG3,
+            //    AntiAliasing = false,
+            //    StrokeThickness = 1,
+            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
+            //});
             // Chart 4
             Graph4Series.Add(new LineRenderableSeriesViewModel
             {
@@ -588,14 +597,14 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            Graph4Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesRocketG4,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            });
+            //Graph4Series.Add(new LineRenderableSeriesViewModel
+            //{
+            //    DataSeries = dataSeriesRocketG4,
+            //    AntiAliasing = false,
+            //    StrokeThickness = 1,
+            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
+            //});
             // Chart 5
             Graph5Series.Add(new LineRenderableSeriesViewModel
             {
@@ -615,15 +624,17 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            Graph5Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesRocketG5,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            });
-            #endregion
+            //Graph5Series.Add(new LineRenderableSeriesViewModel
+            //{
+            //    DataSeries = dataSeriesRocketG5,
+            //    AntiAliasing = false,
+            //    StrokeThickness = 1,
+            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
+            //});
+            
         }
+
+        #endregion
     }
 }

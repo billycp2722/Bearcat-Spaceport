@@ -92,7 +92,7 @@
             </s:SciChartSurface.YAxis>
             <s:SciChartSurface.ChartModifier>
                 <s:ModifierGroup>
-                    <s:LegendModifier ShowLegend="True" Orientation="Vertical" Margin="10" LegendPlacement="Left" GetLegendDataFor="AllSeries" ShowVisibilityCheckboxes="True" />
+                    <s:LegendModifier ShowLegend="True" Orientation="Vertical" Margin="10" LegendPlacement="Inside" GetLegendDataFor="AllSeries" ShowVisibilityCheckboxes="True" />
                     <s:SeriesSelectionModifier />
                     <s:SeriesValueModifier />
                 </s:ModifierGroup>
