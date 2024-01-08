@@ -89,15 +89,12 @@ namespace Rocket_TM_BSC.Model
         {
             try
             {
-                
                 comport = COM;
-
             }
             catch (Exception ex)
             {
                 return;
             }
-
             TMDataWorker.RunWorkerAsync();
         }
     }
