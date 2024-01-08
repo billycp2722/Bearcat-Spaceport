@@ -84,7 +84,7 @@ namespace Rocket_TM_BSC.ViewModel
             if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4; }
             if (Cap1_SatCount != Rocket_Data.Data5) { Cap1_SatCount = Rocket_Data.Data5; }
 
-            
+            dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
             
             
         }
