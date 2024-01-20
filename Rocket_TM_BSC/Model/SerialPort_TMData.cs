@@ -68,34 +68,10 @@ namespace Rocket_TM_BSC.Model
                          
                     string receivedData = Encoding.UTF8.GetString(buffer);
                     //Console.WriteLine(buffer.Count<byte>());
-                    if (receivedData.Length == 0 || receivedData == "" || receivedData == null) 
-                    { }
-                    else
-                    {
-                        counter++;
-                        Console.WriteLine(counter + ": " + receivedData);
-                        //string[] tmp_string = receivedData.Split('\n'); // n number 
-                        //for (int i = 0; i < tmp_string.Length; i++)
-                        //{
-                        //    // Queue data for processing
-                        //    //TMData.Enqueue(tmp_string[i]);
-                            
-                            
-                        //    coun++;
-                        //    //Console.WriteLine(coun + ", " + tmp_string[i]);
-                            
-                            
 
-                        //}
-                        // Add each line to queue for processing?
-
-                    }
-                    //Console.WriteLine(receivedData);
-
-                    //string receivedValues = _serialport.ReadLine();
-                    //string[] values = receivedValues.Split(',');
-
-                    
+                    counter++;
+                    Console.WriteLine(counter + ": " + receivedData);
+                    TMData.Enqueue(receivedData);
                 }
                 
             }

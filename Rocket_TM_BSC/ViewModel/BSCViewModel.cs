@@ -86,18 +86,22 @@ namespace Rocket_TM_BSC.ViewModel
             if (Cap1_SatCount != Rocket_Data.Data5) { Cap1_SatCount = Rocket_Data.Data5; }
 
             //dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
-            if (Rocket_Data.TMData.Count > 0)
+            while (Rocket_Data.TMData.Count > 0)
             {
                 try
                 {
                     Rocket_Data.TMData.TryDequeue(out string tm);
-                    //Console.WriteLine(tm);
+                    string[] tmp = tm.Split(',');
+                    dataSeriesCap1G1.Append(i, tmp[0].ToDouble());
+                    dataSeriesCap1G2.Append(i, tmp[1].ToDouble());
+                    dataSeriesCap1G3.Append(i, tmp[2].ToDouble());
+                    dataSeriesCap1G5.Append(i, i);
+                    i++;
                 }
                 catch
                 {
 
                 }
-                
             }
             
         }
