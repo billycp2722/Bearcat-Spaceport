@@ -6,6 +6,7 @@ using System.Threading;
 using System.IO.Ports;
 using System.ComponentModel;
 using System.Collections.Concurrent;
+using SciChart.Core.Extensions;
 
 namespace Rocket_TM_BSC.Model
 {
@@ -31,6 +32,7 @@ namespace Rocket_TM_BSC.Model
         public string Data4;
         public string Data5;
         public bool WakeCommand = false;
+        private int coun = 0;
         private void TMDataWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             
@@ -38,37 +40,57 @@ namespace Rocket_TM_BSC.Model
         private int flag = 0;
         private string comport;
         public ConcurrentQueue<string> TMData = new ConcurrentQueue<string>();
+        private string command_on = "ON";
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
                 if (flag == 0)
                 {
-                    _serialport = new SerialPort(comport, 57600, Parity.None, 8, StopBits.One);
+                    _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
+                    
                     _serialport.Open();
+                    _serialport.DiscardNull = true; 
                     flag = 1;
                 }
+                int counter = 0;
                 while (_serialport.IsOpen)
                 {
-                    int bytesToRead = 29; // TM Data length
+                    //int bytesToRead = 29; // TM Data length
+                    int bytesToRead = 29;
                     byte[] buffer = new byte[bytesToRead];
-                    _serialport.BaseStream.Read(buffer, 0, bytesToRead);
-
+                    int bytesRead = 0;
+                    while (bytesRead < bytesToRead) 
+                    {
+                        bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead-bytesRead);
+                        
+                    }
+                         
                     string receivedData = Encoding.UTF8.GetString(buffer);
+                    //Console.WriteLine(buffer.Count<byte>());
                     if (receivedData.Length == 0 || receivedData == "" || receivedData == null) 
                     { }
                     else
                     {
-                        string[] tmp_string = receivedData.Split('\n'); // n number 
-                        for (int i = 0; i < tmp_string.Length; i++)
-                        {
-                            // Queue data for processing
-                            TMData.Enqueue(tmp_string[i]);
-                        }
+                        counter++;
+                        Console.WriteLine(counter + ": " + receivedData);
+                        //string[] tmp_string = receivedData.Split('\n'); // n number 
+                        //for (int i = 0; i < tmp_string.Length; i++)
+                        //{
+                        //    // Queue data for processing
+                        //    //TMData.Enqueue(tmp_string[i]);
+                            
+                            
+                        //    coun++;
+                        //    //Console.WriteLine(coun + ", " + tmp_string[i]);
+                            
+                            
+
+                        //}
                         // Add each line to queue for processing?
 
                     }
-                    Console.WriteLine(receivedData);
+                    //Console.WriteLine(receivedData);
 
                     //string receivedValues = _serialport.ReadLine();
                     //string[] values = receivedValues.Split(',');
@@ -77,8 +99,9 @@ namespace Rocket_TM_BSC.Model
                 }
                 
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
 
             }
         }

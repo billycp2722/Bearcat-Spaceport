@@ -71,7 +71,7 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesRocketG5.AcceptsUnsortedData = true;
 
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(20);
+            _timer.Interval = TimeSpan.FromMilliseconds(5);
             _timer.Tick += _timer_Tick;
             _timer.Start();
 
@@ -85,8 +85,20 @@ namespace Rocket_TM_BSC.ViewModel
             if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4; }
             if (Cap1_SatCount != Rocket_Data.Data5) { Cap1_SatCount = Rocket_Data.Data5; }
 
-            dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
-            
+            //dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
+            if (Rocket_Data.TMData.Count > 0)
+            {
+                try
+                {
+                    Rocket_Data.TMData.TryDequeue(out string tm);
+                    //Console.WriteLine(tm);
+                }
+                catch
+                {
+
+                }
+                
+            }
             
         }
 
