@@ -10,10 +10,10 @@ using SciChart.Core.Extensions;
 
 namespace Rocket_TM_BSC.Model
 {
-    public class SerialPort_TMData
+    public class Cap1_TM
     {
         private BackgroundWorker TMDataWorker;
-        public SerialPort_TMData()
+        public Cap1_TM()
         {
             TMDataWorker = new BackgroundWorker();
             TMDataWorker.DoWork += TMDataWorker_DoWork;
@@ -65,12 +65,12 @@ namespace Rocket_TM_BSC.Model
                         bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead-bytesRead);
                         
                     }
-                         
+    
                     string receivedData = Encoding.UTF8.GetString(buffer);
                     //Console.WriteLine(buffer.Count<byte>());
 
-                    counter++;
-                    Console.WriteLine(counter + ": " + receivedData);
+                    //counter++;
+                    //Console.WriteLine(counter + ": " + receivedData);
                     TMData.Enqueue(receivedData);
                 }
                 

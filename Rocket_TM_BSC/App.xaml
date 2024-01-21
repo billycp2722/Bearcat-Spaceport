@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Rocket_TM_BSC"
              xmlns:object="clr-namespace:SciChart.Charting3D.Visuals.Object;assembly=SciChart.Charting3D"
+             
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

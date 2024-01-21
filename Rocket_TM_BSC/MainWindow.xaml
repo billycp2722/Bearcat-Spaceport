@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gmaps="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:local="clr-namespace:Rocket_TM_BSC"
         xmlns:s3D="http://schemas.abtsoftware.co.uk/scichart3D" 
         xmlns:object="clr-namespace:SciChart.Charting3D.Visuals.Object;assembly=SciChart.Charting3D"
@@ -106,70 +107,28 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="6*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             
                             <TextBlock Text="Capsule Ejection Status" Grid.Column="0" HorizontalAlignment="Center" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding CapEject}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
 
-                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="Altitude (ft)" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding RocketAlt}" Height="30" Grid.Row="1" Grid.Column="1" Margin="10"/>
                             
-                            <TextBlock Text="Apogee" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="Apogee (ft)" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding ApogeeAlt}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="System Pressure 1" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="System Pressure 1 (PSI)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure1}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
                             
-                            <TextBlock Text="System Pressure 2" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="System Pressure 2 (PSI)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure2}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
-                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface" Margin="10"
-                                s3D:SceneObjects="{Binding SceneObj}"
-                                BorderThickness="1"
-                                WorldDimensions="10,10,10" >
-
-                                <s3D:SciChart3DSurface.Camera>
-                                    <s3D:Camera3D x:Name="Camera3D" ZoomToFitOnAttach="True"/>
-                                </s3D:SciChart3DSurface.Camera>
-
-                                <s3D:SciChart3DSurface.XAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False"
-                                        PlaneBorderThickness="0.1"/>
-                                    </s3D:SciChart3DSurface.XAxis>
-
-                                <s3D:SciChart3DSurface.YAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness="0.1"/>
-                                </s3D:SciChart3DSurface.YAxis>
-
-                                <s3D:SciChart3DSurface.ZAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness=".1"/>
-                                </s3D:SciChart3DSurface.ZAxis>
-
-                                <s3D:SciChart3DSurface.ChartModifier>
-                                    <s3D:ModifierGroup3D>
-                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
-                                        <s3D:MouseWheelZoomModifier3D/>
-                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
-                                    </s3D:ModifierGroup3D>
-                                </s3D:SciChart3DSurface.ChartModifier>
-
-
-
-
-
-                            </s3D:SciChart3DSurface>
+                            <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
                         </Grid>
                     </GroupBox>
 
@@ -185,7 +144,9 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="6*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1_SatCount}" Height="30" Grid.Row="0" Grid.Column="1" Margin="10"/>
@@ -196,13 +157,19 @@
                             <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1_GPSLon}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="Altitude (ft)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1_Alt}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
+
+                            <TextBlock Text="Velocity (ft/s)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1_Velo}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+                            <Button Command="{Binding StatusCheckCap1}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding WakeCap1}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
 
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
 
-                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface2" Margin="10"
+                            <!--<s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface2" Margin="10"
                                     s3D:SceneObjects="{Binding SceneObj}"
                                     BorderThickness="1"
                                     WorldDimensions="10,10,10" >
@@ -247,7 +214,7 @@
 
 
 
-                            </s3D:SciChart3DSurface>
+                            </s3D:SciChart3DSurface>-->
                         </Grid>
                     </GroupBox>
 
@@ -263,7 +230,9 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="6*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_SatCount}" Height="30" Grid.Row="0" Grid.Column="1" Margin="10"/>
@@ -274,13 +243,19 @@
                             <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_GPSLon}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="Altitude" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="Altitude (ft)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Alt}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
 
+                            <TextBlock Text="Velocity (ft/s)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Velo}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+                            <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap2_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
 
-                            <s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface3" Margin="10"
+                            <!--<s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface3" Margin="10"
                                     s3D:SceneObjects="{Binding SceneObj}"
                                     BorderThickness="1"
                                     WorldDimensions="10,10,10" >
@@ -325,7 +300,7 @@
 
 
 
-                            </s3D:SciChart3DSurface>
+                            </s3D:SciChart3DSurface>-->
                         </Grid>
                     </GroupBox>
 
@@ -375,7 +350,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Baud Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=RocketBaud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False"  SelectedValue="{Binding Path=RocketBaud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="9600"/>
                                     <ComboBoxItem Content="57600"/>
                                     <ComboBoxItem Content="115200"/>
@@ -390,7 +365,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Parity" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=RocketParity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False"  SelectedValue="{Binding Path=RocketParity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="None"/>
                                     <ComboBoxItem Content="Even"/>
                                     <ComboBoxItem Content="Odd"/>
@@ -405,7 +380,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Data bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=RocketDataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=RocketDataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="8"/>
                                     <ComboBoxItem Content="7"/>
                                     <ComboBoxItem Content="6"/>
@@ -421,7 +396,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Stop Bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=RocketStopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=RocketStopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="1"/>
                                     <ComboBoxItem Content="0"/>
                                 </ComboBox>
@@ -442,11 +417,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="COM Port" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap1COM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
-                                    <ComboBoxItem Content="COM1"/>
-                                    <ComboBoxItem Content="COM2"/>
-                                    <ComboBoxItem Content="COM3"/>
-                                    <ComboBoxItem Content="COM4"/>
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding RocketCOMPortList}"  SelectedItem="{Binding Path=Cap1COM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+
                                 </ComboBox>
                             </Grid>
 
@@ -457,7 +429,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Baud Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap1Baud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap1Baud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="9600"/>
                                     <ComboBoxItem Content="57600"/>
                                     <ComboBoxItem Content="115200"/>
@@ -472,7 +444,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Parity" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap1Parity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False"  SelectedValue="{Binding Path=Cap1Parity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="None"/>
                                     <ComboBoxItem Content="Even"/>
                                     <ComboBoxItem Content="Odd"/>
@@ -487,7 +459,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Data bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap1DataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap1DataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="8"/>
                                     <ComboBoxItem Content="7"/>
                                     <ComboBoxItem Content="6"/>
@@ -503,11 +475,12 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Stop Bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap1StopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap1StopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="1"/>
                                     <ComboBoxItem Content="0"/>
                                 </ComboBox>
                             </Grid>
+                            <Button Margin="20" Grid.Column="3" Height="100" Width="200" Command="{Binding OpenCap1COMCommand}" Content="Open COM Port" FontSize="18" Style="{StaticResource ButtonCorner}"/>
                         </StackPanel>
                     </GroupBox>
 
@@ -520,11 +493,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="COM Port" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap2COM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
-                                    <ComboBoxItem Content="COM1"/>
-                                    <ComboBoxItem Content="COM2"/>
-                                    <ComboBoxItem Content="COM3"/>
-                                    <ComboBoxItem Content="COM4"/>
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding RocketCOMPortList}"  SelectedItem="{Binding Path=Cap2COM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                 </ComboBox>
                             </Grid>
                             
@@ -535,7 +504,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <TextBlock Foreground="White" FontSize="20" Text="Baud Rate" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap2Baud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap2Baud}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="9600"/>
                                     <ComboBoxItem Content="57600"/>
                                     <ComboBoxItem Content="115200"/>
@@ -550,7 +519,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Parity" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap2Parity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap2Parity}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="None"/>
                                     <ComboBoxItem Content="Even"/>
                                     <ComboBoxItem Content="Odd"/>
@@ -565,7 +534,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Data bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap2DataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap2DataBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="8"/>
                                     <ComboBoxItem Content="7"/>
                                     <ComboBoxItem Content="6"/>
@@ -581,11 +550,12 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="Stop Bits" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox Grid.Column="1" SelectedValuePath="Content"  SelectedValue="{Binding Path=Cap2StopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox Grid.Column="1" SelectedValuePath="Content" IsEnabled="False" SelectedValue="{Binding Path=Cap2StopBit}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
                                     <ComboBoxItem Content="1"/>
                                     <ComboBoxItem Content="0"/>
                                 </ComboBox>
                             </Grid>
+                            <Button Margin="20" Grid.Column="3" Height="100" Width="200" Command="{Binding OpenCap2COMCommand}" Content="Open COM Port" FontSize="18" Style="{StaticResource ButtonCorner}"/>
                         </StackPanel>
                     </GroupBox>
 
@@ -674,6 +644,12 @@
                             <TextBox Text="{Binding DP_8}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
                         </Grid>
                     </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Map Testing">
+                <Grid>
+                    <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded"  /> 
                 </Grid>
             </TabItem>
         </TabControl>

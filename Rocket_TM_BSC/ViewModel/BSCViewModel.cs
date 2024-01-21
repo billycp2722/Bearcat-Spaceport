@@ -28,20 +28,57 @@ namespace Rocket_TM_BSC.ViewModel
     {
         #region Variables
 
+        // Button Commands
         public ViewCommand TestCommand { get; set; }
         public ViewCommand TMCap1OpenCommand { get; set; }
         public ViewCommand TMCap2OpenCommand { get; set; }
         public ViewCommand TMRocketOpenCommand { get; set; }
         public ViewCommand UpdateComPortCommand { get; set; }
         public ViewCommand OpenRocketCOMCommand { get; set; }
+        public ViewCommand OpenCap1COMCommand { get; set; }
+        public ViewCommand OpenCap2COMCommand { get; set; }
+        public ViewCommand StatusCheckRocket { get; set; }
+        public ViewCommand StatusCheckCap1 { get; set; }
+        public ViewCommand StatusCheckCap2 { get; set; }
+        public ViewCommand WakeRocket { get; set; }
+        public ViewCommand WakeCap1 { get; set; }
+        public ViewCommand WakeCap2 { get; set; }
 
+        // Class Instances
         private DispatcherTimer _timer;
-        private SerialPort_TMData Cap1_Data = new SerialPort_TMData();
-        private SerialPort_TMData Cap2_Data = new SerialPort_TMData();
-        private SerialPort_TMData Rocket_Data = new SerialPort_TMData();
+        private Cap1_TM Cap1_Data = new Cap1_TM();
+        private Cap1_TM Cap2_Data = new Cap1_TM();
+        private Cap1_TM Rocket_Data = new Cap1_TM();
+
+        // GUI Variables
+        private string rocketposition = "10,20,0";
+        private string rocketSigStrength = null;
+        private string cap1Strength = null;
+        private string cap2Strength = null;
+        private Brush rockTMStat = Brushes.Red;
+        private Brush cap1TMStat = Brushes.Red;
+        private Brush cap2TMStat = Brushes.Red;
+        private Brush capEject = Brushes.Red;
+        private Brush cap1_ParachuteDep = Brushes.Red;
+        private Brush cap2_ParachuteDep = Brushes.Red;
+        private string rocketAlt = null;
+        private string apogeeAlt = null;
+        private string sysPressure1 = null;
+        private string sysPressure2 = null;
+        private string cap1_SatCount = "0";
+        private string cap2_SatCount = "0";
+        private string cap1_GPSLat = null;
+        private string cap2_GPSLat = null;
+        private string cap1_GPSLon = null;
+        private string cap2_GPSLon = null;
+        private string cap1_Alt = "0";
+        private string cap2_Alt = "0";
+        private string cap1_Velo = null;
+        private string cap2_Velo = null;
 
         #endregion
 
+        // Constructor
         public BSCViewModel()
         {
             TestCommand = new ViewCommand(Test, CanTest);
@@ -50,21 +87,34 @@ namespace Rocket_TM_BSC.ViewModel
             TMRocketOpenCommand = new ViewCommand(TMRocketOpen, CanTMRocketOpen);
             UpdateComPortCommand = new ViewCommand(UpdateComPort, CanUpdateComPort);
             OpenRocketCOMCommand = new ViewCommand(OpenRocketCOM, CanOpenRocketCOM);
+            OpenCap1COMCommand = new ViewCommand(OpenCap1COM, CanOpenCap1COM);
+            OpenCap2COMCommand = new ViewCommand(OpenCap2COM, CanOpenCap2COM);
+
+            StatusCheckRocket = new ViewCommand(StatCheckRocket, CanStatCheckRocket);
+            StatusCheckCap1 = new ViewCommand(StatCheckCap1, CanStatCheckCap1);
+            StatusCheckCap2 = new ViewCommand(StatCheckCap1, CanStatCheckCap2);
+
+            WakeRocket = new ViewCommand(WakeUpRocket, CanWakeUpRocket);
+            WakeCap1 = new ViewCommand(WakeUpCap1, CanWakeUpCap1);
+            WakeCap2 = new ViewCommand(WakeUpCap2, CanWakeUpCap2);
+            
+
+
 
             InitializeGraph();
-            dataSeriesCap1G1.AcceptsUnsortedData = true;
-            dataSeriesCap1G2.AcceptsUnsortedData = true;
-            dataSeriesCap1G3.AcceptsUnsortedData = true;
-            dataSeriesCap1G4.AcceptsUnsortedData = true;
-            dataSeriesCap1G5.AcceptsUnsortedData = true;
+            dataSeriesCap1G1.AcceptsUnsortedData = true; // Alt graph
+            dataSeriesCap1G2.AcceptsUnsortedData = true; // Velocity Graph
+            dataSeriesCap1G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
+            dataSeriesCap1G4.AcceptsUnsortedData = true; // VOC Graph
+            dataSeriesCap1G5.AcceptsUnsortedData = true; // Satalite Count Graph
 
-            dataSeriesCap2G1.AcceptsUnsortedData = true;
-            dataSeriesCap2G2.AcceptsUnsortedData = true;
-            dataSeriesCap2G3.AcceptsUnsortedData = true;
-            dataSeriesCap2G4.AcceptsUnsortedData = true;
-            dataSeriesCap2G5.AcceptsUnsortedData = true;
+            dataSeriesCap2G1.AcceptsUnsortedData = true; // Alt graph
+            dataSeriesCap2G2.AcceptsUnsortedData = true; // Velocity Graph
+            dataSeriesCap2G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
+            dataSeriesCap2G4.AcceptsUnsortedData = true; // VOC Grap
+            dataSeriesCap2G5.AcceptsUnsortedData = true; // Satalite Count Graph
 
-            dataSeriesRocketG1.AcceptsUnsortedData = true;
+            dataSeriesRocketG1.AcceptsUnsortedData = true; // Alt graph
             dataSeriesRocketG2.AcceptsUnsortedData = true;
             dataSeriesRocketG3.AcceptsUnsortedData = true;
             dataSeriesRocketG4.AcceptsUnsortedData = true;
@@ -74,6 +124,11 @@ namespace Rocket_TM_BSC.ViewModel
             _timer.Interval = TimeSpan.FromMilliseconds(5);
             _timer.Tick += _timer_Tick;
             _timer.Start();
+
+            UpdateComPortCommand.Execute(this);
+
+
+
 
         }
         private int i = 1;
@@ -107,159 +162,171 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         #region Public Bindings
-
-        private string rocketposition = "10,20,0";
         public string RocketPosition
         {
             get { return rocketposition; }
             set { rocketposition = value; OnPropertyChanged("RocketPosition"); }
         }
 
-        private string rocketSigStrength = null;
+        
         public string RocketSigStrength
         {
             get { return rocketSigStrength; }
             set { rocketSigStrength = value; OnPropertyChanged("RocketSigStrength"); }
         }
 
-        private string cap1Strength = null;
+        
         public string Cap1Strength
         {
             get { return cap1Strength; }
             set { cap1Strength = value; OnPropertyChanged("Cap1Strength"); }
         }
 
-        private string cap2Strength = null;
+        
         public string Cap2Strength
         {
             get { return cap2Strength; }
             set { cap2Strength = value; OnPropertyChanged("Cap2Strength"); }
         }
 
-        private Brush rockTMStat = Brushes.Red;
+        
         public Brush RockTMStat
         {
             get { return rockTMStat; }
             set { rockTMStat = value; OnPropertyChanged("RockTMStat"); }
         }
 
-        private Brush cap1TMStat = Brushes.Red;
+        
         public Brush Cap1TMStat
         {
             get { return cap1TMStat; }
             set { cap1TMStat = value; OnPropertyChanged("Cap1TMStat"); }
         }
 
-        private Brush cap2TMStat = Brushes.Red;
+        
         public Brush Cap2TMStat
         {
             get { return cap2TMStat; }
             set { cap2TMStat = value; OnPropertyChanged("Cap2TMStat"); }
         }
 
-        private Brush capEject = Brushes.Red;
+        
         public Brush CapEject
         {
             get { return capEject; }
             set { capEject = value; OnPropertyChanged("CapEject"); }
         }
 
-        private Brush cap1_ParachuteDep = Brushes.Red;
+        
         public Brush Cap1_ParachuteDep
         {
             get { return cap1_ParachuteDep; }
             set { cap1_ParachuteDep = value; OnPropertyChanged("Cap1_ParachuteDep"); }
         }
 
-        private Brush cap2_ParachuteDep = Brushes.Red;
+        
         public Brush Cap2_ParachuteDep
         {
             get { return cap2_ParachuteDep; }
             set { cap2_ParachuteDep = value; OnPropertyChanged("Cap2_ParachuteDep"); }
         }
 
-        private string rocketAlt = null;
+        
         public string RocketAlt
         {
             get { return rocketAlt; }
             set { rocketAlt = value; OnPropertyChanged("RocketAlt"); }
         }
 
-        private string apogeeAlt = null;
+        
         public string ApogeeAlt
         {
             get { return apogeeAlt; }
             set { apogeeAlt = value; OnPropertyChanged(" ApogeeAlt"); }
         }
 
-        private string sysPressure1 = null;
+        
         public string SysPressure1
         {
             get { return sysPressure1; }
             set { sysPressure1 = value; OnPropertyChanged(" SysPressure1"); }
         }
 
-        private string sysPressure2 = null;
+        
         public string SysPressure2
         {
             get { return sysPressure2; }
             set { sysPressure2 = value; OnPropertyChanged(" SysPressure2"); }
         }
 
-        private string cap1_SatCount = "0";
+        
         public string Cap1_SatCount
         {
             get { return cap1_SatCount; }
             set { cap1_SatCount = value; OnPropertyChanged("Cap1_SatCount"); }
         }
 
-        private string cap2_SatCount = "0";
+        
         public string Cap2_SatCount
         {
             get { return cap2_SatCount; }
             set { cap2_SatCount = value; OnPropertyChanged("Cap2_SatCount"); }
         }
 
-        private string cap1_GPSLat = null;
+       
         public string Cap1_GPSLat
         {
             get { return cap1_GPSLat; }
             set { cap1_GPSLat = value; OnPropertyChanged("Cap1_GPSLat"); }
         }
 
-        private string cap2_GPSLat = null;
+        
         public string Cap2_GPSLat
         {
             get { return cap2_GPSLat; }
             set { cap2_GPSLat = value; OnPropertyChanged("Cap2_GPSLat"); }
         }
 
-        private string cap1_GPSLon = null;
+        
         public string Cap1_GPSLon
         {
             get { return cap1_GPSLon; }
             set { cap1_GPSLon = value; OnPropertyChanged("Cap1_GPSLon"); }
         }
 
-        private string cap2_GPSLon = null;
+        
         public string Cap2_GPSLon
         {
             get { return cap2_GPSLon; }
             set { cap2_GPSLon = value; OnPropertyChanged("Cap2_GPSLon"); }
         }
 
-        private string cap1_Alt = "0";
+        
         public string Cap1_Alt
         {
             get { return cap1_Alt; }
             set { cap1_Alt = value; OnPropertyChanged("Cap1_Alt"); }
         }
 
-        private string cap2_Alt = "0";
+        
         public string Cap2_Alt
         {
             get { return cap2_Alt; }
             set { cap2_Alt = value; OnPropertyChanged("Cap2_Alt"); }
+        }
+
+        
+        public string Cap1_Velo
+        {
+            get { return cap1_Velo; }
+            set { cap1_Velo = value; OnPropertyChanged("Cap1_Velo"); }
+        }
+
+        
+        public string Cap2_Velo
+        {
+            get { return cap2_Velo; }
+            set { cap2_Velo = value; OnPropertyChanged("Cap2_Velo"); }
         }
 
         private ObservableCollection<string> rocketCOMPortList = new ObservableCollection<string>();
@@ -281,6 +348,20 @@ namespace Rocket_TM_BSC.ViewModel
         {
             get { return rocketCOM; }
             set { rocketCOM = value; OnPropertyChanged("RocketCOM"); }
+        }
+
+        private string cap1COM = null;
+        public string Cap1COM
+        {
+            get { return cap1COM; }
+            set { cap1COM = value; OnPropertyChanged("Cap1COM"); }
+        }
+
+        private string cap2COM = null;
+        public string Cap2COM
+        {
+            get { return cap2COM; }
+            set { cap2COM = value; OnPropertyChanged("Cap2COM"); }
         }
 
         #endregion
@@ -359,13 +440,97 @@ namespace Rocket_TM_BSC.ViewModel
         public void OpenRocketCOM(object obj)
         {
             Console.WriteLine(RocketCOM);
-            Rocket_Data.OpenNewPort(RocketCOM, 57600, Parity.None, 8, StopBits.One);
+            Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
         }
 
         public bool CanOpenRocketCOM(object obj)
         {
             return true;
         }
+
+        public void OpenCap1COM(object obj)
+        {
+            Console.WriteLine(RocketCOM);
+            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+        }
+
+        public bool CanOpenCap1COM(object obj)
+        {
+            return true;
+        }
+
+        public void OpenCap2COM(object obj)
+        {
+            Console.WriteLine(RocketCOM);
+            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+        }
+
+        public bool CanOpenCap2COM(object obj)
+        {
+            return true;
+        }
+
+        public void StatCheckRocket(object obj)
+        {
+            // Sends Status Check command to TM to update view
+        }
+
+        public bool CanStatCheckRocket(object obj)
+        {
+            return true;
+        }
+
+        public void StatCheckCap1(object obj)
+        {
+            // Sends Status Check command to TM to update view
+        }
+
+        public bool CanStatCheckCap1(object obj)
+        {
+            return true;
+        }
+
+        public void StatCheckCap2(object obj)
+        {
+            // Sends Status Check command to TM to update view
+        }
+
+        public bool CanStatCheckCap2(object obj)
+        {
+            return true;
+        }
+
+        public void WakeUpRocket(object obj)
+        {
+            // Sends Wake Command to TM to activate for launch
+        }
+
+        public bool CanWakeUpRocket(object obj)
+        {
+            return true;
+        }
+
+        public void WakeUpCap1(object obj)
+        {
+            // Sends Wake Command to TM to activate for launch
+        }
+
+        public bool CanWakeUpCap1(object obj)
+        {
+            return true;
+        }
+
+        public void WakeUpCap2(object obj)
+        {
+            // Sends Wake Command to TM to activate for launch
+        }
+
+        public bool CanWakeUpCap2(object obj)
+        {
+            return true;
+        }
+
+
 
         #endregion
 
