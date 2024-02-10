@@ -75,6 +75,9 @@ namespace Rocket_TM_BSC.ViewModel
         private string cap2_Alt = "0";
         private string cap1_Velo = null;
         private string cap2_Velo = null;
+        private bool RocketLinkOpen = false;
+        private bool Cap1LinkOpen = false;
+        private bool Cap2LinkOpen = false;
 
         #endregion
 
@@ -428,7 +431,6 @@ namespace Rocket_TM_BSC.ViewModel
                     RocketCOMPortList.Add(portName);
                 }
             }
-            
 
         }
 
@@ -440,7 +442,13 @@ namespace Rocket_TM_BSC.ViewModel
         public void OpenRocketCOM(object obj)
         {
             Console.WriteLine(RocketCOM);
-            Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            RocketLinkOpen = true;
+            WakeRocket.RaiseCanExecuteChanged();
+            StatusCheckRocket.RaiseCanExecuteChanged();
+            
+
+
         }
 
         public bool CanOpenRocketCOM(object obj)
@@ -451,7 +459,11 @@ namespace Rocket_TM_BSC.ViewModel
         public void OpenCap1COM(object obj)
         {
             Console.WriteLine(RocketCOM);
-            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            Cap1_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            Cap1LinkOpen = true;
+            WakeCap1.RaiseCanExecuteChanged();
+            StatusCheckCap1.RaiseCanExecuteChanged();
+
         }
 
         public bool CanOpenCap1COM(object obj)
@@ -462,7 +474,11 @@ namespace Rocket_TM_BSC.ViewModel
         public void OpenCap2COM(object obj)
         {
             Console.WriteLine(RocketCOM);
-            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            Cap2_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            Cap2LinkOpen = true;
+            WakeCap2.RaiseCanExecuteChanged();
+            StatusCheckCap2.RaiseCanExecuteChanged();
+
         }
 
         public bool CanOpenCap2COM(object obj)
@@ -473,61 +489,69 @@ namespace Rocket_TM_BSC.ViewModel
         public void StatCheckRocket(object obj)
         {
             // Sends Status Check command to TM to update view
+            Rocket_Data.CommandStringTM1.Enqueue("transmit_data");
+
         }
 
         public bool CanStatCheckRocket(object obj)
         {
-            return true;
+            return RocketLinkOpen;
         }
 
         public void StatCheckCap1(object obj)
         {
             // Sends Status Check command to TM to update view
+            Cap1_Data.CommandStringTM1.Enqueue("transmit_data");
         }
 
         public bool CanStatCheckCap1(object obj)
         {
-            return true;
+            return Cap1LinkOpen;
         }
 
         public void StatCheckCap2(object obj)
         {
             // Sends Status Check command to TM to update view
+            Cap2_Data.CommandStringTM1.Enqueue("transmit_data");
+            
         }
 
         public bool CanStatCheckCap2(object obj)
         {
-            return true;
+            return Cap2LinkOpen;
         }
 
         public void WakeUpRocket(object obj)
         {
             // Sends Wake Command to TM to activate for launch
+            Rocket_Data.CommandStringTM1.Enqueue("WAKE");
         }
 
         public bool CanWakeUpRocket(object obj)
         {
-            return true;
+            return RocketLinkOpen;
         }
 
         public void WakeUpCap1(object obj)
         {
             // Sends Wake Command to TM to activate for launch
+            Cap1_Data.CommandStringTM1.Enqueue("WAKE");
         }
 
         public bool CanWakeUpCap1(object obj)
         {
-            return true;
+            return Cap1LinkOpen;
         }
 
         public void WakeUpCap2(object obj)
         {
             // Sends Wake Command to TM to activate for launch
+            Cap2_Data.CommandStringTM1.Enqueue("WAKE");
         }
 
         public bool CanWakeUpCap2(object obj)
         {
-            return true;
+            return Cap2LinkOpen;
         }
 
 

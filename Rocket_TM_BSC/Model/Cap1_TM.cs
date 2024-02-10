@@ -40,6 +40,7 @@ namespace Rocket_TM_BSC.Model
         private int flag = 0;
         private string comport;
         public ConcurrentQueue<string> TMData = new ConcurrentQueue<string>();
+        public ConcurrentQueue<string> CommandStringTM1 = new ConcurrentQueue<string>();
         private string command_on = "ON";
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -58,15 +59,25 @@ namespace Rocket_TM_BSC.Model
                 while (_serialport.IsOpen)
                 {
                     //int bytesToRead = 29; // TM Data length
+                    if (CommandStringTM1.Count > 0)
+                    {
+                        CommandStringTM1.TryDequeue(out string command);
+                        _serialport.WriteLine(command);
+                    }
                     int bytesToRead = 29;
                     byte[] buffer = new byte[bytesToRead];
                     int bytesRead = 0;
                     while (bytesRead < bytesToRead) 
                     {
                         bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead-bytesRead);
+                        if(CommandStringTM1.Count > 0) 
+                        {
+                            CommandStringTM1.TryDequeue(out string command);
+                            _serialport.WriteLine(command);
+                        }
                         
                     }
-    
+                    
                     string receivedData = Encoding.UTF8.GetString(buffer);
                     //Console.WriteLine(buffer.Count<byte>());
 
