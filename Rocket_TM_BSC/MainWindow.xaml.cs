@@ -18,7 +18,8 @@ using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
 using System.Windows.Media.Imaging;
-
+using System.Collections.ObjectModel;
+using System.Windows.Shapes;
 
 namespace Rocket_TM_BSC
 {
@@ -63,7 +64,7 @@ namespace Rocket_TM_BSC
             mapView.MapProvider = GMap.NET.MapProviders.GoogleHybridMapProvider.Instance;
             mapView.Position = new GMap.NET.PointLatLng(39.86113302187091, -83.6557333146190);
             mapView.MinZoom = 2;
-            mapView.MaxZoom = 17;
+            mapView.MaxZoom = 19;
             mapView.CacheLocation = "C:\\Users\\Carson\\Downloads";
 
             // whole world zoom
@@ -77,21 +78,40 @@ namespace Rocket_TM_BSC
             GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
             marker.Shape = new Image
             {
-                Width = 100,
-                Height = 100,
-                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/Bearcat_Spaceport_Cup_Logo.png"))
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
             };
 
             mapView.Markers.Add(marker);
             GMapMarker marker2 = new GMapMarker(new PointLatLng(39.82821816857987, -83.63717981659063));
             marker2.Shape = new Image
             {
-                Width = 50,
-                Height = 50,
-                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/Bearcat_Spaceport_Cup_Logo.png"))
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
             };
             mapView.Markers.Add(marker2);
+            List<PointLatLng> markers = new List<PointLatLng>();
+            markers.Add(new PointLatLng(39.82821816857987, -83.63717981659063));
+            markers.Add(new PointLatLng(39.86113302187091, -83.6557333146190));
+            
 
+            // Adds lines between markers
+            for (int i = 0; i < markers.Count; i++)
+            {
+                GMapRoute gmRoute = new GMapRoute(new List<PointLatLng>() {
+                markers[i] , markers.Count-1 == i ? markers[i] : markers[i + 1]})
+                {
+                    Shape = new Line()
+                    {
+                        StrokeThickness = 3,
+                        Stroke = System.Windows.Media.Brushes.Red
+                    },
+                };
+                mapView.Markers.Add(gmRoute);
+                
+            }
         }
 
         public static Stream StringToStream(string src)

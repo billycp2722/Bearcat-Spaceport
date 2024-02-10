@@ -398,6 +398,9 @@
   <ItemGroup>
     <Resource Include="Bearcat_Spaceport_Cup_Logo_ICO.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\MarkerIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
