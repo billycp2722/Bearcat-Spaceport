@@ -13,7 +13,10 @@
         mc:Ignorable="d"
         Title="BSC Telemetry GUI" 
         Height="1080" 
-        Width="1920">
+        Width="1920"
+        MinHeight="600"
+        MinWidth="1000">
+    
 
     <Window.DataContext>
         <vm:BSCViewModel />
@@ -29,9 +32,9 @@
             <TabItem Header="Main">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1.1*" />
+                        <ColumnDefinition Width=".95*" />
+                        <ColumnDefinition Width=".95*" />
                         <ColumnDefinition Width="2*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -102,13 +105,13 @@
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height=".9*" />
+                                <RowDefinition Height=".9*" />
+                                <RowDefinition Height=".9*" />
+                                <RowDefinition Height=".9*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
+                                
                                 <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             
@@ -127,8 +130,10 @@
                             <TextBlock Text="System Pressure 2 (PSI)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure2}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
-                            <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
-                            <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
+                            <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
+
+                            <controls:Graph6 Grid.Row="7" Margin="10" Grid.ColumnSpan="2"/>
                         </Grid>
                     </GroupBox>
 
@@ -145,7 +150,7 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
+                                
                                 <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
@@ -163,8 +168,8 @@
                             <TextBlock Text="Velocity (ft/s)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1_Velo}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
-                            <Button Command="{Binding StatusCheckCap1}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
-                            <Button Command="{Binding WakeCap1}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding StatusCheckCap1}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                            <Button Command="{Binding WakeCap1}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,10,0"/>
 
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
@@ -231,7 +236,7 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
+
                                 <RowDefinition Height="3*" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
@@ -249,8 +254,8 @@
                             <TextBlock Text="Velocity (ft/s)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Velo}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
 
-                            <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50"/>
-                            <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="6" Grid.ColumnSpan="2" Width="150" Height="50"/>
+                            <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                            <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                             
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap2_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
@@ -567,7 +572,8 @@
             <TabItem Header="Data Playback">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".5*" />
+                        <ColumnDefinition Width=".7*" />
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
@@ -644,12 +650,35 @@
                             <TextBox Text="{Binding DP_8}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
                         </Grid>
                     </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <controls:Graph7 Height="250"/>  <!-- -->
+                        <controls:Graph8 Height="250"/>  <!-- -->
+                        <controls:Graph9 Height="250"/>  <!-- -->
+                        <controls:Graph10 Height="250"/>
+
+                       
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <controls:Graph11 Height="250"/>
+                        <controls:Graph12 Height="250"/>
+                        <controls:Graph13 Height="250"/>
+                        <controls:Graph14 Height="250"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3">
+                        
+                        
+                        <controls:Graph15 Height="250"/>
+                        <controls:Graph15 Height="250"/>
+                        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>
+
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
             <TabItem Header="Map Testing">
                 <Grid>
-                    <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded"  /> 
+                    <!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded"  />--> 
                 </Grid>
             </TabItem>
         </TabControl>

@@ -301,6 +301,36 @@
     <Compile Include="Model\Cap1_TM.cs" />
     <Compile Include="Model\TestClass.cs" />
     <Compile Include="ViewModel\BSCViewModel.cs" />
+    <Compile Include="View\Graph12.xaml.cs">
+      <DependentUpon>Graph12.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph13.xaml.cs">
+      <DependentUpon>Graph13.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph15.xaml.cs">
+      <DependentUpon>Graph15.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph14.xaml.cs">
+      <DependentUpon>Graph14.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph6.xaml.cs">
+      <DependentUpon>Graph6.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph7.xaml.cs">
+      <DependentUpon>Graph7.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph8.xaml.cs">
+      <DependentUpon>Graph8.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph9.xaml.cs">
+      <DependentUpon>Graph9.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph10.xaml.cs">
+      <DependentUpon>Graph10.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graph11.xaml.cs">
+      <DependentUpon>Graph11.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graph5.xaml.cs">
       <DependentUpon>Graph5.xaml</DependentUpon>
     </Compile>
@@ -331,6 +361,46 @@
     <Page Include="ExampleResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graph12.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph13.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph15.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph14.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph6.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph7.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph8.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph9.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph10.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph11.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Graph5.xaml">
       <Generator>MSBuild:Compile</Generator>

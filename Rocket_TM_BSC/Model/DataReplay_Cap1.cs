@@ -64,7 +64,8 @@ namespace Rocket_TM_BSC.Model
         private double[] DP14; // gyroY
         private double[] DP15; // gyroZ
         
-
+        // Graph Count 1 2 3 4 5 6 7 8 9
+        // Graph 10, velocity magnitudes
         private void LoadCsv (string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
@@ -100,7 +101,7 @@ namespace Rocket_TM_BSC.Model
                     if (i > 0)
                     {
                         
-                        DP1[i1] = (double.Parse(values[1], NumberStyles.Float));
+                        DP1[1] = (double.Parse(values[1], NumberStyles.Float));
                         DP2[i] = (double.Parse(values[2], NumberStyles.Float));
                         DP3[i] = (double.Parse(values[3], NumberStyles.Float));
                         DP4[i] = (double.Parse(values[4], NumberStyles.Float));
