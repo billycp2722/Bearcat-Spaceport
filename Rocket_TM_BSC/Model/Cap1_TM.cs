@@ -52,6 +52,7 @@ namespace Rocket_TM_BSC.Model
                     _serialport.Open();
                     _serialport.DiscardNull = true; 
                     flag = 1;
+                    _serialport.WriteLine("ON");
                 }
                 int counter = 0;
                 while (_serialport.IsOpen)
@@ -69,8 +70,8 @@ namespace Rocket_TM_BSC.Model
                     string receivedData = Encoding.UTF8.GetString(buffer);
                     //Console.WriteLine(buffer.Count<byte>());
 
-                    //counter++;
-                    //Console.WriteLine(counter + ": " + receivedData);
+                    counter++;
+                    Console.WriteLine(counter + ": " + receivedData);
                     TMData.Enqueue(receivedData);
                 }
                 

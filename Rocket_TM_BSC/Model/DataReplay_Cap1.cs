@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Rocket_TM_BSC.Model
 {
-    public class DataReplay
+    public class DataReplay_Cap1
     {
         private BackgroundWorker DataWorker;
-        public DataReplay()
+        public DataReplay_Cap1()
         {
             DataWorker = new BackgroundWorker();
             DataWorker.DoWork += DataWorker_DoWork;
@@ -45,23 +45,32 @@ namespace Rocket_TM_BSC.Model
             LoadCsv(filepath);
             DisplayData();
         }
+        // All
+        private double[] DP1; // Lat
+        private double[] DP2; // Lon
+        private double[] DP3; // gpsAlt
+        private double[] DP4; // satCount
+        private double[] DP5; // timestamp // Odd Formating, no zero padding
+        private double[] DP6; // accelX
+        private double[] DP7; // accelY
+        private double[] DP8; // accelZ
+        private double[] DP9; // baroAlt
 
-        private double[] DP1;
-        private double[] DP2;
-        private double[] DP3;
-        private double[] DP4;
-        private double[] DP5;
-        private double[] DP6;
-        private double[] DP7;
-        private double[] DP8;
-        private double[] DP9;
-        private double[] DP10;
-        // Add more as needed 
+        // Atmos Capsule
+        private double[] DP10; // VOC
+        private double[] DP11; // Humid 
+        private double[] DP12; // Temp
+        private double[] DP13; // gyroX
+        private double[] DP14; // gyroY
+        private double[] DP15; // gyroZ
+        
+
         private void LoadCsv (string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
             {
                 long x = new FileInfo(filename).Length;
+                
                 int FileLen = Convert.ToInt32(x);
                 DP1 = new double[FileLen];
                 DP2 = new double[FileLen];
@@ -72,8 +81,14 @@ namespace Rocket_TM_BSC.Model
                 DP7 = new double[FileLen];
                 DP8 = new double[FileLen];
                 DP9 = new double[FileLen];
+                DP10 = new double[FileLen];
+                DP11 = new double[FileLen];
+                DP12 = new double[FileLen];
+                DP13 = new double[FileLen];
+                DP14 = new double[FileLen];
+                DP15 = new double[FileLen];
 
-                for (int i = 0; i < FileLen; i++)
+                for (int i = 1; i < FileLen; i++)
                 {
                     string s = reader.ReadLine();
                     if (s == null)
@@ -81,20 +96,31 @@ namespace Rocket_TM_BSC.Model
                         break;
                     }
                     string[] values = s.Split(',').Select(sValue => sValue.Trim()).ToArray();
+
                     if (i > 0)
                     {
                         
-                        DP1[i] = (double.Parse(values[1], NumberStyles.Float));
+                        DP1[i1] = (double.Parse(values[1], NumberStyles.Float));
                         DP2[i] = (double.Parse(values[2], NumberStyles.Float));
                         DP3[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP4[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP5[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP6[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP7[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP8[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP9[i] = (double.Parse(values[3], NumberStyles.Float));
+                        DP4[i] = (double.Parse(values[4], NumberStyles.Float));
+                        DP5[i] = (double.Parse(values[5], NumberStyles.Float));
+                        DP6[i] = (double.Parse(values[6], NumberStyles.Float));
+                        DP7[i] = (double.Parse(values[7], NumberStyles.Float));
+                        DP8[i] = (double.Parse(values[8], NumberStyles.Float));
+                        DP9[i] = (double.Parse(values[9], NumberStyles.Float));
                         // Continue adding as needed
+                        if (values.Length > 9)
+                        {
+                            DP10[i] = (double.Parse(values[10], NumberStyles.Float));
+                            DP11[i] = (double.Parse(values[11], NumberStyles.Float));
+                            DP12[i] = (double.Parse(values[12], NumberStyles.Float));
+                            DP13[i] = (double.Parse(values[13], NumberStyles.Float));
+                            DP14[i] = (double.Parse(values[14], NumberStyles.Float));
+                            DP15[i] = (double.Parse(values[15], NumberStyles.Float));
+                        }
                     }
+                    
                 }
             }
             
