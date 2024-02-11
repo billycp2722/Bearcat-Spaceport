@@ -29,10 +29,6 @@ namespace Rocket_TM_BSC.ViewModel
         #region Variables
 
         // Button Commands
-        public ViewCommand TestCommand { get; set; }
-        public ViewCommand TMCap1OpenCommand { get; set; }
-        public ViewCommand TMCap2OpenCommand { get; set; }
-        public ViewCommand TMRocketOpenCommand { get; set; }
         public ViewCommand UpdateComPortCommand { get; set; }
         public ViewCommand OpenRocketCOMCommand { get; set; }
         public ViewCommand OpenCap1COMCommand { get; set; }
@@ -46,6 +42,7 @@ namespace Rocket_TM_BSC.ViewModel
 
         // Class Instances
         private DispatcherTimer _timer;
+        private DispatcherTimer _ReplayTimer;
         private Cap1_TM Cap1_Data = new Cap1_TM();
         private Cap1_TM Cap2_Data = new Cap1_TM();
         private Cap1_TM Rocket_Data = new Cap1_TM();
@@ -84,10 +81,6 @@ namespace Rocket_TM_BSC.ViewModel
         // Constructor
         public BSCViewModel()
         {
-            TestCommand = new ViewCommand(Test, CanTest);
-            TMCap1OpenCommand = new ViewCommand(TMCap1Open, CanTMCap1Open);
-            TMCap2OpenCommand = new ViewCommand(TMCap2Open, CanTMCap2Open);
-            TMRocketOpenCommand = new ViewCommand(TMRocketOpen, CanTMRocketOpen);
             UpdateComPortCommand = new ViewCommand(UpdateComPort, CanUpdateComPort);
             OpenRocketCOMCommand = new ViewCommand(OpenRocketCOM, CanOpenRocketCOM);
             OpenCap1COMCommand = new ViewCommand(OpenCap1COM, CanOpenCap1COM);
@@ -128,12 +121,20 @@ namespace Rocket_TM_BSC.ViewModel
             _timer.Tick += _timer_Tick;
             _timer.Start();
 
+            _ReplayTimer = new DispatcherTimer();
+            _ReplayTimer.Interval = TimeSpan.FromMilliseconds(5);
+            _ReplayTimer.Tick += _ReplayTimer_Tick; ;
+            _ReplayTimer.Start();
+
             UpdateComPortCommand.Execute(this);
 
 
 
 
         }
+
+
+        #region Timers
         private int i = 1;
         private void _timer_Tick(object sender, EventArgs e)
         {
@@ -164,174 +165,135 @@ namespace Rocket_TM_BSC.ViewModel
             
         }
 
+        private void _ReplayTimer_Tick(object sender, EventArgs e)
+        {
+            // Add all graphing and data display for data replay tab
+        }
+
+        #endregion
+
         #region Public Bindings
+        // Sets all data bindings linking the mainwindow.xaml to the view model
         public string RocketPosition
         {
             get { return rocketposition; }
             set { rocketposition = value; OnPropertyChanged("RocketPosition"); }
         }
-
-        
         public string RocketSigStrength
         {
             get { return rocketSigStrength; }
             set { rocketSigStrength = value; OnPropertyChanged("RocketSigStrength"); }
         }
-
-        
         public string Cap1Strength
         {
             get { return cap1Strength; }
             set { cap1Strength = value; OnPropertyChanged("Cap1Strength"); }
         }
-
-        
         public string Cap2Strength
         {
             get { return cap2Strength; }
             set { cap2Strength = value; OnPropertyChanged("Cap2Strength"); }
         }
-
-        
         public Brush RockTMStat
         {
             get { return rockTMStat; }
             set { rockTMStat = value; OnPropertyChanged("RockTMStat"); }
         }
-
-        
         public Brush Cap1TMStat
         {
             get { return cap1TMStat; }
             set { cap1TMStat = value; OnPropertyChanged("Cap1TMStat"); }
         }
-
-        
         public Brush Cap2TMStat
         {
             get { return cap2TMStat; }
             set { cap2TMStat = value; OnPropertyChanged("Cap2TMStat"); }
-        }
-
-        
+        } 
         public Brush CapEject
         {
             get { return capEject; }
             set { capEject = value; OnPropertyChanged("CapEject"); }
         }
-
-        
         public Brush Cap1_ParachuteDep
         {
             get { return cap1_ParachuteDep; }
             set { cap1_ParachuteDep = value; OnPropertyChanged("Cap1_ParachuteDep"); }
         }
-
-        
         public Brush Cap2_ParachuteDep
         {
             get { return cap2_ParachuteDep; }
             set { cap2_ParachuteDep = value; OnPropertyChanged("Cap2_ParachuteDep"); }
         }
-
-        
         public string RocketAlt
         {
             get { return rocketAlt; }
             set { rocketAlt = value; OnPropertyChanged("RocketAlt"); }
         }
-
-        
         public string ApogeeAlt
         {
             get { return apogeeAlt; }
             set { apogeeAlt = value; OnPropertyChanged(" ApogeeAlt"); }
         }
-
-        
         public string SysPressure1
         {
             get { return sysPressure1; }
             set { sysPressure1 = value; OnPropertyChanged(" SysPressure1"); }
         }
-
-        
         public string SysPressure2
         {
             get { return sysPressure2; }
             set { sysPressure2 = value; OnPropertyChanged(" SysPressure2"); }
         }
-
-        
         public string Cap1_SatCount
         {
             get { return cap1_SatCount; }
             set { cap1_SatCount = value; OnPropertyChanged("Cap1_SatCount"); }
         }
-
-        
         public string Cap2_SatCount
         {
             get { return cap2_SatCount; }
             set { cap2_SatCount = value; OnPropertyChanged("Cap2_SatCount"); }
         }
-
-       
         public string Cap1_GPSLat
         {
             get { return cap1_GPSLat; }
             set { cap1_GPSLat = value; OnPropertyChanged("Cap1_GPSLat"); }
         }
-
-        
         public string Cap2_GPSLat
         {
             get { return cap2_GPSLat; }
             set { cap2_GPSLat = value; OnPropertyChanged("Cap2_GPSLat"); }
         }
-
-        
         public string Cap1_GPSLon
         {
             get { return cap1_GPSLon; }
             set { cap1_GPSLon = value; OnPropertyChanged("Cap1_GPSLon"); }
         }
-
-        
         public string Cap2_GPSLon
         {
             get { return cap2_GPSLon; }
             set { cap2_GPSLon = value; OnPropertyChanged("Cap2_GPSLon"); }
         }
-
-        
         public string Cap1_Alt
         {
             get { return cap1_Alt; }
             set { cap1_Alt = value; OnPropertyChanged("Cap1_Alt"); }
         }
-
-        
         public string Cap2_Alt
         {
             get { return cap2_Alt; }
             set { cap2_Alt = value; OnPropertyChanged("Cap2_Alt"); }
         }
-
-        
         public string Cap1_Velo
         {
             get { return cap1_Velo; }
             set { cap1_Velo = value; OnPropertyChanged("Cap1_Velo"); }
         }
-
-        
         public string Cap2_Velo
         {
             get { return cap2_Velo; }
             set { cap2_Velo = value; OnPropertyChanged("Cap2_Velo"); }
         }
-
         private ObservableCollection<string> rocketCOMPortList = new ObservableCollection<string>();
         public ObservableCollection<string> RocketCOMPortList
         {
@@ -345,75 +307,30 @@ namespace Rocket_TM_BSC.ViewModel
                 }
             }
         }
-
         private string rocketCOM = null;
         public string RocketCOM
         {
             get { return rocketCOM; }
             set { rocketCOM = value; OnPropertyChanged("RocketCOM"); }
         }
-
         private string cap1COM = null;
         public string Cap1COM
         {
             get { return cap1COM; }
             set { cap1COM = value; OnPropertyChanged("Cap1COM"); }
         }
-
         private string cap2COM = null;
         public string Cap2COM
         {
             get { return cap2COM; }
             set { cap2COM = value; OnPropertyChanged("Cap2COM"); }
         }
-
         #endregion
 
         #region Commands
-        public void Test(object obj)
-        {
+        // Contains methods for each button command
 
-            //throw new NotImplementedException();
-        }
-
-        public bool CanTest(object obj)
-        {
-            return true;
-        }
-
-        public void TMCap1Open(object obj)
-        {
-
-            //throw new NotImplementedException();
-        }
-
-        public bool CanTMCap1Open(object obj)
-        {
-            return true;
-        }
-
-        public void TMCap2Open(object obj)
-        {
-
-            //throw new NotImplementedException();
-        }
-
-        public bool CanTMCap2Open(object obj)
-        {
-            return true;
-        }
-
-        public void TMRocketOpen(object obj)
-        {
-
-            //throw new NotImplementedException();
-        }
-
-        public bool CanTMRocketOpen(object obj)
-        {
-            return true;
-        }
-
+        // Updates COM port list
         public void UpdateComPort(object obj)
         {
 
@@ -439,16 +356,14 @@ namespace Rocket_TM_BSC.ViewModel
             return true;
         }
 
+        // Opens the rocket TM COM port
         public void OpenRocketCOM(object obj)
         {
             Console.WriteLine(RocketCOM);
-            //Rocket_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            Rocket_Data.OpenNewPort(RocketCOM, 115200, Parity.None, 8, StopBits.One);
             RocketLinkOpen = true;
             WakeRocket.RaiseCanExecuteChanged();
             StatusCheckRocket.RaiseCanExecuteChanged();
-            
-
-
         }
 
         public bool CanOpenRocketCOM(object obj)
@@ -456,6 +371,7 @@ namespace Rocket_TM_BSC.ViewModel
             return true;
         }
 
+        // Opens capsule 1's COM port
         public void OpenCap1COM(object obj)
         {
             Console.WriteLine(RocketCOM);
@@ -463,7 +379,6 @@ namespace Rocket_TM_BSC.ViewModel
             Cap1LinkOpen = true;
             WakeCap1.RaiseCanExecuteChanged();
             StatusCheckCap1.RaiseCanExecuteChanged();
-
         }
 
         public bool CanOpenCap1COM(object obj)
@@ -471,6 +386,7 @@ namespace Rocket_TM_BSC.ViewModel
             return true;
         }
 
+        // Opens capsule 2's COM port
         public void OpenCap2COM(object obj)
         {
             Console.WriteLine(RocketCOM);
@@ -486,6 +402,7 @@ namespace Rocket_TM_BSC.ViewModel
             return true;
         }
 
+        // Sends Status Check command to receive one data frame from rocket TM
         public void StatCheckRocket(object obj)
         {
             // Sends Status Check command to TM to update view
@@ -498,6 +415,7 @@ namespace Rocket_TM_BSC.ViewModel
             return RocketLinkOpen;
         }
 
+        // Sends Status Check command to receive one data frame from capsule 1 TM
         public void StatCheckCap1(object obj)
         {
             // Sends Status Check command to TM to update view
@@ -509,6 +427,7 @@ namespace Rocket_TM_BSC.ViewModel
             return Cap1LinkOpen;
         }
 
+        // Sends Status Check command to receive one data frame from capsule 2 TM
         public void StatCheckCap2(object obj)
         {
             // Sends Status Check command to TM to update view
@@ -521,6 +440,7 @@ namespace Rocket_TM_BSC.ViewModel
             return Cap2LinkOpen;
         }
 
+        // Sends wake command to activate full TM link and hardware loop for launch
         public void WakeUpRocket(object obj)
         {
             // Sends Wake Command to TM to activate for launch
@@ -532,6 +452,7 @@ namespace Rocket_TM_BSC.ViewModel
             return RocketLinkOpen;
         }
 
+        // Sends wake command to activate full TM link and hardware loop for launch
         public void WakeUpCap1(object obj)
         {
             // Sends Wake Command to TM to activate for launch
@@ -543,6 +464,7 @@ namespace Rocket_TM_BSC.ViewModel
             return Cap1LinkOpen;
         }
 
+        // Sends wake command to activate full TM link and hardware loop for launch
         public void WakeUpCap2(object obj)
         {
             // Sends Wake Command to TM to activate for launch
@@ -554,8 +476,6 @@ namespace Rocket_TM_BSC.ViewModel
             return Cap2LinkOpen;
         }
 
-
-
         #endregion
 
         #region SciChartTests
@@ -566,6 +486,7 @@ namespace Rocket_TM_BSC.ViewModel
         }
         #endregion
 
+        // SciCharts graphing
         #region 2D Graphing
         
         private ObservableCollection<IRenderableSeriesViewModel> graph1Series { get; set; }

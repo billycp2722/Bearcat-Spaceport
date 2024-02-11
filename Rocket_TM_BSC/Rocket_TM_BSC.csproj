@@ -297,9 +297,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ViewCommand.cs" />
+    <Compile Include="Model\AccelToVelo.cs" />
     <Compile Include="Model\DataReplay_Cap1.cs" />
     <Compile Include="Model\Cap1_TM.cs" />
-    <Compile Include="Model\TestClass.cs" />
     <Compile Include="ViewModel\BSCViewModel.cs" />
     <Compile Include="View\Graph12.xaml.cs">
       <DependentUpon>Graph12.xaml</DependentUpon>

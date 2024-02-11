@@ -42,9 +42,6 @@ namespace Rocket_TM_BSC
             //var objModelSource = new ObjectModelSource(streamForObject);
             //obj.Source = objModelSource;
 
-            
-
-
         }
 
         //private void OnClickHorizontalRotate(object sender, RoutedEventArgs e)
