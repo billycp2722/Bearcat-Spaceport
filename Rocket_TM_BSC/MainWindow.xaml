@@ -569,7 +569,7 @@
                 
             </TabItem>
 
-            <TabItem Header="Data Playback">
+            <!--<TabItem Header="Data Playback">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".7*" />
@@ -651,9 +651,9 @@
                         </Grid>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <controls:Graph7 Height="250"/>  <!-- -->
-                        <controls:Graph8 Height="250"/>  <!-- -->
-                        <controls:Graph9 Height="250"/>  <!-- -->
+                        <controls:Graph7 Height="250"/>  --><!-- --><!--
+                        <controls:Graph8 Height="250"/>  --><!-- --><!--
+                        <controls:Graph9 Height="250"/>  --><!-- --><!--
                         <controls:Graph10 Height="250"/>
 
                        
@@ -670,13 +670,13 @@
                         
                         <controls:Graph15 Height="250"/>
                         <controls:Graph15 Height="250"/>
-                        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>
+                        --><!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>--><!--
 
                     </StackPanel>
                 </Grid>
-            </TabItem>
+            </TabItem>-->
 
-            <TabItem Header="Map Testing">
+            <TabItem Header="Tracking Map">
                 <Grid>
                     <!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded"  />--> 
                 </Grid>

@@ -20,6 +20,7 @@ using SciChart.Charting.Model.DataSeries;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using SciChart.Core.Extensions;
+using System.Diagnostics;
 
 namespace Rocket_TM_BSC.ViewModel
 {
@@ -94,9 +95,6 @@ namespace Rocket_TM_BSC.ViewModel
             WakeCap1 = new ViewCommand(WakeUpCap1, CanWakeUpCap1);
             WakeCap2 = new ViewCommand(WakeUpCap2, CanWakeUpCap2);
             
-
-
-
             InitializeGraph();
             dataSeriesCap1G1.AcceptsUnsortedData = true; // Alt graph
             dataSeriesCap1G2.AcceptsUnsortedData = true; // Velocity Graph
@@ -117,51 +115,51 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesRocketG5.AcceptsUnsortedData = true;
 
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(5);
+            _timer.Interval = TimeSpan.FromMilliseconds(10);
             _timer.Tick += _timer_Tick;
             _timer.Start();
 
-            _ReplayTimer = new DispatcherTimer();
-            _ReplayTimer.Interval = TimeSpan.FromMilliseconds(5);
-            _ReplayTimer.Tick += _ReplayTimer_Tick; ;
-            _ReplayTimer.Start();
+            //_ReplayTimer = new DispatcherTimer();
+            //_ReplayTimer.Interval = TimeSpan.FromMilliseconds(5);
+            //_ReplayTimer.Tick += _ReplayTimer_Tick; ;
+            //_ReplayTimer.Start();
 
             UpdateComPortCommand.Execute(this);
-
-
-
 
         }
 
 
         #region Timers
         private int i = 1;
+        //private int j = 1;
+        //Stopwatch stopwatch = new Stopwatch();
         private void _timer_Tick(object sender, EventArgs e)
         {
-            if (RocketAlt != Rocket_Data.Data1) { RocketAlt = Rocket_Data.Data1; dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble()); i++; }
-            if (ApogeeAlt != Rocket_Data.Data2) { ApogeeAlt = Rocket_Data.Data2; }
-            if (Cap1_Alt != Rocket_Data.Data3) { Cap1_Alt = Rocket_Data.Data3; }
-            if (Cap2_Alt != Rocket_Data.Data4) { Cap2_Alt = Rocket_Data.Data4; }
-            if (Cap1_SatCount != Rocket_Data.Data5) { Cap1_SatCount = Rocket_Data.Data5; }
-
-            //dataSeriesCap1G1.Append(i, Rocket_Data.Data1.ToDouble());
-            while (Rocket_Data.TMData.Count > 0)
+            //stopwatch.Start();
+            if (RocketLinkOpen)
             {
-                try
+                while (Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
                 {
-                    Rocket_Data.TMData.TryDequeue(out string tm);
-                    string[] tmp = tm.Split(',');
-                    dataSeriesCap1G1.Append(i, tmp[0].ToDouble());
-                    dataSeriesCap1G2.Append(i, tmp[1].ToDouble());
-                    dataSeriesCap1G3.Append(i, tmp[2].ToDouble());
-                    dataSeriesCap1G5.Append(i, i);
-                    i++;
-                }
-                catch
-                {
+                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+                    try
+                    {
+                        Rocket_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
 
+                        dataSeriesCap1G1.Append(i, cap1Val[8]);
+                        dataSeriesCap1G2.Append(i, cap1Val[11]);
+                        dataSeriesCap1G3.Append(i, cap1Val[12]);
+                        dataSeriesCap1G5.Append(i, cap1Val[3]);
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " +j);
+            //j++;
+            //stopwatch.Reset();
             
         }
 
@@ -364,6 +362,7 @@ namespace Rocket_TM_BSC.ViewModel
             RocketLinkOpen = true;
             WakeRocket.RaiseCanExecuteChanged();
             StatusCheckRocket.RaiseCanExecuteChanged();
+            
         }
 
         public bool CanOpenRocketCOM(object obj)

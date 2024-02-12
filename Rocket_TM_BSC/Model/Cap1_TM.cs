@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Collections.Concurrent;
 using SciChart.Core.Extensions;
 using System.Drawing.Printing;
+using System.Collections.ObjectModel;
 
 namespace Rocket_TM_BSC.Model
 {
@@ -21,44 +22,46 @@ namespace Rocket_TM_BSC.Model
             TMDataWorker.RunWorkerCompleted += TMDataWorker_RunWorkerCompleted; 
             TMDataWorker.ProgressChanged += TMDataWorker_ProgressChanged;
             TMDataWorker.WorkerSupportsCancellation = true;
+            
         }
 
         private void TMDataWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             // Not Used
         }
-        public string Data1;
-        public string Data2;
-        public string Data3;
-        public string Data4;
-        public string Data5;
         public bool WakeCommand = false;
-        private int coun = 0;
+        
         private void TMDataWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // Not Used
         }
-        private int flag = 0;
+        
         private string comport;
-        public ConcurrentQueue<string> TMData = new ConcurrentQueue<string>();
-        public ConcurrentQueue<string> CommandStringTM1 = new ConcurrentQueue<string>();
+        public ConcurrentQueue<string> TMData;
+        public ConcurrentQueue<string> CommandStringTM1;
         private string command_on = "ON";
+        public Cap1_DataProcessing cap1_DataProcessing;
 
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
-                if (flag == 0)
-                {
-                    _serialport = new SerialPort(comport, 115200, Parity.None, 8, StopBits.One);
-                    
-                    _serialport.Open();
-                    _serialport.DiscardNull = true;
-                    _serialport.DiscardInBuffer();
-                    flag = 1;
-                    _serialport.WriteLine("ON");
-                }
-                int counter = 0;
+                
+                CommandStringTM1 = new ConcurrentQueue<string>();
+                cap1_DataProcessing = new Cap1_DataProcessing();
+                //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
+                cap1_DataProcessing.StartCap1DataProcess();
+                TMData = new ConcurrentQueue<string>();
+
+                _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
+
+                _serialport.Open();
+                _serialport.DiscardNull = true;
+                _serialport.DiscardInBuffer();
+                _serialport.WriteLine("ON");
+
+
+                
                 while (_serialport.IsOpen)
                 {
                     //int bytesToRead = 29; // TM Data length
@@ -83,47 +86,8 @@ namespace Rocket_TM_BSC.Model
                         }
                         
                     }
+                    cap1_DataProcessing.Cap1DataQueue.Enqueue(buffer);
 
-                    // How slow is this?
-                    //Console.WriteLine(buffer.Length);
-                    byte[] Lat = new byte[4] { buffer[0], buffer[1], buffer[2], buffer[3] };
-                    byte[] Lon = new byte[4] { buffer[4], buffer[5], buffer[6], buffer[7] };
-                    byte[] MS = new byte[4] { buffer[8], buffer[9], buffer[10], buffer[11] };
-                    byte SatCoun = buffer[12];
-                    byte GyroX = buffer[13];
-                    byte GyroY = buffer[14];
-                    byte GyroZ = buffer[15];
-                    byte[] AccelX = new byte[2] { buffer[16], buffer[17]};
-                    byte[] AccelY = new byte[2] { buffer[18], buffer[19]};
-                    byte[] AccelZ = new byte[2] { buffer[20], buffer[21]};
-                    byte[] Alt = new byte[2] { buffer[22], buffer[23] };
-                    byte[] VOC = new byte[2] { buffer[24], buffer[25]};
-                    byte[] Temp = new byte[2] { buffer[26], buffer[27]};
-                    byte Humid = buffer[28];
-
-
-                    
-                    int Lat_int = BitConverter.ToInt32 (Lat, 0);
-                    int Lon_int = BitConverter.ToInt32(Lon, 0);
-                    uint MS_int = BitConverter.ToUInt32(MS,0);
-                    double SatCoun_int = SatCoun.ToDouble ();
-                    double GyroX_int =GyroX.ToDouble ();
-                    double GyroY_int = GyroY.ToDouble();
-                    double GyroZ_int = GyroZ.ToDouble();
-                    int AccelX_int = BitConverter.ToInt16(AccelX, 0);
-                    int AccelY_int = BitConverter.ToInt16(AccelY, 0);
-                    int AccelZ_int = BitConverter.ToInt16(AccelZ, 0);
-                    uint Alt_int = BitConverter.ToUInt16(Alt, 0);
-                    uint VOC_int = BitConverter.ToUInt16(VOC, 0);
-                    int Temp_int = BitConverter.ToInt16(Temp, 0);
-                    double Humid_int = Humid.ToDouble();
-
-                    Console.WriteLine(Lat_int + "," + Lon_int + "," + MS_int + "," + SatCoun_int + "," + GyroX_int + "," + GyroY_int + "," + GyroZ_int + "," + AccelX_int + "," + AccelY_int + "," + AccelZ_int + "," + Alt_int + "," + VOC_int + "," + Temp_int + "," + Humid_int);
-                    
-                    //counter++;
-                    //string receivedData = Encoding.UTF8.GetString(buffer);
-                    //Console.WriteLine(receivedData);
-                    //TMData.Enqueue(receivedData);
                 }
                 
             }
