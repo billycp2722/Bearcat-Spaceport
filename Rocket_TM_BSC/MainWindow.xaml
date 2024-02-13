@@ -174,52 +174,7 @@
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
 
-                            <!--<s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface2" Margin="10"
-                                    s3D:SceneObjects="{Binding SceneObj}"
-                                    BorderThickness="1"
-                                    WorldDimensions="10,10,10" >
-
-                                <s3D:SciChart3DSurface.Camera>
-                                    <s3D:Camera3D x:Name="Camera3D2" ZoomToFitOnAttach="True"/>
-                                </s3D:SciChart3DSurface.Camera>
-
-                                <s3D:SciChart3DSurface.XAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False"
-                                        PlaneBorderThickness="0.1"/>
-                                </s3D:SciChart3DSurface.XAxis>
-
-                                <s3D:SciChart3DSurface.YAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness="0.1"/>        
-                                </s3D:SciChart3DSurface.YAxis>
-
-                                <s3D:SciChart3DSurface.ZAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness=".1"/>
-                                </s3D:SciChart3DSurface.ZAxis>
-
-                                <s3D:SciChart3DSurface.ChartModifier>
-                                    <s3D:ModifierGroup3D>
-                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
-                                        <s3D:MouseWheelZoomModifier3D/>
-                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
-                                    </s3D:ModifierGroup3D>
-                                </s3D:SciChart3DSurface.ChartModifier>
-
-
-
-
-
-                            </s3D:SciChart3DSurface>-->
+                            
                         </Grid>
                     </GroupBox>
 
@@ -257,55 +212,7 @@
                             <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="10,0,0,0"/>
                             <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                             
-                            <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap2_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
-                            <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
-
-                            <!--<s3D:SciChart3DSurface Grid.ColumnSpan="2" Grid.Row="6" Name="sciChart3DSurface3" Margin="10"
-                                    s3D:SceneObjects="{Binding SceneObj}"
-                                    BorderThickness="1"
-                                    WorldDimensions="10,10,10" >
-
-                                <s3D:SciChart3DSurface.Camera>
-                                    <s3D:Camera3D x:Name="Camera3D3" ZoomToFitOnAttach="True"/>
-                                </s3D:SciChart3DSurface.Camera>
-
-                                <s3D:SciChart3DSurface.XAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False"
-                                        PlaneBorderThickness="0.1"/>
-                                </s3D:SciChart3DSurface.XAxis>
-
-                                <s3D:SciChart3DSurface.YAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness="0.1"/>
-                                </s3D:SciChart3DSurface.YAxis>
-
-                                <s3D:SciChart3DSurface.ZAxis>
-                                    <s3D:NumericAxis3D DrawLabels="True"
-                                        DrawMajorTicks="True"
-                                        DrawMinorGridLines="False"
-                                        DrawMinorTicks="False" 
-                                        PlaneBorderThickness=".1"/>
-                                </s3D:SciChart3DSurface.ZAxis>
-
-                                <s3D:SciChart3DSurface.ChartModifier>
-                                    <s3D:ModifierGroup3D>
-                                        <s3D:OrbitModifier3D ExecuteOn="MouseLeftButton"/>
-                                        <s3D:MouseWheelZoomModifier3D/>
-                                        <s3D:ZoomExtentsModifier3D AnimateDurationMs="500" ResetPosition="10,10,10" ResetTarget="0,0,0"/>
-                                    </s3D:ModifierGroup3D>
-                                </s3D:SciChart3DSurface.ChartModifier>
-
-
-
-
-
-                            </s3D:SciChart3DSurface>-->
+                            
                         </Grid>
                     </GroupBox>
 
@@ -333,6 +240,11 @@
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
 
                     <GroupBox Margin="10" Header="Rocket Serial Connection" Foreground="White" FontSize="18">
                         <StackPanel>
@@ -411,6 +323,25 @@
                             
                         </StackPanel>
                         
+                    </GroupBox>
+
+                    <GroupBox Margin="10" Grid.Row="1" Header="RSSI Serial Data" Foreground="White" FontSize="18">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Foreground="White" FontSize="20" Text="COM Port" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
+                                <ComboBox ItemsSource="{Binding RocketCOMPortList}" Grid.Column="1"  SelectedItem="{Binding RocketCOM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+
+                                </ComboBox>
+                            </Grid>
+                            <Button Margin="20" Grid.Column="3" Height="100" Width="200" Command="{Binding OpenRSSICOMCommand}" Content="Open COM Port" FontSize="18" Style="{StaticResource ButtonCorner}"/>
+
+                        </StackPanel>
+
                     </GroupBox>
 
                     <GroupBox Grid.Column="1" Margin="10" Header="Capsule 1 Serial Connection" Foreground="White" FontSize="18">
@@ -569,7 +500,7 @@
                 
             </TabItem>
 
-            <!--<TabItem Header="Data Playback">
+            <TabItem Header="Data Playback">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".7*" />
@@ -651,9 +582,9 @@
                         </Grid>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <controls:Graph7 Height="250"/>  --><!-- --><!--
-                        <controls:Graph8 Height="250"/>  --><!-- --><!--
-                        <controls:Graph9 Height="250"/>  --><!-- --><!--
+                        <controls:Graph7 Height="250"/>   
+                        <controls:Graph8 Height="250"/>   
+                        <controls:Graph9 Height="250"/>   
                         <controls:Graph10 Height="250"/>
 
                        
@@ -670,15 +601,15 @@
                         
                         <controls:Graph15 Height="250"/>
                         <controls:Graph15 Height="250"/>
-                        --><!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>--><!--
+                        <!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>-->
 
                     </StackPanel>
                 </Grid>
-            </TabItem>-->
+            </TabItem>
 
             <TabItem Header="Tracking Map">
                 <Grid>
-                    <!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded"  />--> 
+                    <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" /> 
                 </Grid>
             </TabItem>
         </TabControl>

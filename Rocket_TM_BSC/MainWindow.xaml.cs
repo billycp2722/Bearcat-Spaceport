@@ -54,62 +54,62 @@ namespace Rocket_TM_BSC
         //    Camera3D.OrbitalPitch = ((int)Camera3D.OrbitalPitch < 89) ? Camera3D.OrbitalPitch + 90 : -90;
         //}
 
-        //private void mapView_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
-        //    // choose your provider here
-        //    mapView.MapProvider = GMap.NET.MapProviders.GoogleHybridMapProvider.Instance;
-        //    mapView.Position = new GMap.NET.PointLatLng(39.86113302187091, -83.6557333146190);
-        //    mapView.MinZoom = 2;
-        //    mapView.MaxZoom = 17;
-        //    //mapView.CacheLocation = "C:\\Users\\Public\\Desktop";
+        private void mapView_Loaded(object sender, RoutedEventArgs e)
+        {
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            // choose your provider here
+            mapView.MapProvider = GMap.NET.MapProviders.GoogleHybridMapProvider.Instance;
+            mapView.Position = new GMap.NET.PointLatLng(39.86113302187091, -83.6557333146190);
+            mapView.MinZoom = 2;
+            mapView.MaxZoom = 17;
+            //mapView.CacheLocation = "C:\\Users\\Public\\Desktop";
 
-        //    // whole world zoom
-        //    mapView.Zoom = 14;
-        //    // lets the map use the mousewheel to zoom
-        //    mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-        //    // lets the user drag the map
-        //    mapView.CanDragMap = true;
-        //    // lets the user drag the map with the left mouse button
-        //    mapView.DragButton = MouseButton.Left;
-        //    GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
-        //    marker.Shape = new Image
-        //    {
-        //        Width = 25,
-        //        Height = 25,
-        //        Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-        //    };
+            // whole world zoom
+            mapView.Zoom = 14;
+            // lets the map use the mousewheel to zoom
+            mapView.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            // lets the user drag the map
+            mapView.CanDragMap = true;
+            // lets the user drag the map with the left mouse button
+            mapView.DragButton = MouseButton.Left;
+            //GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
+            //marker.Shape = new Image
+            //{
+            //    Width = 25,
+            //    Height = 25,
+            //    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            //};
 
-        //    mapView.Markers.Add(marker);
-        //    GMapMarker marker2 = new GMapMarker(new PointLatLng(39.82821816857987, -83.63717981659063));
-        //    marker2.Shape = new Image
-        //    {
-        //        Width = 25,
-        //        Height = 25,
-        //        Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-        //    };
-        //    mapView.Markers.Add(marker2);
-        //    List<PointLatLng> markers = new List<PointLatLng>();
-        //    markers.Add(new PointLatLng(39.82821816857987, -83.63717981659063));
-        //    markers.Add(new PointLatLng(39.86113302187091, -83.6557333146190));
-            
+            //mapView.Markers.Add(marker);
+            //GMapMarker marker2 = new GMapMarker(new PointLatLng(39.82821816857987, -83.63717981659063));
+            //marker2.Shape = new Image
+            //{
+            //    Width = 25,
+            //    Height = 25,
+            //    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            //};
+            //mapView.Markers.Add(marker2);
+            //List<PointLatLng> markers = new List<PointLatLng>();
+            //markers.Add(new PointLatLng(39.82821816857987, -83.63717981659063));
+            //markers.Add(new PointLatLng(39.86113302187091, -83.6557333146190));
 
-        //    // Adds lines between markers
-        //    for (int i = 0; i < markers.Count; i++)
-        //    {
-        //        GMapRoute gmRoute = new GMapRoute(new List<PointLatLng>() {
-        //        markers[i] , markers.Count-1 == i ? markers[i] : markers[i + 1]})
-        //        {
-        //            Shape = new Line()
-        //            {
-        //                StrokeThickness = 3,
-        //                Stroke = System.Windows.Media.Brushes.Red
-        //            },
-        //        };
-        //        mapView.Markers.Add(gmRoute);
-                
-        //    }
-        //}
+
+            // Adds lines between markers
+            //for (int i = 0; i < markers.Count; i++)
+            //{
+            //    GMapRoute gmRoute = new GMapRoute(new List<PointLatLng>() {
+            //    markers[i] , markers.Count-1 == i ? markers[i] : markers[i + 1]})
+            //    {
+            //        Shape = new Line()
+            //        {
+            //            StrokeThickness = 3,
+            //            Stroke = System.Windows.Media.Brushes.Red
+            //        },
+            //    };
+            //    mapView.Markers.Add(gmRoute);
+
+            //}
+        }
 
         public static Stream StringToStream(string src)
         {

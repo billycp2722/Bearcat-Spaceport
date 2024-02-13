@@ -22,7 +22,6 @@ namespace Rocket_TM_BSC.Model
             TMDataWorker.RunWorkerCompleted += TMDataWorker_RunWorkerCompleted; 
             TMDataWorker.ProgressChanged += TMDataWorker_ProgressChanged;
             TMDataWorker.WorkerSupportsCancellation = true;
-            
         }
 
         private void TMDataWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -41,7 +40,7 @@ namespace Rocket_TM_BSC.Model
         public ConcurrentQueue<string> CommandStringTM1;
         private string command_on = "ON";
         public Cap1_DataProcessing cap1_DataProcessing;
-
+        public int lost_frames = 0;
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -58,7 +57,7 @@ namespace Rocket_TM_BSC.Model
                 _serialport.Open();
                 _serialport.DiscardNull = true;
                 _serialport.DiscardInBuffer();
-                _serialport.WriteLine("ON");
+                _serialport.WriteLine("start");
 
 
                 
@@ -86,7 +85,16 @@ namespace Rocket_TM_BSC.Model
                         }
                         
                     }
-                    cap1_DataProcessing.Cap1DataQueue.Enqueue(buffer);
+                    byte[] CheckByte = new byte[4] { buffer[0], buffer[1], buffer[2], buffer[3] };
+                    if (BitConverter.ToInt32(CheckByte,0) == 0x0421523)
+                    {
+                        cap1_DataProcessing.Cap1DataQueue.Enqueue(buffer);
+                    }
+                    else
+                    {
+                        _serialport.DiscardInBuffer();
+                        lost_frames++;
+                    }
 
                 }
                 
@@ -100,7 +108,7 @@ namespace Rocket_TM_BSC.Model
 
         private SerialPort _serialport;
 
-        public void OpenNewPort(string COM, int Baud, Parity parity, int dataBits, StopBits stopBits)
+        public void OpenNewPort(string COM)
         {
             try
             {

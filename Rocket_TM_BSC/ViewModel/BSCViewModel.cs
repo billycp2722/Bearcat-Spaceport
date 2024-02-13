@@ -21,7 +21,17 @@ using System.Collections.ObjectModel;
 using System.IO.Ports;
 using SciChart.Core.Extensions;
 using System.Diagnostics;
+using GMap.NET.WindowsPresentation;
+using GMap.NET;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
+
+// Welcome to the Bearcat Spaceport Cup Telemetry GUI
+// The GUI source is C# written in an MVVM format
+// Background Workers are used in model files to create asynch functions that do not affect the UI Thread
+// A license to a charting library called SciCharts is required. Students can request educational licenses through their website
+// -Carson Billy
 namespace Rocket_TM_BSC.ViewModel
 {
 
@@ -143,12 +153,82 @@ namespace Rocket_TM_BSC.ViewModel
                     //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
                     try
                     {
+                        // Replace Rocket_Data with Cap1 info
                         Rocket_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
 
-                        dataSeriesCap1G1.Append(i, cap1Val[8]);
-                        dataSeriesCap1G2.Append(i, cap1Val[11]);
-                        dataSeriesCap1G3.Append(i, cap1Val[12]);
-                        dataSeriesCap1G5.Append(i, cap1Val[3]);
+                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
+                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
+                        dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
+                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
+                        dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+
+                        Cap1_GPSLat = cap1Val[0].ToString();
+                        Cap1_GPSLon = cap1Val[1].ToString();
+                        Cap1_SatCount = cap1Val[3].ToString();
+                        Cap1_Alt = cap1Val[10].ToString();
+
+                        // Velocity will have to be a seperate thing from accel data
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            if (Cap1LinkOpen)
+            {
+                while (Cap1_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
+                {
+                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+                    try
+                    {
+                        // Replace Rocket_Data with Cap1 info
+                        Cap1_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+
+                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
+                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
+                        dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
+                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
+                        dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+
+                        Cap1_GPSLat = cap1Val[0].ToString();
+                        Cap1_GPSLon = cap1Val[1].ToString();
+                        Cap1_SatCount = cap1Val[3].ToString();
+                        Cap1_Alt = cap1Val[10].ToString();
+
+                        // Velocity will have to be a seperate thing from accel data
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+
+            if (Cap2LinkOpen)
+            {
+                while (Cap2_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
+                {
+                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+                    try
+                    {
+                        // Replace Rocket_Data with Cap1 info
+                        Cap2_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+
+                        dataSeriesCap2G1.Append(i, cap1Val[11]); // Alt
+                        dataSeriesCap2G2.Append(i, cap1Val[8]); // Velo
+                        //dataSeriesCap2G3.Append(i, cap1Val[12]); // Temp
+                        //dataSeriesCap2G4.Append(i, cap1Val[11]); // VOC
+                        dataSeriesCap2G5.Append(i, cap1Val[3]); // Sat Count
+
+                        Cap2_GPSLat = cap1Val[0].ToString();
+                        Cap2_GPSLon = cap1Val[1].ToString();
+                        Cap2_SatCount = cap1Val[3].ToString();
+                        Cap2_Alt = cap1Val[10].ToString();
+
+                        // Velocity will have to be a seperate thing from accel data
                         i++;
                     }
                     catch (Exception ex)
@@ -331,7 +411,6 @@ namespace Rocket_TM_BSC.ViewModel
         // Updates COM port list
         public void UpdateComPort(object obj)
         {
-
             //throw new NotImplementedException();
             RocketCOMPortList.Clear();
             string[] portNames = SerialPort.GetPortNames();
@@ -346,7 +425,6 @@ namespace Rocket_TM_BSC.ViewModel
                     RocketCOMPortList.Add(portName);
                 }
             }
-
         }
 
         public bool CanUpdateComPort(object obj)
@@ -357,8 +435,8 @@ namespace Rocket_TM_BSC.ViewModel
         // Opens the rocket TM COM port
         public void OpenRocketCOM(object obj)
         {
-            Console.WriteLine(RocketCOM);
-            Rocket_Data.OpenNewPort(RocketCOM, 115200, Parity.None, 8, StopBits.One);
+            //Console.WriteLine(RocketCOM);
+            Rocket_Data.OpenNewPort(RocketCOM);
             RocketLinkOpen = true;
             WakeRocket.RaiseCanExecuteChanged();
             StatusCheckRocket.RaiseCanExecuteChanged();
@@ -373,8 +451,8 @@ namespace Rocket_TM_BSC.ViewModel
         // Opens capsule 1's COM port
         public void OpenCap1COM(object obj)
         {
-            Console.WriteLine(RocketCOM);
-            Cap1_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            //Console.WriteLine(RocketCOM);
+            Cap1_Data.OpenNewPort(Cap1COM);
             Cap1LinkOpen = true;
             WakeCap1.RaiseCanExecuteChanged();
             StatusCheckCap1.RaiseCanExecuteChanged();
@@ -388,8 +466,8 @@ namespace Rocket_TM_BSC.ViewModel
         // Opens capsule 2's COM port
         public void OpenCap2COM(object obj)
         {
-            Console.WriteLine(RocketCOM);
-            Cap2_Data.OpenNewPort(RocketCOM, 230400, Parity.None, 8, StopBits.One);
+            //Console.WriteLine(RocketCOM);
+            Cap2_Data.OpenNewPort(Cap2COM);
             Cap2LinkOpen = true;
             WakeCap2.RaiseCanExecuteChanged();
             StatusCheckCap2.RaiseCanExecuteChanged();
@@ -476,6 +554,23 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         #endregion
+
+        // Mapping
+        #region Mapping Functions
+        private void AddLatLon(double Lat, double Lon, string Cap_Num)
+        {
+            GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
+            marker.Shape = new Image
+            {
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            };
+        }
+        
+        
+        #endregion
+
 
         #region SciChartTests
         public static Stream StringToStream(string src)
