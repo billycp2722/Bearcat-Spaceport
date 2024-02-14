@@ -588,6 +588,7 @@ namespace Rocket_TM_BSC.ViewModel
         private ObservableCollection<IRenderableSeriesViewModel> graph3Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph4Series { get; set; }
         private ObservableCollection<IRenderableSeriesViewModel> graph5Series { get; set; }
+        private ObservableCollection<IRenderableSeriesViewModel> graph6Series { get; set; }
         public ObservableCollection<IRenderableSeriesViewModel> Graph1Series
         {
             get => graph1Series;
@@ -634,6 +635,16 @@ namespace Rocket_TM_BSC.ViewModel
             }
         }
 
+        public ObservableCollection<IRenderableSeriesViewModel> Graph6Series
+        {
+            get => graph6Series;
+            set
+            {
+                graph6Series = value;
+                OnPropertyChanged(nameof(Graph6Series));
+            }
+        }
+
 
         private XyDataSeries<double, double> dataSeriesCap1G1;
         private XyDataSeries<double, double> dataSeriesCap2G1;
@@ -655,6 +666,10 @@ namespace Rocket_TM_BSC.ViewModel
         private XyDataSeries<double, double> dataSeriesCap2G5;
         private XyDataSeries<double, double> dataSeriesRocketG5;
 
+        private XyDataSeries<double, double> dataSeriesCap1G6;
+        private XyDataSeries<double, double> dataSeriesCap2G6;
+        
+
         private void InitializeGraph()
         {
             Graph1Series = new ObservableCollection<IRenderableSeriesViewModel>();
@@ -662,6 +677,7 @@ namespace Rocket_TM_BSC.ViewModel
             Graph3Series = new ObservableCollection<IRenderableSeriesViewModel>();
             Graph4Series = new ObservableCollection<IRenderableSeriesViewModel>();
             Graph5Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph6Series = new ObservableCollection<IRenderableSeriesViewModel>();
 
 
             // Payload
@@ -714,6 +730,16 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G5.AcceptsUnsortedData = true;
             dataSeriesCap2G5.AcceptsUnsortedData = true;
             dataSeriesRocketG5.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G6 = new XyDataSeries<double, double>();
+            dataSeriesCap2G6 = new XyDataSeries<double, double>();
+            
+            dataSeriesCap1G6.SeriesName = "Capsule 1";
+            dataSeriesCap2G6.SeriesName = "Capsule 2";
+            
+            dataSeriesCap1G6.AcceptsUnsortedData = true;
+            dataSeriesCap2G6.AcceptsUnsortedData = true;
+            
 
             // Chart 1
             Graph1Series.Add(new LineRenderableSeriesViewModel
@@ -852,9 +878,414 @@ namespace Rocket_TM_BSC.ViewModel
             //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
             //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
             //});
-            
+
+            Graph6Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G6,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph6Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G6,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
         }
 
+        #endregion
+
+        #region Data Replay Graphs
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph7Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph7Series
+        {
+            get => graph7Series;
+            set
+            {
+                graph7Series = value;
+                OnPropertyChanged(nameof(Graph7Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph8Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph8Series
+        {
+            get => graph8Series;
+            set
+            {
+                graph8Series = value;
+                OnPropertyChanged(nameof(Graph8Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph9Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph9Series
+        {
+            get => graph9Series;
+            set
+            {
+                graph9Series = value;
+                OnPropertyChanged(nameof(Graph9Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph10Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph10Series
+        {
+            get => graph10Series;
+            set
+            {
+                graph10Series = value;
+                OnPropertyChanged(nameof(Graph10Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph11Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph11Series
+        {
+            get => graph11Series;
+            set
+            {
+                graph11Series = value;
+                OnPropertyChanged(nameof(Graph11Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph12Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph12Series
+        {
+            get => graph12Series;
+            set
+            {
+                graph12Series = value;
+                OnPropertyChanged(nameof(Graph12Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph13Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph13Series
+        {
+            get => graph3Series;
+            set
+            {
+                graph13Series = value;
+                OnPropertyChanged(nameof(Graph3Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph14Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph14Series
+        {
+            get => graph14Series;
+            set
+            {
+                graph14Series = value;
+                OnPropertyChanged(nameof(Graph14Series));
+            }
+        }
+
+        private ObservableCollection<IRenderableSeriesViewModel> graph15Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph15Series
+        {
+            get => graph15Series;
+            set
+            {
+                graph15Series = value;
+                OnPropertyChanged(nameof(Graph15Series));
+            }
+        }
+
+        private XyDataSeries<double, double> dataSeriesCap1G7;
+        private XyDataSeries<double, double> dataSeriesCap2G7;
+
+        private XyDataSeries<double, double> dataSeriesCap1G8;
+        private XyDataSeries<double, double> dataSeriesCap2G8;
+
+        private XyDataSeries<double, double> dataSeriesCap1G9;
+        private XyDataSeries<double, double> dataSeriesCap2G9;
+
+        private XyDataSeries<double, double> dataSeriesCap1G10;
+        private XyDataSeries<double, double> dataSeriesCap2G10;
+
+        private XyDataSeries<double, double> dataSeriesCap1G11;
+        private XyDataSeries<double, double> dataSeriesCap2G11;
+
+        private XyDataSeries<double, double> dataSeriesCap1G12;
+        private XyDataSeries<double, double> dataSeriesCap2G12;
+
+        private XyDataSeries<double, double> dataSeriesCap1G13;
+        private XyDataSeries<double, double> dataSeriesCap2G13;
+
+        private XyDataSeries<double, double> dataSeriesCap1G14;
+        private XyDataSeries<double, double> dataSeriesCap2G14;
+
+        private XyDataSeries<double, double> dataSeriesCap1G15;
+        private XyDataSeries<double, double> dataSeriesCap2G15;
+
+
+
+        private void InitializeGraph_Replay()
+        {
+            Graph7Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph8Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph9Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph10Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph11Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph12Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph13Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph14Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph15Series = new ObservableCollection<IRenderableSeriesViewModel>();
+
+
+            // Payload
+            dataSeriesCap1G7 = new XyDataSeries<double, double>();
+            dataSeriesCap2G7 = new XyDataSeries<double, double>();
+            dataSeriesCap1G7.SeriesName = "Capsule 1";
+            dataSeriesCap2G7.SeriesName = "Capsule 2";
+            dataSeriesCap1G7.AcceptsUnsortedData = true;
+            dataSeriesCap2G7.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G8 = new XyDataSeries<double, double>();
+            dataSeriesCap2G8 = new XyDataSeries<double, double>();
+            dataSeriesCap1G8.SeriesName = "Capsule 1";
+            dataSeriesCap2G8.SeriesName = "Capsule 2";
+            dataSeriesCap1G8.AcceptsUnsortedData = true;
+            dataSeriesCap2G8.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G9 = new XyDataSeries<double, double>();
+            dataSeriesCap2G9 = new XyDataSeries<double, double>();
+            dataSeriesCap1G9.SeriesName = "Capsule 1";
+            dataSeriesCap2G9.SeriesName = "Capsule 2";
+            dataSeriesCap1G9.AcceptsUnsortedData = true;
+            dataSeriesCap2G9.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G10 = new XyDataSeries<double, double>();
+            dataSeriesCap2G10 = new XyDataSeries<double, double>();
+            dataSeriesCap1G10.SeriesName = "Capsule 1";
+            dataSeriesCap2G10.SeriesName = "Capsule 2";
+            dataSeriesCap1G10.AcceptsUnsortedData = true;
+            dataSeriesCap2G10.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G11 = new XyDataSeries<double, double>();
+            dataSeriesCap2G11 = new XyDataSeries<double, double>();
+            dataSeriesCap1G11.SeriesName = "Capsule 1";
+            dataSeriesCap2G11.SeriesName = "Capsule 2";
+            dataSeriesCap1G11.AcceptsUnsortedData = true;
+            dataSeriesCap2G11.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G12 = new XyDataSeries<double, double>();
+            dataSeriesCap2G12 = new XyDataSeries<double, double>();
+            dataSeriesCap1G12.SeriesName = "Capsule 1";
+            dataSeriesCap2G12.SeriesName = "Capsule 2";
+            dataSeriesCap1G12.AcceptsUnsortedData = true;
+            dataSeriesCap2G12.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G13 = new XyDataSeries<double, double>();
+            dataSeriesCap2G13 = new XyDataSeries<double, double>();
+            dataSeriesCap1G13.SeriesName = "Capsule 1";
+            dataSeriesCap2G13.SeriesName = "Capsule 2";
+            dataSeriesCap1G13.AcceptsUnsortedData = true;
+            dataSeriesCap2G13.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G14 = new XyDataSeries<double, double>();
+            dataSeriesCap2G14 = new XyDataSeries<double, double>();
+            dataSeriesCap1G14.SeriesName = "Capsule 1";
+            dataSeriesCap2G14.SeriesName = "Capsule 2";
+            dataSeriesCap1G14.AcceptsUnsortedData = true;
+            dataSeriesCap2G14.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G15 = new XyDataSeries<double, double>();
+            dataSeriesCap2G15 = new XyDataSeries<double, double>();
+            dataSeriesCap1G15.SeriesName = "Capsule 1";
+            dataSeriesCap2G15.SeriesName = "Capsule 2";
+            dataSeriesCap1G15.AcceptsUnsortedData = true;
+            dataSeriesCap2G15.AcceptsUnsortedData = true;
+
+
+            // Chart 1
+            Graph7Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G7,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph7Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G7,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            // Chart 2
+            Graph8Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G8,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph8Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G8,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            
+
+            // Chart 3
+            Graph9Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G9,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph9Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G9,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+
+            // Chart 4
+            Graph10Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G10,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph10Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G10,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            
+            // Chart 5
+            Graph11Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G11,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph11Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G11,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            
+            // Chart 5
+            Graph12Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G12,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph12Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G12,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            // Chart 5
+            Graph13Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G13,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph13Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G13,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            // Chart 5
+            Graph14Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G14,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph14Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G14,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            // Chart 5
+            Graph15Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G15,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph15Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G15,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+        }
         #endregion
     }
 }

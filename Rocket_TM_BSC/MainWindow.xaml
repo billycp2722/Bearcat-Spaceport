@@ -580,6 +580,36 @@
                             <TextBlock Text="Data Point 8" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
                             <TextBox Text="{Binding DP_8}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
                         </Grid>
+
+                        <Border BorderBrush="White" BorderThickness="1" Margin="0,10,0,10"/>
+                        <Button Content="Select Capsule 1 Replay File" Command="{Binding Cap1FileCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10"/>
+                        <TextBox Text="{Binding Cap1ReplayFile}" Margin="10,0,0,10"/>
+
+                        <Button Content="Select Capsule 2 Replay File" Command="{Binding Cap2FileCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10"/>
+                        <TextBox Text="{Binding Cap2ReplayFile}" Margin="10,0,0,10"/>
+
+                        <Border BorderBrush="White" BorderThickness="1" Margin="0,10,0,10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Content="Start Replay" Command="{Binding StartReplayCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10"/>
+                            <Button Content="Stop Replay" Grid.Column="1" Command="{Binding StopReplayCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10"/>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Content="Restart Replay" Command="{Binding RestartReplayCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10,0,10,0"/>
+                            
+                        </Grid>
+
+
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <controls:Graph7 Height="250"/>   

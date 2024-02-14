@@ -48,19 +48,19 @@ namespace Rocket_TM_BSC.Model
         // All
         private double[] DP1; // Lat
         private double[] DP2; // Lon
-        private double[] DP3; // gpsAlt
-        private double[] DP4; // satCount
+        private double[] DP3; // gpsAlt G7
+        private double[] DP4; // satCount G8
         private double[] DP5; // timestamp // Odd Formating, no zero padding
-        private double[] DP6; // accelX
+        private double[] DP6; // accelX G9
         private double[] DP7; // accelY
         private double[] DP8; // accelZ
-        private double[] DP9; // baroAlt
+        private double[] DP9; // baroAlt G7
 
         // Atmos Capsule
-        private double[] DP10; // VOC
-        private double[] DP11; // Humid 
-        private double[] DP12; // Temp
-        private double[] DP13; // gyroX
+        private double[] DP10; // VOC G10
+        private double[] DP11; // Humid G11
+        private double[] DP12; // Temp G12
+        private double[] DP13; // gyroX G13
         private double[] DP14; // gyroY
         private double[] DP15; // gyroZ
         
