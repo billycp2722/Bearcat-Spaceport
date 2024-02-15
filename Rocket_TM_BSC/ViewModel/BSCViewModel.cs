@@ -170,7 +170,7 @@ namespace Rocket_TM_BSC.ViewModel
             _timer.Start();
 
             //_ReplayTimer = new DispatcherTimer();
-            //_ReplayTimer.Interval = TimeSpan.FromMilliseconds(5);
+            //_ReplayTimer.Interval = TimeSpan.FromMilliseconds(20); // Hz? 20ms = 50hz, 10ms = 100 hz 5ms = 200 hz
             //_ReplayTimer.Tick += _ReplayTimer_Tick; ;
             //_ReplayTimer.Start();
 
@@ -283,8 +283,35 @@ namespace Rocket_TM_BSC.ViewModel
             
         }
 
+        private int replayCount = 0;
+        private bool ReplayStart = false;
+        private bool ReplayStop = true;
+        private bool ReplayRestart = false;
+        private int Countmax = 1;
         private void _ReplayTimer_Tick(object sender, EventArgs e)
         {
+            if (!ReplayStop)
+            {
+                if (ReplayRestart)
+                {
+                    replayCount = Countmax; // Sends to Restart Loop
+                    ReplayRestart = false;
+                }
+                if (replayCount < Countmax && ReplayStart)
+                {
+                    // Add data to plots. Set timer tick to represent sample rate
+                    replayCount++;
+                }
+                if (replayCount >= 1)
+                {
+                    replayCount = 0;
+                    // Clear Graphs
+                    // Restarts the data replay
+                }
+            }
+           
+            
+            // Use concurrent queue or use indivud
             // Add all graphing and data display for data replay tab
         }
 
