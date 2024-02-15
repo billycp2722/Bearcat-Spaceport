@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -39,6 +40,12 @@ namespace Rocket_TM_BSC.Model
             DataWorker.RunWorkerAsync();
         }
 
+        public void RunDataPlayback(string filename, string filename2)
+        {
+            filepath = filename;
+            DataWorker.RunWorkerAsync();
+        }
+
         private void DataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -63,9 +70,12 @@ namespace Rocket_TM_BSC.Model
         private double[] DP13; // gyroX G13
         private double[] DP14; // gyroY
         private double[] DP15; // gyroZ
-        
+
         // Graph Count 1 2 3 4 5 6 7 8 9
         // Graph 10, velocity magnitudes
+
+        public ConcurrentQueue<double[]> Cap1Replay;
+        public ConcurrentQueue<double[]> Cap2Replay;
         private void LoadCsv (string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
@@ -129,8 +139,12 @@ namespace Rocket_TM_BSC.Model
 
         private void DisplayData()
         {
+            Cap1Replay = new ConcurrentQueue<double[]>();
+            Cap2Replay = new ConcurrentQueue<double[]>();
            for (int i = 0; i < DP1.Length; i++)
             {
+                double[] c1ReplayOut = new double[15] { DP1[i], DP2[i], DP3[i], DP4[i], DP5[i], DP6[i], DP7[i], DP8[i], DP9[i], DP10[i], DP11[i], DP12[i], DP13[i], DP14[i], DP15[i] };
+                Cap1Replay.Enqueue(c1ReplayOut);
                 // Use concurrent queues to send data to GUI for updating on specical timer tick
                 // Do we try to time sync? Don't know how to do that. GPS time polling is limited, maybe add a delta t to csv data logger
             }

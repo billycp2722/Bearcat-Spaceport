@@ -25,6 +25,7 @@ using GMap.NET.WindowsPresentation;
 using GMap.NET;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Forms;
 
 
 // Welcome to the Bearcat Spaceport Cup Telemetry GUI
@@ -50,6 +51,15 @@ namespace Rocket_TM_BSC.ViewModel
         public ViewCommand WakeRocket { get; set; }
         public ViewCommand WakeCap1 { get; set; }
         public ViewCommand WakeCap2 { get; set; }
+
+        public ViewCommand Cap1ReplayCommand { get; set; }
+        public ViewCommand Cap2ReplayCommand { get; set; }
+        public ViewCommand StartReplayCommand { get; set; }
+        public ViewCommand StopReplayCommand { get; set; }
+        public ViewCommand RestartReplayCommand { get; set; }
+
+        private string cap1ReplayFile = null;
+        private string cap2ReplayFile = null;
 
         // Class Instances
         private DispatcherTimer _timer;
@@ -104,19 +114,49 @@ namespace Rocket_TM_BSC.ViewModel
             WakeRocket = new ViewCommand(WakeUpRocket, CanWakeUpRocket);
             WakeCap1 = new ViewCommand(WakeUpCap1, CanWakeUpCap1);
             WakeCap2 = new ViewCommand(WakeUpCap2, CanWakeUpCap2);
-            
+
+            Cap1ReplayCommand = new ViewCommand(Cap1Replay, CanCap1Replay);
+            Cap2ReplayCommand = new ViewCommand(Cap2Replay, CanCap2Replay);
+            StopReplayCommand = new ViewCommand(StopReplay, CanStopReplay);
+            StartReplayCommand = new ViewCommand(StartReplay, CanStartReplay);
+            RestartReplayCommand = new ViewCommand(RestartReplay, CanRestartReplay);
+
             InitializeGraph();
+            
+            InitializeGraph_Replay();
             dataSeriesCap1G1.AcceptsUnsortedData = true; // Alt graph
             dataSeriesCap1G2.AcceptsUnsortedData = true; // Velocity Graph
             dataSeriesCap1G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
             dataSeriesCap1G4.AcceptsUnsortedData = true; // VOC Graph
             dataSeriesCap1G5.AcceptsUnsortedData = true; // Satalite Count Graph
+            dataSeriesCap1G6.AcceptsUnsortedData = true;
+            // Data Replay Graphs
+            dataSeriesCap1G7.AcceptsUnsortedData = true;
+            dataSeriesCap1G8.AcceptsUnsortedData = true;
+            dataSeriesCap1G9.AcceptsUnsortedData = true;
+            dataSeriesCap1G10.AcceptsUnsortedData = true;
+            dataSeriesCap1G11.AcceptsUnsortedData = true;
+            dataSeriesCap1G12.AcceptsUnsortedData = true;
+            dataSeriesCap1G13.AcceptsUnsortedData = true;
+            dataSeriesCap1G14.AcceptsUnsortedData = true;
+            dataSeriesCap1G15.AcceptsUnsortedData = true;
 
             dataSeriesCap2G1.AcceptsUnsortedData = true; // Alt graph
             dataSeriesCap2G2.AcceptsUnsortedData = true; // Velocity Graph
             dataSeriesCap2G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
             dataSeriesCap2G4.AcceptsUnsortedData = true; // VOC Grap
-            dataSeriesCap2G5.AcceptsUnsortedData = true; // Satalite Count Graph
+            dataSeriesCap2G5.AcceptsUnsortedData = true;  // Satalite Count Graph
+            dataSeriesCap2G6.AcceptsUnsortedData = true; // Pressure
+            // Data Replay Graphs
+            dataSeriesCap2G7.AcceptsUnsortedData = true;
+            dataSeriesCap2G8.AcceptsUnsortedData = true;
+            dataSeriesCap2G9.AcceptsUnsortedData = true;
+            dataSeriesCap2G10.AcceptsUnsortedData = true;
+            dataSeriesCap2G11.AcceptsUnsortedData = true;
+            dataSeriesCap2G12.AcceptsUnsortedData = true;
+            dataSeriesCap2G13.AcceptsUnsortedData = true;
+            dataSeriesCap2G14.AcceptsUnsortedData = true;
+            dataSeriesCap2G15.AcceptsUnsortedData = true;
 
             dataSeriesRocketG1.AcceptsUnsortedData = true; // Alt graph
             dataSeriesRocketG2.AcceptsUnsortedData = true;
@@ -252,6 +292,19 @@ namespace Rocket_TM_BSC.ViewModel
 
         #region Public Bindings
         // Sets all data bindings linking the mainwindow.xaml to the view model
+
+        public string Cap1ReplayFile
+        {
+            get { return cap1ReplayFile; }
+            set { cap1ReplayFile = value; OnPropertyChanged("Cap1ReplayFile"); }
+        }
+        public string Cap2ReplayFile
+        {
+            get { return cap2ReplayFile; }
+            set { cap2ReplayFile = value; OnPropertyChanged("Cap2ReplayFile"); }
+        }
+        
+
         public string RocketPosition
         {
             get { return rocketposition; }
@@ -553,6 +606,70 @@ namespace Rocket_TM_BSC.ViewModel
             return Cap2LinkOpen;
         }
 
+        private OpenFileDialog ofd;
+        private OpenFileDialog ofd2;
+        public void Cap1Replay(object obj)
+        {
+            ofd = new OpenFileDialog();
+            ofd.Filter = "csv files (*.csv)|*.csv";
+            ofd.ShowDialog();
+            string cap1ReplayPath = ofd.FileName;
+            Cap1ReplayFile = cap1ReplayPath;
+        }
+
+        public bool CanCap1Replay(object obj)
+        {
+            return true;
+        }
+
+
+        public void Cap2Replay(object obj)
+        {
+            ofd2 = new OpenFileDialog();
+            ofd2.Filter = "csv files (*.csv)|*.csv";
+            ofd2.ShowDialog();
+            string cap2ReplayPath = ofd2.FileName;
+            Cap2ReplayFile = cap2ReplayPath;
+        }
+
+        
+        public bool CanCap2Replay(object obj)
+        {
+            return true;
+        }
+
+        private DataReplay_Cap1 _cap1Replay;
+        private DataReplay_Cap1 _cap2Replay;
+        public void StartReplay(object obj)
+        {
+            _cap1Replay = new DataReplay_Cap1();
+            _cap1Replay.RunDataPlayback(Cap1ReplayFile,Cap2ReplayFile);
+        }
+
+        public bool CanStartReplay(object obj)
+        {
+            return true;
+        }
+
+        public void StopReplay(object obj)
+        {
+
+        }
+
+        public bool CanStopReplay(object obj)
+        {
+            return true;
+        }
+
+        public void RestartReplay(object obj)
+        {
+
+        }
+
+        public bool CanRestartReplay(object obj)
+        {
+            return true;
+        }
         #endregion
 
         // Mapping
@@ -788,15 +905,7 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            //Graph2Series.Add(new LineRenderableSeriesViewModel
-            //{
-            //    DataSeries = dataSeriesRocketG2,
-            //    AntiAliasing = false,
-            //    StrokeThickness = 1,
-            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            //});
-
+            
             // Chart 3
             Graph3Series.Add(new LineRenderableSeriesViewModel
             {
@@ -816,14 +925,7 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            //Graph3Series.Add(new LineRenderableSeriesViewModel
-            //{
-            //    DataSeries = dataSeriesRocketG3,
-            //    AntiAliasing = false,
-            //    StrokeThickness = 1,
-            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            //});
+           
             // Chart 4
             Graph4Series.Add(new LineRenderableSeriesViewModel
             {
@@ -843,14 +945,7 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            //Graph4Series.Add(new LineRenderableSeriesViewModel
-            //{
-            //    DataSeries = dataSeriesRocketG4,
-            //    AntiAliasing = false,
-            //    StrokeThickness = 1,
-            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            //});
+           
             // Chart 5
             Graph5Series.Add(new LineRenderableSeriesViewModel
             {
@@ -870,15 +965,8 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            //Graph5Series.Add(new LineRenderableSeriesViewModel
-            //{
-            //    DataSeries = dataSeriesRocketG5,
-            //    AntiAliasing = false,
-            //    StrokeThickness = 1,
-            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-            //    Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
-            //});
-
+            
+            // Graph 6
             Graph6Series.Add(new LineRenderableSeriesViewModel
             {
                 DataSeries = dataSeriesCap1G6,
