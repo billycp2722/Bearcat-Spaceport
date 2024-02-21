@@ -39,7 +39,7 @@ namespace Rocket_TM_BSC.Model
         public ConcurrentQueue<string> TMData;
         public ConcurrentQueue<string> CommandStringTM1;
         private string command_on = "ON";
-        public Cap1_DataProcessing cap1_DataProcessing;
+        public Cap1_DataProcessing_Hex cap1_DataProcessing_Hex;
         public int lost_frames = 0;
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -47,9 +47,9 @@ namespace Rocket_TM_BSC.Model
             {
                 
                 CommandStringTM1 = new ConcurrentQueue<string>();
-                cap1_DataProcessing = new Cap1_DataProcessing();
+                cap1_DataProcessing_Hex = new Cap1_DataProcessing_Hex();
                 //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
-                cap1_DataProcessing.StartCap1DataProcess();
+                cap1_DataProcessing_Hex.StartCap1DataProcess();
                 TMData = new ConcurrentQueue<string>();
 
                 _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
@@ -84,17 +84,19 @@ namespace Rocket_TM_BSC.Model
                             _serialport.WriteLine(command);
                         }
                         
+
                     }
-                    byte[] CheckByte = new byte[2] { buffer[77], buffer[78] };
-                    if (Encoding.UTF8.GetString(CheckByte) == "\n")
-                    {
-                        cap1_DataProcessing.Cap1DataQueue.Enqueue(buffer);
-                    }
-                    else
-                    {
-                        _serialport.DiscardInBuffer();
-                        lost_frames++;
-                    }
+                    //Console.Write(Encoding.UTF8.GetString(buffer));
+                    //byte[] CheckByte = new byte[2] { buffer[77], buffer[78] };
+                    //if (Encoding.UTF8.GetString(CheckByte) == "\n")
+                    //{
+                        cap1_DataProcessing_Hex.Cap1DataQueue_Hex.Enqueue(buffer);
+                    //}
+                    //else
+                    //{
+                    //    _serialport.DiscardInBuffer();
+                    //    lost_frames++;
+                    //}
 
                 }
                 

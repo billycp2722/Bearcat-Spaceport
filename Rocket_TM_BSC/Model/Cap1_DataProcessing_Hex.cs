@@ -6,8 +6,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
+using static xqp;
 
 namespace Rocket_TM_BSC.Model
 {
@@ -72,32 +75,31 @@ namespace Rocket_TM_BSC.Model
         {
             string ConvertedString = Encoding.UTF8.GetString(buffer);
             string[] StringList = ConvertedString.Split(',');
+            //Console.WriteLine(StringList.Length);
+            //Console.WriteLine(StringList[13]);
             if (StringList.Length == 14)
             {
 
-                double Lat_int = StringList[0].ToDouble(); // Has +/-
-                
-                double Lon_int = StringList[1].ToDouble(); // Has +/-
-                double MS_int = StringList[2].ToDouble();
-                double SatCoun_int = StringList[3].ToDouble();
-                double GyroX_int = StringList[4].ToDouble(); // Has +/-
-                double GyroY_int = StringList[5].ToDouble(); // Has +/-
-                double GyroZ_int = StringList[6].ToDouble(); // Has +/-
-                double AccelX_int = StringList[7].ToDouble();// Has +/-
-                double AccelY_int = StringList[8].ToDouble();// Has +/-
-                double AccelZ_int = StringList[9].ToDouble();// Has +/-
-                double Alt_int = StringList[10].ToDouble(); // Has +/-
-                double VOC_int = StringList[11].ToDouble(); 
-                double Temp_int = StringList[12].ToDouble(); // Has +/-
-                double Humid_int = StringList[13].ToDouble();
+                string Lat_int = ConvertFromHex(StringList[0]); // Has +/-
+                string Lon_int = ConvertFromHex(StringList[1]); // Has +/-
+                string MS_int = ConvertFromHex(StringList[2]);
+                string SatCoun_int = ConvertFromHex(StringList[3]);
+                string GyroX_int = ConvertFromHex(StringList[4]); // Has +/-
+                string GyroY_int = ConvertFromHex(StringList[5]); // Has +/-
+                string GyroZ_int = ConvertFromHex(StringList[6]); // Has +/-
+                string AccelX_int = ConvertFromHex(StringList[7]);// Has +/-
+                string AccelY_int = ConvertFromHex(StringList[8]);// Has +/-
+                string AccelZ_int = ConvertFromHex(StringList[9]);// Has +/-
+                string Alt_int = ConvertFromHex(StringList[10]); // Has +/-
+                string VOC_int = ConvertFromHex(StringList[11]);
+                string Temp_int = ConvertFromHex(StringList[12]); // Has +/-
+                string Humid_int = ConvertFromHex(StringList[13]);
 
-
-
-                double[] Cap1DataOut = new double[14] { Lat_int, Lon_int, MS_int, SatCoun_int, GyroX_int, GyroY_int, GyroZ_int, AccelX_int, AccelY_int, AccelZ_int, Alt_int, VOC_int, Temp_int, Humid_int };
+                string[] Cap1DataOut = new string[14] { Lat_int, Lon_int, MS_int, SatCoun_int, GyroX_int, GyroY_int, GyroZ_int, AccelX_int, AccelY_int, AccelZ_int, Alt_int, VOC_int, Temp_int, Humid_int };
                 //string output = "";
 
-                //Console.WriteLine(Cap1DataOut[0] + "," + Cap1DataOut[1] + "," + Cap1DataOut[2] + "," + Cap1DataOut[3] + "," + Cap1DataOut[4] + "," + Cap1DataOut[5] + "," + Cap1DataOut[6] + "," + Cap1DataOut[7] + "," + Cap1DataOut[8] + "," + Cap1DataOut[9] + "," + Cap1DataOut[10] + "," + Cap1DataOut[11] + "," + Cap1DataOut[12] + "," + Cap1DataOut[13]);
-                Cap1_DataOut_Hex.Enqueue(Cap1DataOut);
+                Console.WriteLine(Cap1DataOut[0] + "," + Cap1DataOut[1] + "," + Cap1DataOut[2] + "," + Cap1DataOut[3] + "," + Cap1DataOut[4] + "," + Cap1DataOut[5] + "," + Cap1DataOut[6] + "," + Cap1DataOut[7] + "," + Cap1DataOut[8] + "," + Cap1DataOut[9] + "," + Cap1DataOut[10] + "," + Cap1DataOut[11] + "," + Cap1DataOut[12] + "," + Cap1DataOut[13]);
+                //Cap1_DataOut_Hex.Enqueue(Cap1DataOut);
             }
             else
             {
@@ -108,25 +110,57 @@ namespace Rocket_TM_BSC.Model
         public string ConvertFromHex(string HexValue)
         {
             string output = "";
+            //Console.WriteLine(HexValue);
             try
             {
-                if (HexValue.StartsWith("+") || HexValue.StartsWith("-"))
+                if (IsHexString(HexValue))
                 {
-                    char index = HexValue.First();
-                    string tmp = HexValue;
+                    if (HexValue.StartsWith("+"))
+                    {
+
+                        //Console.WriteLine("1:" + HexValue);
+                        int val = Convert.ToInt32(HexValue, 16);
+                        output = val.ToString();
+                    }
+                    else if (HexValue.StartsWith("-"))
+                    {
+
+                        string tmp = HexValue.Substring(1);
+                        int val = Convert.ToInt32(tmp, 16);
+                        val = -val;
+                        output = val.ToString();
+                    }
+                    else
+                    {
+                        //Console.WriteLine("2:" + HexValue);
+                        int val = Convert.ToInt32(HexValue, 16);
+
+                        output = val.ToString();
+                    }
                 }
                 else
                 {
-
+                    if (HexValue.Length == 1)
+                    {
+                        // Convert the single character to its ASCII value
+                        int val = (int)HexValue[0];
+                        output = val.ToString();
+                    }
                 }
-
             }
-            catch
+            catch 
             {
 
             }
 
             return output;
+        }
+
+        private bool IsHexString(string hexString)
+        {
+            // Regular expression to match hexadecimal string
+            string pattern = "^[0-9A-Fa-f]+$";
+            return Regex.IsMatch(hexString, pattern);
         }
     }
 }

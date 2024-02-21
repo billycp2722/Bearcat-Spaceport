@@ -188,13 +188,13 @@ namespace Rocket_TM_BSC.ViewModel
             //stopwatch.Start();
             if (RocketLinkOpen)
             {
-                while (Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
+                while (Rocket_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.Count > 0)
                 {
                     //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
                     try
                     {
                         // Replace Rocket_Data with Cap1 info
-                        Rocket_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+                        Rocket_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
 
                         dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
                         dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
@@ -216,67 +216,67 @@ namespace Rocket_TM_BSC.ViewModel
                     }
                 }
             }
-            if (Cap1LinkOpen)
-            {
-                while (Cap1_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
-                {
-                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
-                    try
-                    {
-                        // Replace Rocket_Data with Cap1 info
-                        Cap1_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+            //if (Cap1LinkOpen)
+            //{
+            //    while (Cap1_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
+            //    {
+            //        //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+            //        try
+            //        {
+            //            // Replace Rocket_Data with Cap1 info
+            //            Cap1_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
 
-                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
-                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
-                        dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
-                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
-                        dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+            //            dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
+            //            dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
+            //            dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
+            //            dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
+            //            dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
 
-                        Cap1_GPSLat = cap1Val[0].ToString();
-                        Cap1_GPSLon = cap1Val[1].ToString();
-                        Cap1_SatCount = cap1Val[3].ToString();
-                        Cap1_Alt = cap1Val[10].ToString();
+            //            Cap1_GPSLat = cap1Val[0].ToString();
+            //            Cap1_GPSLon = cap1Val[1].ToString();
+            //            Cap1_SatCount = cap1Val[3].ToString();
+            //            Cap1_Alt = cap1Val[10].ToString();
 
-                        // Velocity will have to be a seperate thing from accel data
-                        i++;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
-            }
+            //            // Velocity will have to be a seperate thing from accel data
+            //            i++;
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Console.WriteLine(ex.ToString());
+            //        }
+            //    }
+            //}
 
-            if (Cap2LinkOpen)
-            {
-                while (Cap2_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
-                {
-                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
-                    try
-                    {
-                        // Replace Rocket_Data with Cap1 info
-                        Cap2_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+            //if (Cap2LinkOpen)
+            //{
+            //    while (Cap2_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
+            //    {
+            //        //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+            //        try
+            //        {
+            //            // Replace Rocket_Data with Cap1 info
+            //            Cap2_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
 
-                        dataSeriesCap2G1.Append(i, cap1Val[11]); // Alt
-                        dataSeriesCap2G2.Append(i, cap1Val[8]); // Velo
-                        //dataSeriesCap2G3.Append(i, cap1Val[12]); // Temp
-                        //dataSeriesCap2G4.Append(i, cap1Val[11]); // VOC
-                        dataSeriesCap2G5.Append(i, cap1Val[3]); // Sat Count
+            //            dataSeriesCap2G1.Append(i, cap1Val[11]); // Alt
+            //            dataSeriesCap2G2.Append(i, cap1Val[8]); // Velo
+            //            //dataSeriesCap2G3.Append(i, cap1Val[12]); // Temp
+            //            //dataSeriesCap2G4.Append(i, cap1Val[11]); // VOC
+            //            dataSeriesCap2G5.Append(i, cap1Val[3]); // Sat Count
 
-                        Cap2_GPSLat = cap1Val[0].ToString();
-                        Cap2_GPSLon = cap1Val[1].ToString();
-                        Cap2_SatCount = cap1Val[3].ToString();
-                        Cap2_Alt = cap1Val[10].ToString();
+            //            Cap2_GPSLat = cap1Val[0].ToString();
+            //            Cap2_GPSLon = cap1Val[1].ToString();
+            //            Cap2_SatCount = cap1Val[3].ToString();
+            //            Cap2_Alt = cap1Val[10].ToString();
 
-                        // Velocity will have to be a seperate thing from accel data
-                        i++;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
-            }
+            //            // Velocity will have to be a seperate thing from accel data
+            //            i++;
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Console.WriteLine(ex.ToString());
+            //        }
+            //    }
+            //}
             //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " +j);
             //j++;
             //stopwatch.Reset();
