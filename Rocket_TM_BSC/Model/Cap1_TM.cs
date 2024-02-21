@@ -70,7 +70,7 @@ namespace Rocket_TM_BSC.Model
                         _serialport.WriteLine(command);
                     }
 
-                    int bytesToRead = 29;
+                    int bytesToRead = 78;
                     byte[] buffer = new byte[bytesToRead];
                     int bytesRead = 0;
                     while (bytesRead < bytesToRead) 
@@ -85,8 +85,8 @@ namespace Rocket_TM_BSC.Model
                         }
                         
                     }
-                    byte[] CheckByte = new byte[4] { buffer[0], buffer[1], buffer[2], buffer[3] };
-                    if (BitConverter.ToInt32(CheckByte,0) == 0x0421523)
+                    byte[] CheckByte = new byte[2] { buffer[77], buffer[78] };
+                    if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     {
                         cap1_DataProcessing.Cap1DataQueue.Enqueue(buffer);
                     }

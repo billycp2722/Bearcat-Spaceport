@@ -680,7 +680,7 @@ namespace Rocket_TM_BSC.ViewModel
 
         public void StopReplay(object obj)
         {
-
+            ReplayStop = true;
         }
 
         public bool CanStopReplay(object obj)
@@ -690,7 +690,7 @@ namespace Rocket_TM_BSC.ViewModel
 
         public void RestartReplay(object obj)
         {
-
+            ReplayRestart=true;
         }
 
         public bool CanRestartReplay(object obj)
@@ -701,6 +701,7 @@ namespace Rocket_TM_BSC.ViewModel
 
         // Mapping
         #region Mapping Functions
+        // Need to figure out MVVM for GMaps
         private void AddLatLon(double Lat, double Lon, string Cap_Num)
         {
             GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
