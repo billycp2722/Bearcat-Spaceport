@@ -26,6 +26,7 @@ using GMap.NET;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
+using System.Threading;
 
 
 // Welcome to the Bearcat Spaceport Cup Telemetry GUI
@@ -65,7 +66,7 @@ namespace Rocket_TM_BSC.ViewModel
         private DispatcherTimer _timer;
         private DispatcherTimer _ReplayTimer;
         private Cap1_TM Cap1_Data = new Cap1_TM();
-        private Cap1_TM Cap2_Data = new Cap1_TM();
+        private Cap2_TM Cap2_Data = new Cap2_TM();
         private Cap1_TM Rocket_Data = new Cap1_TM();
 
         // GUI Variables
@@ -183,6 +184,8 @@ namespace Rocket_TM_BSC.ViewModel
         private int i = 1;
         //private int j = 1;
         //Stopwatch stopwatch = new Stopwatch();
+        bool flag_C1 = false;
+        bool flag_C2 = false;
         private void _timer_Tick(object sender, EventArgs e)
         {
             //stopwatch.Start();
@@ -196,7 +199,7 @@ namespace Rocket_TM_BSC.ViewModel
                         // Replace Rocket_Data with Cap1 info
                         Rocket_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
 
-                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
+                        dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
                         dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
                         dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
                         dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
@@ -216,71 +219,70 @@ namespace Rocket_TM_BSC.ViewModel
                     }
                 }
             }
-            //if (Cap1LinkOpen)
-            //{
-            //    while (Cap1_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
-            //    {
-            //        //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
-            //        try
-            //        {
-            //            // Replace Rocket_Data with Cap1 info
-            //            Cap1_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
+            if (Cap1LinkOpen)
+            {
+                if (flag_C1 == false)
+                {
+                    flag_C1 = true;
+                    Thread.Sleep(50);
+                }
+                while (Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.Count > 0)
+                {
+                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+                    try
+                    {
+                        // Replace Rocket_Data with Cap1 info
+                        Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
 
-            //            dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
-            //            dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
-            //            dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
-            //            dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
-            //            dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+                        
 
-            //            Cap1_GPSLat = cap1Val[0].ToString();
-            //            Cap1_GPSLon = cap1Val[1].ToString();
-            //            Cap1_SatCount = cap1Val[3].ToString();
-            //            Cap1_Alt = cap1Val[10].ToString();
+                        // Velocity will have to be a seperate thing from accel data
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            
+            if (Cap2LinkOpen)
+            {
+                if (flag_C2 == false)
+                {
+                    flag_C2 = true;
+                    Thread.Sleep(50);
+                }
+                while (Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.Count > 0)
+                {
+                    //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
+                    try
+                    {
+                        // Replace Rocket_Data with Cap1 info
+                        Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.TryDequeue(out var cap2Val);
 
-            //            // Velocity will have to be a seperate thing from accel data
-            //            i++;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.ToString());
-            //        }
-            //    }
-            //}
+                        dataSeriesCap2G1.Append(i, cap2Val[11]); // Alt
+                        dataSeriesCap2G2.Append(i, cap2Val[8]); // Velo
+                        dataSeriesCap2G3.Append(i, cap2Val[12]); // Temp
+                        dataSeriesCap2G5.Append(i, cap2Val[3]); // Sat Count
 
-            //if (Cap2LinkOpen)
-            //{
-            //    while (Cap2_Data.cap1_DataProcessing.Cap1_DataOut.Count > 0)
-            //    {
-            //        //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
-            //        try
-            //        {
-            //            // Replace Rocket_Data with Cap1 info
-            //            Cap2_Data.cap1_DataProcessing.Cap1_DataOut.TryDequeue(out var cap1Val);
-
-            //            dataSeriesCap2G1.Append(i, cap1Val[11]); // Alt
-            //            dataSeriesCap2G2.Append(i, cap1Val[8]); // Velo
-            //            //dataSeriesCap2G3.Append(i, cap1Val[12]); // Temp
-            //            //dataSeriesCap2G4.Append(i, cap1Val[11]); // VOC
-            //            dataSeriesCap2G5.Append(i, cap1Val[3]); // Sat Count
-
-            //            Cap2_GPSLat = cap1Val[0].ToString();
-            //            Cap2_GPSLon = cap1Val[1].ToString();
-            //            Cap2_SatCount = cap1Val[3].ToString();
-            //            Cap2_Alt = cap1Val[10].ToString();
-
-            //            // Velocity will have to be a seperate thing from accel data
-            //            i++;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.ToString());
-            //        }
-            //    }
-            //}
-            //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " +j);
+                        Cap2_GPSLat = cap2Val[0].ToString();
+                        Cap2_GPSLon = cap2Val[1].ToString();
+                        Cap2_SatCount = cap2Val[3].ToString();
+                        Cap2_Alt = cap2Val[10].ToString();
+                        // Velocity will have to be a seperate thing from accel data
+                        i++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " + j);
             //j++;
             //stopwatch.Reset();
-            
+
         }
 
         private int replayCount = 0;
@@ -588,7 +590,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void StatCheckCap2(object obj)
         {
             // Sends Status Check command to TM to update view
-            Cap2_Data.CommandStringTM1.Enqueue("transmit_data");
+            Cap2_Data.CommandStringTM2.Enqueue("transmit_data");
             
         }
 
@@ -613,7 +615,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void WakeUpCap1(object obj)
         {
             // Sends Wake Command to TM to activate for launch
-            Cap1_Data.CommandStringTM1.Enqueue("WAKE");
+            Cap1_Data.CommandStringTM1.Enqueue("start");
         }
 
         public bool CanWakeUpCap1(object obj)
@@ -625,7 +627,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void WakeUpCap2(object obj)
         {
             // Sends Wake Command to TM to activate for launch
-            Cap2_Data.CommandStringTM1.Enqueue("WAKE");
+            Cap2_Data.CommandStringTM2.Enqueue("WAKE");
         }
 
         public bool CanWakeUpCap2(object obj)
