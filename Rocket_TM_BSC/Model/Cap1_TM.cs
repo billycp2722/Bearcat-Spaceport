@@ -99,26 +99,18 @@ namespace Rocket_TM_BSC.Model
                         
 
                     }
-                    //stopwatch.Start();
-                    //FrameCount++;
-                    //if (stopwatch.ElapsedMilliseconds >= 2000)
-                    //{
-                    //    stopwatch.Stop();
-                    //    //Console.WriteLine(FrameCount / 2);
-                    //}
 
-                    //Console.Write(Encoding.UTF8.GetString(buffer));
-                    //byte[] CheckByte = new byte[1] { buffer[78] };
-                    //if (Encoding.UTF8.GetString(CheckByte) == "\n")
-                    //{
-                    cap1_DataProcessing_Hex.Cap1DataQueue_Hex.Enqueue(buffer);
-                    //}
-                    //else
-                    //{
-                    //    _serialport.DiscardInBuffer();
-                    //    lost_frames++;
-                    //    Console.WriteLine("Lost Frame: " + lost_frames);
-                    //}
+                    //byte[] CheckByte = new byte[1] {  };
+                    if ((char)buffer[77] == '\n')
+                    {
+                        cap1_DataProcessing_Hex.Cap1DataQueue_Hex.Enqueue(buffer);
+                    }
+                    else
+                    {
+                        _serialport.DiscardInBuffer();
+                        lost_frames++;
+                        Console.WriteLine("Lost Frame: " + lost_frames);
+                    }
 
                 }
                 

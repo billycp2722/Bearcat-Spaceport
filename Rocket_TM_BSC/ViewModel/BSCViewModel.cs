@@ -233,8 +233,18 @@ namespace Rocket_TM_BSC.ViewModel
                     {
                         // Replace Rocket_Data with Cap1 info
                         Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
+                       
 
-                        
+                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
+                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
+                        dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
+                        dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+
+                        Cap1_GPSLat = cap1Val[0].ToString();
+                        Cap1_GPSLon = cap1Val[1].ToString();
+                        Cap1_SatCount = cap1Val[3].ToString();
+                        Cap1_Alt = cap1Val[10].ToString();
+
 
                         // Velocity will have to be a seperate thing from accel data
                         i++;
