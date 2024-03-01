@@ -81,7 +81,7 @@ namespace Rocket_TM_BSC.Model
             string[] StringList = ConvertedString.Split(',');
             //Console.WriteLine(StringList.Length);
             //Console.WriteLine(StringList[13]);
-            if (StringList.Length == 14)
+            if (StringList.Length == 11)
             {
 
                 double Lat_int = ConvertFromHex(StringList[0]).ToDouble(); // Has +/-

@@ -245,7 +245,8 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap1_SatCount = cap1Val[3].ToString();
                         Cap1_Alt = cap1Val[10].ToString();
 
-
+                        LostFrame_Cap1 = Cap1_Data.lost_frames.ToString();
+                        DataRate_Cap1 = Cap1_Data.FrameRate.ToString();
                         // Velocity will have to be a seperate thing from accel data
                         i++;
                     }
@@ -271,9 +272,9 @@ namespace Rocket_TM_BSC.ViewModel
                         // Replace Rocket_Data with Cap1 info
                         Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.TryDequeue(out var cap2Val);
 
-                        dataSeriesCap2G1.Append(i, cap2Val[11]); // Alt
+                        dataSeriesCap2G1.Append(i, cap2Val[10]); // Alt
                         dataSeriesCap2G2.Append(i, cap2Val[8]); // Velo
-                        dataSeriesCap2G3.Append(i, cap2Val[12]); // Temp
+                        //dataSeriesCap2G3.Append(i, cap2Val[12]); // Temp
                         dataSeriesCap2G5.Append(i, cap2Val[3]); // Sat Count
 
                         Cap2_GPSLat = cap2Val[0].ToString();
@@ -495,6 +496,34 @@ namespace Rocket_TM_BSC.ViewModel
             get { return cap2COM; }
             set { cap2COM = value; OnPropertyChanged("Cap2COM"); }
         }
+
+        private string lostFrame_cap1= "0";
+        public string LostFrame_Cap1
+        {
+            get { return lostFrame_cap1; }
+            set { lostFrame_cap1 = value; OnPropertyChanged("LostFrame_Cap1"); }
+        }
+
+        private string lostFrame_cap2 = "0";
+        public string LostFrame_Cap2
+        {
+            get { return lostFrame_cap2; }
+            set { lostFrame_cap2 = value; OnPropertyChanged("LostFrame_Cap2"); }
+        }
+
+        private string dataRate_Cap1= "0";
+        public string DataRate_Cap1
+        {
+            get { return dataRate_Cap1; }
+            set { dataRate_Cap1 = value; OnPropertyChanged("DataRate_Cap1"); }
+        }
+
+        private string dataRate_Cap2 = "0";
+        public string DataRate_Cap2
+        {
+            get { return dataRate_Cap2; }
+            set { dataRate_Cap2 = value; OnPropertyChanged("DataRate_Cap2"); }
+        }
         #endregion
 
         #region Commands
@@ -637,7 +666,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void WakeUpCap2(object obj)
         {
             // Sends Wake Command to TM to activate for launch
-            Cap2_Data.CommandStringTM2.Enqueue("WAKE");
+            Cap2_Data.CommandStringTM2.Enqueue("start");
         }
 
         public bool CanWakeUpCap2(object obj)

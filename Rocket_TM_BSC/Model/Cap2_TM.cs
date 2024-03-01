@@ -15,14 +15,14 @@ namespace Rocket_TM_BSC.Model
 {
     public class Cap2_TM
     {
-        private BackgroundWorker TMDataWorker;
+        private BackgroundWorker TMDataWorker2;
         public Cap2_TM()
         {
-            TMDataWorker = new BackgroundWorker();
-            TMDataWorker.DoWork += TMDataWorker_DoWork;
-            TMDataWorker.RunWorkerCompleted += TMDataWorker_RunWorkerCompleted; 
-            TMDataWorker.ProgressChanged += TMDataWorker_ProgressChanged;
-            TMDataWorker.WorkerSupportsCancellation = true;
+            TMDataWorker2 = new BackgroundWorker();
+            TMDataWorker2.DoWork += TMDataWorker_DoWork;
+            TMDataWorker2.RunWorkerCompleted += TMDataWorker_RunWorkerCompleted; 
+            TMDataWorker2.ProgressChanged += TMDataWorker_ProgressChanged;
+            TMDataWorker2.WorkerSupportsCancellation = true;
         }
 
         private void TMDataWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -42,39 +42,46 @@ namespace Rocket_TM_BSC.Model
         private string command_on = "ON";
         public Cap2_DataProcessing_Hex cap2_DataProcessing_Hex;
         public int lost_frames = 0;
+        private bool flag = false;
+        private SerialPort _serialport2;
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
+                if (flag == false)
+                {
+                    CommandStringTM2 = new ConcurrentQueue<string>();
+                    cap2_DataProcessing_Hex = new Cap2_DataProcessing_Hex();
+                    //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
+                    cap2_DataProcessing_Hex.StartCap1DataProcess();
+                    TM2Data = new ConcurrentQueue<string>();
+
+                    _serialport2 = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
+
+                    _serialport2.Open();
+                    _serialport2.DiscardNull = true;
+                    _serialport2.DiscardInBuffer();
+                    _serialport2.ReadTimeout = 500;
+                    flag = true;
+                }
                 
-                CommandStringTM2 = new ConcurrentQueue<string>();
-                cap2_DataProcessing_Hex = new Cap2_DataProcessing_Hex();
-                //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
-                cap2_DataProcessing_Hex.StartCap1DataProcess();
-                TM2Data = new ConcurrentQueue<string>();
-
-                _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
-
-                _serialport.Open();
-                _serialport.DiscardNull = true;
-                _serialport.DiscardInBuffer();
-                _serialport.ReadTimeout = 500;
 
                 //_serialport.WriteLine("transmit_data");
                 int FrameCount = 0;
                 //Stopwatch stopwatch = new Stopwatch();
                 
                
-                while (_serialport.IsOpen)
+                while (_serialport2.IsOpen)
                 {
+                    
                     //int bytesToRead = 29; // TM Data length
                     if (CommandStringTM2.Count > 0)
                     {
                         CommandStringTM2.TryDequeue(out string command);
-                        _serialport.WriteLine(command);
+                        _serialport2.WriteLine(command);
                     }
 
-                    int bytesToRead = 68;
+                    int bytesToRead = 66;
                     byte[] buffer = new byte[bytesToRead];
                     int bytesRead = 0;
                     while (bytesRead < bytesToRead) 
@@ -82,7 +89,7 @@ namespace Rocket_TM_BSC.Model
                         //Console.WriteLine(bytesRead);
                         try
                         {
-                            bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+                            bytesRead += _serialport2.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
                         }
                         catch
                         {
@@ -94,7 +101,7 @@ namespace Rocket_TM_BSC.Model
                         if(CommandStringTM2.Count > 0) 
                         {
                             CommandStringTM2.TryDequeue(out string command);
-                            _serialport.WriteLine(command);
+                            _serialport2.WriteLine(command);
                         }
                         
 
@@ -111,7 +118,17 @@ namespace Rocket_TM_BSC.Model
                     //byte[] CheckByte = new byte[1] { buffer[78] };
                     //if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     //{
-                    cap2_DataProcessing_Hex.Cap2DataQueue_Hex.Enqueue(buffer);
+                    if ((char)buffer[65] == '\n')
+                    {
+                        cap2_DataProcessing_Hex.Cap2DataQueue_Hex.Enqueue(buffer);
+                    }
+                    else
+                    {
+                        _serialport2.DiscardInBuffer();
+                        lost_frames++;
+                        Console.WriteLine("Lost Frame: " + lost_frames);
+                    }
+                    
                     //}
                     //else
                     //{
@@ -125,12 +142,10 @@ namespace Rocket_TM_BSC.Model
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("Cap2:" +ex.ToString());
 
             }
         }
-
-        private SerialPort _serialport;
 
         public void OpenNewPort(string COM)
         {
@@ -142,7 +157,7 @@ namespace Rocket_TM_BSC.Model
             {
                 return;
             }
-            TMDataWorker.RunWorkerAsync();
+            TMDataWorker2.RunWorkerAsync();
         }
     }
 }

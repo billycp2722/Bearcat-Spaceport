@@ -42,29 +42,41 @@ namespace Rocket_TM_BSC.Model
         private string command_on = "ON";
         public Cap1_DataProcessing_Hex cap1_DataProcessing_Hex;
         public int lost_frames = 0;
+        private bool SerialFlag2 = false;
+        private bool LostFrameFlag = false;
+        public double FrameRate = 0;
+        private Stopwatch sw_Cap1;
+        private int FrameCount = 0;
+        
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
+                if (SerialFlag2 == false) 
+                {
+                    sw_Cap1 = new Stopwatch();
+                    CommandStringTM1 = new ConcurrentQueue<string>();
+                    cap1_DataProcessing_Hex = new Cap1_DataProcessing_Hex();
+                    //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
+                    cap1_DataProcessing_Hex.StartCap1DataProcess();
+                    TMData = new ConcurrentQueue<string>();
+
+                    _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
+
+                    _serialport.Open();
+                    _serialport.DiscardNull = true;
+                    _serialport.DiscardInBuffer();
+                    _serialport.ReadTimeout = 500;
+                    SerialFlag2 = true;
+                    sw_Cap1.Start();
+                }
                 
-                CommandStringTM1 = new ConcurrentQueue<string>();
-                cap1_DataProcessing_Hex = new Cap1_DataProcessing_Hex();
-                //cap1_DataProcessing.Cap1DataProcessor.RunWorkerAsync();
-                cap1_DataProcessing_Hex.StartCap1DataProcess();
-                TMData = new ConcurrentQueue<string>();
-
-                _serialport = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
-
-                _serialport.Open();
-                _serialport.DiscardNull = true;
-                _serialport.DiscardInBuffer();
-                _serialport.ReadTimeout = 500;
 
                 //_serialport.WriteLine("transmit_data");
-                int FrameCount = 0;
+                
                 //Stopwatch stopwatch = new Stopwatch();
                 
-               
+                
                 while (_serialport.IsOpen)
                 {
                     //int bytesToRead = 29; // TM Data length
@@ -83,10 +95,18 @@ namespace Rocket_TM_BSC.Model
                         try
                         {
                             bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+                            if (LostFrameFlag)
+                            {
+                               if ((char)buffer[bytesRead-1] == '\n')
+                               {
+                                    LostFrameFlag = false;
+                                    break;
+                               }
+                               
+                            }
                         }
                         catch
                         {
-
                         }
                         
                         //Console.WriteLine("Wait");
@@ -100,17 +120,33 @@ namespace Rocket_TM_BSC.Model
 
                     }
 
-                    //byte[] CheckByte = new byte[1] {  };
-                    if ((char)buffer[77] == '\n')
+                    // Make Sure this functions as Intended
+                    if (buffer.Length == 78)
                     {
-                        cap1_DataProcessing_Hex.Cap1DataQueue_Hex.Enqueue(buffer);
+                        FrameCount++;
+                        if ((char)buffer[77] == '\n')
+                        {
+                            cap1_DataProcessing_Hex.Cap1DataQueue_Hex.Enqueue(buffer);
+                        }
+                        else
+                        {
+                            LostFrameFlag = true;
+                            lost_frames++;
+                            Console.WriteLine("Lost Frame: " + lost_frames);
+                        }
                     }
                     else
                     {
-                        _serialport.DiscardInBuffer();
                         lost_frames++;
                         Console.WriteLine("Lost Frame: " + lost_frames);
                     }
+
+                    if (sw_Cap1.ElapsedMilliseconds >= 2000)
+                    {
+                        FrameRate = sw_Cap1.ElapsedMilliseconds / FrameCount;
+                        sw_Cap1.Restart();
+                    }
+                    
 
                 }
                 
