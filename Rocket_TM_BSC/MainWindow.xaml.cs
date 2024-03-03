@@ -50,16 +50,24 @@ namespace Rocket_TM_BSC
         private void DoSomething(object sender, NotificationEventArgs<string> e)
         {
             string msg = e.Message;
-            Console.WriteLine(msg);
-            string[] strings = msg.Split(',');
-            GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
-            marker.Shape = new Image
+            if (msg == "Clear")
             {
-                Width = 25,
-                Height = 25,
-                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-            };
-            mapView.Markers.Add(marker);
+                mapView.Markers.Clear();
+            }
+            else
+            {
+                string[] strings = msg.Split(',');
+                GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
+                marker.Shape = new Image
+                {
+                    Width = 25,
+                    Height = 25,
+                    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+                };
+                mapView.Markers.Add(marker);
+                mapView.Position = new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble());
+            }
+            
             
             //mapView.Markers.Clear();
         }
@@ -130,6 +138,45 @@ namespace Rocket_TM_BSC
             //}
         }
 
+        private void mapView2_Loaded(object sender, RoutedEventArgs e)
+        {
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            // choose your provider here
+            mapView2.MapProvider = GMap.NET.MapProviders.GoogleHybridMapProvider.Instance;
+            mapView2.Position = new GMap.NET.PointLatLng(39.86113302187091, -83.6557333146190);
+            mapView2.MinZoom = 2;
+            mapView2.MaxZoom = 17;
+            //mapView2.CacheLocation = "C:\\Users\\Public\\Desktop";
+            // whole world zoom
+            mapView2.Zoom = 14;
+            // lets the map use the mousewheel to zoom
+            mapView2.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            // lets the user drag the map
+            mapView2.CanDragMap = true;
+            // lets the user drag the map with the left mouse button
+            mapView2.DragButton = MouseButton.Left;
+            
+        }
+
+        private void mapView3_Loaded(object sender, RoutedEventArgs e)
+        {
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerAndCache;
+            // choose your provider here
+            mapView3.MapProvider = GMap.NET.MapProviders.GoogleHybridMapProvider.Instance;
+            mapView3.Position = new GMap.NET.PointLatLng(39.86113302187091, -83.6557333146190);
+            mapView3.MinZoom = 2;
+            mapView3.MaxZoom = 17;
+            //mapView2.CacheLocation = "C:\\Users\\Public\\Desktop";
+            // whole world zoom
+            mapView3.Zoom = 14;
+            // lets the map use the mousewheel to zoom
+            mapView3.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            // lets the user drag the map
+            mapView3.CanDragMap = true;
+            // lets the user drag the map with the left mouse button
+            mapView3.DragButton = MouseButton.Left;
+            
+        }
         public static Stream StringToStream(string src)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(src);

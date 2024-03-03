@@ -332,6 +332,9 @@
     <Compile Include="View\Graph6.xaml.cs">
       <DependentUpon>Graph6.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graph16.xaml.cs">
+      <DependentUpon>Graph16.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graph7.xaml.cs">
       <DependentUpon>Graph7.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Graph6.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Graph16.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

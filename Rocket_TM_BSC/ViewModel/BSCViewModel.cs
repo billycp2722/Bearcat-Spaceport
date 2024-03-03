@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using System.Threading;
 using SciChart.Data.Model;
 using SimpleMvvmToolkit;
+using System.Reflection;
 
 
 // Welcome to the Bearcat Spaceport Cup Telemetry GUI
@@ -197,7 +198,7 @@ namespace Rocket_TM_BSC.ViewModel
         //Stopwatch stopwatch = new Stopwatch();
         bool flag_C1 = false;
         bool flag_C2 = false;
-        int mapPlot = 0;
+        int mapPlot = 100;
         private void _timer_Tick(object sender, EventArgs e)
         {
             //stopwatch.Start();
@@ -339,6 +340,7 @@ namespace Rocket_TM_BSC.ViewModel
                             TimeRangeG13 = new DoubleRange(replayCount - 999, replayCount + 1);
                             TimeRangeG14 = new DoubleRange(replayCount - 999, replayCount + 1);
                             TimeRangeG15 = new DoubleRange(replayCount - 999, replayCount + 1);
+                            TimeRangeG16 = new DoubleRange(replayCount - 999, replayCount + 1);
                         }
                         else
                         {
@@ -351,10 +353,12 @@ namespace Rocket_TM_BSC.ViewModel
                             TimeRangeG13 = new DoubleRange(0, replayCount + 1);
                             TimeRangeG14 = new DoubleRange(0, replayCount + 1);
                             TimeRangeG15 = new DoubleRange(0, replayCount + 1);
+                            TimeRangeG16 = new DoubleRange(0, replayCount + 1);
                         }
                         
                         // Add data to plots. Set timer tick to represent sample rate
                         dataSeriesCap1G7.Append(replayCount, _cap1Replay.DP9[replayCount]); // Alt
+                        dataSeriesCap1G16.Append(replayCount, _cap1Replay.DP3[replayCount]); // GPS Alt
                         dataSeriesCap1G8.Append(replayCount, _cap1Replay.DP4[replayCount]); // Sat Count
                         dataSeriesCap1G9X.Append(replayCount, _cap1Replay.DP6[replayCount]); // Accel X
                         dataSeriesCap1G9Y.Append(replayCount, _cap1Replay.DP7[replayCount]); // Accel Y
@@ -381,6 +385,7 @@ namespace Rocket_TM_BSC.ViewModel
                     {
 
                         replayCount = 0;
+                        DoSomething?.Invoke(this, new NotificationEventArgs<string>("Clear"));
                         dataSeriesCap1G7.Clear();
                         dataSeriesCap1G8.Clear();
                         dataSeriesCap1G9X.Clear();
@@ -391,6 +396,7 @@ namespace Rocket_TM_BSC.ViewModel
                         dataSeriesCap2G14Y.Clear();
                         dataSeriesCap2G14Z.Clear();
                         dataSeriesCap2G15.Clear();
+                        dataSeriesCap1G16.Clear();
                         // Clear Graphs
                         // Restarts the data replay
                     }
@@ -622,21 +628,21 @@ namespace Rocket_TM_BSC.ViewModel
         // Updates COM port list
         public void UpdateComPort(object obj)
         {
-            AddLatLon(39.86113302187091, -83.6557333146190, "1");
+
             ////throw new NotImplementedException();
-            //RocketCOMPortList.Clear();
-            //string[] portNames = SerialPort.GetPortNames();
-            //if (portNames.Length == 0)
-            //{
-            //    RocketCOMPortList.Add("NONE");
-            //}
-            //else
-            //{
-            //    foreach (string portName in portNames)
-            //    {
-            //        RocketCOMPortList.Add(portName);
-            //    }
-            //}
+            RocketCOMPortList.Clear();
+            string[] portNames = SerialPort.GetPortNames();
+            if (portNames.Length == 0)
+            {
+                RocketCOMPortList.Add("NONE");
+            }
+            else
+            {
+                foreach (string portName in portNames)
+                {
+                    RocketCOMPortList.Add(portName);
+                }
+            }
         }
 
         public bool CanUpdateComPort(object obj)
@@ -1248,6 +1254,16 @@ namespace Rocket_TM_BSC.ViewModel
                 OnPropertyChanged(nameof(Graph15Series));
             }
         }
+        private ObservableCollection<IRenderableSeriesViewModel> graph16Series { get; set; }
+        public ObservableCollection<IRenderableSeriesViewModel> Graph16Series
+        {
+            get => graph16Series;
+            set
+            {
+                graph16Series = value;
+                OnPropertyChanged(nameof(Graph16Series));
+            }
+        }
 
         private XyDataSeries<double, double> dataSeriesCap1G7;
         private XyDataSeries<double, double> dataSeriesCap2G7;
@@ -1277,6 +1293,9 @@ namespace Rocket_TM_BSC.ViewModel
 
         private XyDataSeries<double, double> dataSeriesCap1G15;
         private XyDataSeries<double, double> dataSeriesCap2G15;
+
+        private XyDataSeries<double, double> dataSeriesCap1G16;
+        private XyDataSeries<double, double> dataSeriesCap2G16;
 
         private DoubleRange timeRangeG7;
         public DoubleRange TimeRangeG7
@@ -1377,6 +1396,17 @@ namespace Rocket_TM_BSC.ViewModel
             }
         }
 
+        private DoubleRange timeRangeG16;
+        public DoubleRange TimeRangeG16
+        {
+            get => timeRangeG16;
+            set
+            {
+                timeRangeG16 = value;
+                OnPropertyChanged(nameof(TimeRangeG16));
+            }
+        }
+
 
         private void InitializeGraph_Replay()
         {
@@ -1389,6 +1419,7 @@ namespace Rocket_TM_BSC.ViewModel
             Graph13Series = new ObservableCollection<IRenderableSeriesViewModel>();
             Graph14Series = new ObservableCollection<IRenderableSeriesViewModel>();
             Graph15Series = new ObservableCollection<IRenderableSeriesViewModel>();
+            Graph16Series = new ObservableCollection<IRenderableSeriesViewModel>();
 
 
             // Payload
@@ -1460,6 +1491,13 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap2G15.SeriesName = "Capsule 2";
             dataSeriesCap1G15.AcceptsUnsortedData = true;
             dataSeriesCap2G15.AcceptsUnsortedData = true;
+
+            dataSeriesCap1G16 = new XyDataSeries<double, double>();
+            dataSeriesCap2G16 = new XyDataSeries<double, double>();
+            dataSeriesCap1G16.SeriesName = "Capsule 1";
+            dataSeriesCap2G16.SeriesName = "Capsule 2";
+            dataSeriesCap1G16.AcceptsUnsortedData = true;
+            dataSeriesCap2G16.AcceptsUnsortedData = true;
 
 
             // Chart 1
@@ -1650,6 +1688,24 @@ namespace Rocket_TM_BSC.ViewModel
             Graph15Series.Add(new LineRenderableSeriesViewModel
             {
                 DataSeries = dataSeriesCap2G15,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            Graph16Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G16,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            });
+
+            Graph16Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G16,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,

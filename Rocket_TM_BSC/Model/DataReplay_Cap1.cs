@@ -34,6 +34,7 @@ namespace Rocket_TM_BSC.Model
         }
 
         private string filepath = "";
+        private string filepath2 = "";
         public void RunDataPlayback(string filename)
         {
             filepath = filename;
@@ -43,6 +44,7 @@ namespace Rocket_TM_BSC.Model
         public void RunDataPlayback(string filename, string filename2)
         {
             filepath = filename;
+            filepath2 = filename2;
             DataWorker.RunWorkerAsync();
         }
 
@@ -78,6 +80,9 @@ namespace Rocket_TM_BSC.Model
 
         public ConcurrentQueue<double[]> Cap1Replay;
         public ConcurrentQueue<double[]> Cap2Replay;
+        public double MaxAlt = 0;
+        
+
         private void LoadCsv (string filename)
         {
             using (StreamReader reader = new StreamReader(filename))
@@ -136,7 +141,7 @@ namespace Rocket_TM_BSC.Model
                     
                 }
             }
-            
+            MaxAlt = DP9.Max();
         }
 
         private void DisplayData()
