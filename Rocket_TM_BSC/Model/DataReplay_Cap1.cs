@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,7 +28,6 @@ namespace Rocket_TM_BSC.Model
         {
             
         }
-
         private void DataWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             
@@ -50,26 +50,28 @@ namespace Rocket_TM_BSC.Model
         {
 
             LoadCsv(filepath);
-            DisplayData();
+            Replay_Cap1_Ready = true;
         }
         // All
-        private double[] DP1; // Lat
-        private double[] DP2; // Lon
-        private double[] DP3; // gpsAlt G7
-        private double[] DP4; // satCount G8
-        private double[] DP5; // timestamp // Odd Formating, no zero padding
-        private double[] DP6; // accelX G9
-        private double[] DP7; // accelY
-        private double[] DP8; // accelZ
-        private double[] DP9; // baroAlt G7
+        public double[] DP1; // Lat
+        public double[] DP2; // Lon
+        public double[] DP3; // gpsAlt G7
+        public double[] DP4; // satCount G8
+        public double[] DP5; // timestamp // Odd Formating, no zero padding
+        public double[] DP6; // accelX G9
+        public double[] DP7; // accelY
+        public double[] DP8; // accelZ
+        public double[] DP9; // baroAlt G7
 
         // Atmos Capsule
-        private double[] DP10; // VOC G10
-        private double[] DP11; // Humid G11
-        private double[] DP12; // Temp G12
-        private double[] DP13; // gyroX G13
-        private double[] DP14; // gyroY
-        private double[] DP15; // gyroZ
+        public double[] DP10; // VOC G10
+        public double[] DP11; // Humid G11
+        public double[] DP12; // Temp G12
+        public double[] DP13; // gyroX G13
+        public double[] DP14; // gyroY
+        public double[] DP15; // gyroZ
+
+        public bool Replay_Cap1_Ready = false;
 
         // Graph Count 1 2 3 4 5 6 7 8 9
         // Graph 10, velocity magnitudes
@@ -80,9 +82,9 @@ namespace Rocket_TM_BSC.Model
         {
             using (StreamReader reader = new StreamReader(filename))
             {
-                long x = new FileInfo(filename).Length;
-                
-                int FileLen = Convert.ToInt32(x);
+                int FileLen = File.ReadAllLines(filename).Length;
+                Console.WriteLine(FileLen);
+                //int FileLen = Convert.ToInt32(x);
                 DP1 = new double[FileLen];
                 DP2 = new double[FileLen];
                 DP3 = new double[FileLen];
@@ -99,36 +101,36 @@ namespace Rocket_TM_BSC.Model
                 DP14 = new double[FileLen];
                 DP15 = new double[FileLen];
 
-                for (int i = 1; i < FileLen; i++)
+                for (int i = 0; i < FileLen; i++)
                 {
                     string s = reader.ReadLine();
                     if (s == null)
                     {
-                        break;
+                        return;
                     }
                     string[] values = s.Split(',').Select(sValue => sValue.Trim()).ToArray();
-
+                    //Console.WriteLine(values[0]);
                     if (i > 0)
                     {
                         
-                        DP1[1] = (double.Parse(values[1], NumberStyles.Float));
-                        DP2[i] = (double.Parse(values[2], NumberStyles.Float));
-                        DP3[i] = (double.Parse(values[3], NumberStyles.Float));
-                        DP4[i] = (double.Parse(values[4], NumberStyles.Float));
-                        DP5[i] = (double.Parse(values[5], NumberStyles.Float));
-                        DP6[i] = (double.Parse(values[6], NumberStyles.Float));
-                        DP7[i] = (double.Parse(values[7], NumberStyles.Float));
-                        DP8[i] = (double.Parse(values[8], NumberStyles.Float));
-                        DP9[i] = (double.Parse(values[9], NumberStyles.Float));
+                        DP1[i-1] = (double.Parse(values[0], NumberStyles.Float));
+                        DP2[i-1] = (double.Parse(values[1], NumberStyles.Float));
+                        DP3[i-1] = (double.Parse(values[2], NumberStyles.Float));
+                        DP4[i-1] = (double.Parse(values[3], NumberStyles.Float));
+                        //DP5[i-1] = (double.Parse(values[4], NumberStyles.Float));
+                        DP6[i-1] = (double.Parse(values[5], NumberStyles.Float));
+                        DP7[i-1] = (double.Parse(values[6], NumberStyles.Float));
+                        DP8[i-1] = (double.Parse(values[7], NumberStyles.Float));
+                        DP9[i-1] = (double.Parse(values[8], NumberStyles.Float));
                         // Continue adding as needed
                         if (values.Length > 9)
                         {
-                            DP10[i] = (double.Parse(values[10], NumberStyles.Float));
-                            DP11[i] = (double.Parse(values[11], NumberStyles.Float));
-                            DP12[i] = (double.Parse(values[12], NumberStyles.Float));
-                            DP13[i] = (double.Parse(values[13], NumberStyles.Float));
-                            DP14[i] = (double.Parse(values[14], NumberStyles.Float));
-                            DP15[i] = (double.Parse(values[15], NumberStyles.Float));
+                            DP10[i-1] = (double.Parse(values[9], NumberStyles.Float));
+                            //DP11[i-1] = (double.Parse(values[10], NumberStyles.Float));
+                            //DP12[i-1] = (double.Parse(values[11], NumberStyles.Float));
+                            //DP13[i-1] = (double.Parse(values[12], NumberStyles.Float));
+                            DP14[i-1] = (double.Parse(values[10], NumberStyles.Float));
+                            DP15[i-1] = (double.Parse(values[11], NumberStyles.Float));
                         }
                     }
                     
@@ -139,15 +141,8 @@ namespace Rocket_TM_BSC.Model
 
         private void DisplayData()
         {
-            Cap1Replay = new ConcurrentQueue<double[]>();
-            Cap2Replay = new ConcurrentQueue<double[]>();
-           for (int i = 0; i < DP1.Length; i++)
-            {
-                double[] c1ReplayOut = new double[15] { DP1[i], DP2[i], DP3[i], DP4[i], DP5[i], DP6[i], DP7[i], DP8[i], DP9[i], DP10[i], DP11[i], DP12[i], DP13[i], DP14[i], DP15[i] };
-                Cap1Replay.Enqueue(c1ReplayOut);
-                // Use concurrent queues to send data to GUI for updating on specical timer tick
-                // Do we try to time sync? Don't know how to do that. GPS time polling is limited, maybe add a delta t to csv data logger
-            }
+            
+           
         }
     }
 }

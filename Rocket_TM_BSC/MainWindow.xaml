@@ -624,14 +624,16 @@
                             <Button Content="Restart Replay" Command="{Binding RestartReplayCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10,0,10,0"/>
                             
                         </Grid>
+                        <TextBlock Text="Replay Progress" FontSize="20" Foreground="White" TextAlignment="Center" Margin="0,40,0,0"/>
+                        <ProgressBar Width="300" HorizontalContentAlignment="Stretch" Minimum="0" Maximum="1" Value="{Binding ReplayProgress}" Height="25" Margin="10" Background="White" Foreground="Green" BorderBrush="White" BorderThickness="2"/>
 
 
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <controls:Graph7 Height="250"/>   
                         <controls:Graph8 Height="250"/>   
-                        <controls:Graph9 Height="250"/>   
                         <controls:Graph10 Height="250"/>
+                        <controls:Graph9 Height="250"/>
 
                        
                     </StackPanel>
@@ -646,16 +648,17 @@
                         
                         
                         <controls:Graph15 Height="250"/>
-                        <controls:Graph15 Height="250"/>
+                        <controls:Graph1 Height="250"/>
                         <!--<gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" Height="530"/>-->
-
+                        <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" MapPoint="{Binding GmapsPoint}" Height="500"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
 
             <TabItem Header="Tracking Map">
                 <Grid>
-                    <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" /> 
+                     
+                    
                 </Grid>
             </TabItem>
         </TabControl>

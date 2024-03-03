@@ -84,7 +84,7 @@
 
         <s:SciChartSurface x:Name="MainChartSurface" ChartTitle="GPS Satalites" Grid.Column="1" RenderableSeries="{s:SeriesBinding Graph8Series}"  s:VisualXcceleratorEngine.IsEnabled="True" s:VisualXcceleratorEngine.FallbackType="{x:Type s:HighQualityRenderSurface}" s:VisualXcceleratorEngine.DowngradeWithoutException="False" s:VisualXcceleratorEngine.EnableImpossibleMode="True">
             <s:SciChartSurface.XAxis>
-                <s:NumericAxis GrowBy="0,0.1" x:Name="XAxis" DrawMinorGridLines="True" DrawMinorTicks="True"  AxisTitle="Time" AutoRange="Always" MaxAutoTicks="20" />
+                <s:NumericAxis GrowBy="0,0.1" x:Name="XAxis" DrawMinorGridLines="True" DrawMinorTicks="True"  AxisTitle="Time" VisibleRange="{Binding TimeRangeG8}" MaxAutoTicks="20" />
             </s:SciChartSurface.XAxis>
 
             <s:SciChartSurface.YAxis>

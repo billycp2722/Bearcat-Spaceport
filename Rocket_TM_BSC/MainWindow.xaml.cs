@@ -20,6 +20,8 @@ using GMap.NET.WindowsPresentation;
 using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.Windows.Shapes;
+using SimpleMvvmToolkit;
+using System.Reflection;
 
 namespace Rocket_TM_BSC
 {
@@ -31,7 +33,9 @@ namespace Rocket_TM_BSC
         public MainWindow()
         {
             InitializeComponent();
-
+            var vm = DataContext as ViewModel.BSCViewModel; //Get VM from view's DataContext
+            if (vm == null) return; //Check if conversion succeeded
+            vm.DoSomething += DoSomething; // Subscribe to event
             //var obj = new ObjectModel3D();
             //sciChart3DSurface.SceneObjects.Add(obj);
             //obj.Position = new Vector3(0f, 0f, 0f);
@@ -43,7 +47,22 @@ namespace Rocket_TM_BSC
             //obj.Source = objModelSource;
 
         }
-
+        private void DoSomething(object sender, NotificationEventArgs<string> e)
+        {
+            string msg = e.Message;
+            Console.WriteLine(msg);
+            string[] strings = msg.Split(',');
+            GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
+            marker.Shape = new Image
+            {
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            };
+            mapView.Markers.Add(marker);
+            
+            //mapView.Markers.Clear();
+        }
         //private void OnClickHorizontalRotate(object sender, RoutedEventArgs e)
         //{
         //    Camera3D.OrbitalYaw = ((int)Camera3D.OrbitalYaw < 360) ? Camera3D.OrbitalYaw + 90 : (Camera3D.OrbitalYaw - 360) * (-1);
@@ -116,6 +135,8 @@ namespace Rocket_TM_BSC
             byte[] byteArray = Encoding.UTF8.GetBytes(src);
             return new MemoryStream(byteArray);
         }
+
+
 
     }
 }
