@@ -39,6 +39,15 @@ using System.Reflection;
 // -Carson Billy
 namespace Rocket_TM_BSC.ViewModel
 {
+    // TODO:
+    // 1. Configure RSSI In
+    // 2. Configure Payload TM Data
+    // 3. Add Accel to Velo Function?
+    // 4. Choose Main TM View Graphs
+    // 5. Add Time scaling / change samples to time or time to samples
+    // 6. Add Statistics to data replay
+    // 7. Retest TM changes with live TM link
+    // 8. Check Final Replay version functions, Causing issues with UI thread
 
     public class BSCViewModel : BaseViewModel
     {
@@ -106,15 +115,12 @@ namespace Rocket_TM_BSC.ViewModel
 
         // Constructor
         public event EventHandler<NotificationEventArgs<string>> DoSomething;
+        public event EventHandler<NotificationEventArgs<string>> DoSomething2;
+        public event EventHandler<NotificationEventArgs<string>> Cap1TrackEvent;
+        public event EventHandler<NotificationEventArgs<string>> Cap2TrackEvent;
         public BSCViewModel()
         {
-            marker.Shape = new Image
-            {
-                Width = 25,
-                Height = 25,
-                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-            };
-
+            // Configure View Commands
             UpdateComPortCommand = new ViewCommand(UpdateComPort, CanUpdateComPort);
             OpenRocketCOMCommand = new ViewCommand(OpenRocketCOM, CanOpenRocketCOM);
             OpenCap1COMCommand = new ViewCommand(OpenCap1COM, CanOpenCap1COM);
@@ -134,49 +140,11 @@ namespace Rocket_TM_BSC.ViewModel
             StartReplayCommand = new ViewCommand(StartReplay, CanStartReplay);
             RestartReplayCommand = new ViewCommand(RestartReplay, CanRestartReplay);
 
-            InitializeGraph();
-            
+            // Initalize Graphs
+            InitializeGraph(); 
             InitializeGraph_Replay();
-            //dataSeriesCap1G1.AcceptsUnsortedData = true; // Alt graph
-            //dataSeriesCap1G2.AcceptsUnsortedData = true; // Velocity Graph
-            //dataSeriesCap1G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
-            //dataSeriesCap1G4.AcceptsUnsortedData = true; // VOC Graph
-            //dataSeriesCap1G5.AcceptsUnsortedData = true; // Satalite Count Graph
-            //dataSeriesCap1G6.AcceptsUnsortedData = true;
-            //// Data Replay Graphs
-            //dataSeriesCap1G7.AcceptsUnsortedData = true;
-            //dataSeriesCap1G8.AcceptsUnsortedData = true;
-            //dataSeriesCap1G9.AcceptsUnsortedData = true;
-            //dataSeriesCap1G10.AcceptsUnsortedData = true;
-            //dataSeriesCap1G11.AcceptsUnsortedData = true;
-            //dataSeriesCap1G12.AcceptsUnsortedData = true;
-            //dataSeriesCap1G13.AcceptsUnsortedData = true;
-            //dataSeriesCap1G14.AcceptsUnsortedData = true;
-            //dataSeriesCap1G15.AcceptsUnsortedData = true;
 
-            //dataSeriesCap2G1.AcceptsUnsortedData = true; // Alt graph
-            //dataSeriesCap2G2.AcceptsUnsortedData = true; // Velocity Graph
-            //dataSeriesCap2G3.AcceptsUnsortedData = true; // Temp / Humidity Graph
-            //dataSeriesCap2G4.AcceptsUnsortedData = true; // VOC Grap
-            //dataSeriesCap2G5.AcceptsUnsortedData = true;  // Satalite Count Graph
-            //dataSeriesCap2G6.AcceptsUnsortedData = true; // Pressure
-            //// Data Replay Graphs
-            //dataSeriesCap2G7.AcceptsUnsortedData = true;
-            //dataSeriesCap2G8.AcceptsUnsortedData = true;
-            //dataSeriesCap2G9.AcceptsUnsortedData = true;
-            //dataSeriesCap2G10.AcceptsUnsortedData = true;
-            //dataSeriesCap2G11.AcceptsUnsortedData = true;
-            //dataSeriesCap2G12.AcceptsUnsortedData = true;
-            //dataSeriesCap2G13.AcceptsUnsortedData = true;
-            //dataSeriesCap2G14.AcceptsUnsortedData = true;
-            //dataSeriesCap2G15.AcceptsUnsortedData = true;
-
-            //dataSeriesRocketG1.AcceptsUnsortedData = true; // Alt graph
-            //dataSeriesRocketG2.AcceptsUnsortedData = true;
-            //dataSeriesRocketG3.AcceptsUnsortedData = true;
-            //dataSeriesRocketG4.AcceptsUnsortedData = true;
-            //dataSeriesRocketG5.AcceptsUnsortedData = true;
-
+            // Initalize Timers
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(10);
             _timer.Tick += _timer_Tick;
@@ -199,6 +167,9 @@ namespace Rocket_TM_BSC.ViewModel
         bool flag_C1 = false;
         bool flag_C2 = false;
         int mapPlot = 100;
+        int mapPlot2 = 100;
+        int plotC1 = 100;
+        int plotC2 = 100;
         private void _timer_Tick(object sender, EventArgs e)
         {
             //stopwatch.Start();
@@ -261,6 +232,12 @@ namespace Rocket_TM_BSC.ViewModel
                         LostFrame_Cap1 = Cap1_Data.lost_frames.ToString();
                         DataRate_Cap1 = Cap1_Data.FrameRate.ToString();
                         // Velocity will have to be a seperate thing from accel data
+                        if (plotC1 >= 100)
+                        {
+                            AddLatLonCap1(cap1Val[0], cap1Val[1]);
+                            plotC1 = 0;
+                        }
+                        plotC1++;
                         i++;
                     }
                     catch (Exception ex)
@@ -295,6 +272,12 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap2_SatCount = cap2Val[3].ToString();
                         Cap2_Alt = cap2Val[10].ToString();
                         // Velocity will have to be a seperate thing from accel data
+                        if (plotC2 >= 100)
+                        {
+                            AddLatLonCap1(cap2Val[0], cap2Val[1]);
+                            plotC2 = 0;
+                        }
+                        plotC2++;
                         i++;
                     }
                     catch (Exception ex)
@@ -310,10 +293,15 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         private int replayCount = 0;
+        private int replayCount2 = 0;
         private bool ReplayStart = false;
         private bool ReplayStop = true;
         private bool ReplayRestart = false;
         private int Countmax = 1;
+        private int Countmax2 = 1;
+        private Stopwatch replaySW = new Stopwatch();
+        private int UpdateRange = 100;
+        private int UpdateRange2 = 100;
         private void _ReplayTimer_Tick(object sender, EventArgs e)
         {
             if (!ReplayStop)
@@ -329,32 +317,37 @@ namespace Rocket_TM_BSC.ViewModel
                     }
                     if (replayCount < Countmax && ReplayStart)
                     {
-                        if (replayCount > 1000)
+                        
+                        replaySW.Start();
+                        if (replayCount > 1000 && Countmax >= Countmax2 && UpdateRange >= 100)
                         {
-                            TimeRangeG7 = new DoubleRange(replayCount-999, replayCount + 1);
-                            TimeRangeG8 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG9 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG10 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG11 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG12 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG13 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG14 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG15 = new DoubleRange(replayCount - 999, replayCount + 1);
-                            TimeRangeG16 = new DoubleRange(replayCount - 999, replayCount + 1);
+                            TimeRangeG7 = new DoubleRange(replayCount-899, replayCount + 200);
+                            TimeRangeG8 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG9 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG10 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG11 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG12 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG13 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG14 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG15 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            TimeRangeG16 = new DoubleRange(replayCount - 899, replayCount + 200);
+                            UpdateRange = 0;
                         }
-                        else
+                        else if(UpdateRange >= 100)
                         {
-                            TimeRangeG7 = new DoubleRange(0, replayCount+1);
-                            TimeRangeG8 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG9 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG10 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG11 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG12 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG13 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG14 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG15 = new DoubleRange(0, replayCount + 1);
-                            TimeRangeG16 = new DoubleRange(0, replayCount + 1);
+                            TimeRangeG7 = new DoubleRange(0, replayCount+200);
+                            TimeRangeG8 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG9 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG10 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG11 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG12 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG13 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG14 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG15 = new DoubleRange(0, replayCount + 200);
+                            TimeRangeG16 = new DoubleRange(0, replayCount + 200);
+                            UpdateRange = 0;
                         }
+                        UpdateRange++;
                         
                         // Add data to plots. Set timer tick to represent sample rate
                         dataSeriesCap1G7.Append(replayCount, _cap1Replay.DP9[replayCount]); // Alt
@@ -367,24 +360,47 @@ namespace Rocket_TM_BSC.ViewModel
                         //dataSeriesCap1G11.Append(replayCount, _cap1Replay.DP11[replayCount]); // Humid
                         //dataSeriesCap1G12.Append(replayCount, _cap1Replay.DP12[replayCount]); // Temp
                         dataSeriesCap1G13.Append(replayCount, _cap1Replay.DP13[replayCount]); // gyro X
-                        dataSeriesCap2G14X.Append(replayCount, _cap1Replay.DP6[replayCount]);
-                        dataSeriesCap2G14Y.Append(replayCount, _cap1Replay.DP7[replayCount]);
-                        dataSeriesCap2G14Z.Append(replayCount, _cap1Replay.DP8[replayCount]);// Accel X Cap2
-                        dataSeriesCap2G15.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel X Cap2
+                        dataSeriesCap1G15.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel X Cap2
                         replayCount++;
-                        if (mapPlot >= 100)
+                        if (replayCount < Countmax)
                         {
-                            AddLatLon(_cap1Replay.DP1[replayCount] * 0.0000001, _cap1Replay.DP2[replayCount] * 0.0000001, "1");
+                            dataSeriesCap1G7.Append(replayCount, _cap1Replay.DP9[replayCount]); // Alt
+                            dataSeriesCap1G16.Append(replayCount, _cap1Replay.DP3[replayCount]); // GPS Alt
+                            dataSeriesCap1G8.Append(replayCount, _cap1Replay.DP4[replayCount]); // Sat Count
+                            dataSeriesCap1G9X.Append(replayCount, _cap1Replay.DP6[replayCount]); // Accel X
+                            dataSeriesCap1G9Y.Append(replayCount, _cap1Replay.DP7[replayCount]); // Accel Y
+                            dataSeriesCap1G9Z.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel Z
+                            //dataSeriesCap1G10.Append(replayCount, _cap1Replay.DP10[replayCount]); // VOC
+                            //dataSeriesCap1G11.Append(replayCount, _cap1Replay.DP11[replayCount]); // Humid
+                            //dataSeriesCap1G12.Append(replayCount, _cap1Replay.DP12[replayCount]); // Temp
+                            dataSeriesCap1G13.Append(replayCount, _cap1Replay.DP13[replayCount]); // gyro X
+                            dataSeriesCap1G15.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel X Cap2
+                        }
+                        
+                        
+                        if (mapPlot >= 50)
+                        {
+                            AddLatLonReplay(_cap1Replay.DP1[replayCount] * 0.0000001, _cap1Replay.DP2[replayCount] * 0.0000001, "1");
                             mapPlot = 0;
                         }
                         mapPlot++;
-                        double replay_tmp = ((double)replayCount) / (double)Countmax;
-                        ReplayProgress = replay_tmp;
+                        replayCount++;
+                        if (Countmax >= Countmax2)
+                        {
+                            double replay_tmp = ((double)replayCount) / (double)Countmax;
+                            ReplayProgress = replay_tmp;
+                        }
+                        long time = replaySW.ElapsedMilliseconds;
+                        double replayhz = (1000 / time)*2;
+                        ReplayHz = replayhz.ToString();
+                        replaySW.Restart();
+                       
                     }
-                    if (replayCount >= Countmax)
+                    if (replayCount >= Countmax && Countmax >= Countmax2)
                     {
 
                         replayCount = 0;
+                        replayCount2 = 0;
                         DoSomething?.Invoke(this, new NotificationEventArgs<string>("Clear"));
                         dataSeriesCap1G7.Clear();
                         dataSeriesCap1G8.Clear();
@@ -395,13 +411,130 @@ namespace Rocket_TM_BSC.ViewModel
                         dataSeriesCap2G14X.Clear();
                         dataSeriesCap2G14Y.Clear();
                         dataSeriesCap2G14Z.Clear();
-                        dataSeriesCap2G15.Clear();
+                        dataSeriesCap1G15.Clear();
                         dataSeriesCap1G16.Clear();
+
+                        dataSeriesCap2G7.Clear();
+                        dataSeriesCap2G8.Clear();
+                        dataSeriesCap2G13.Clear();
+                        dataSeriesCap2G14X.Clear();
+                        dataSeriesCap2G14Y.Clear();
+                        dataSeriesCap2G14Z.Clear();
+                        dataSeriesCap2G15.Clear();
+                        dataSeriesCap2G16.Clear();
                         // Clear Graphs
                         // Restarts the data replay
                     }
                 }
-               
+                if (Cap2ReplayFile != null && Cap2ReplayFile != "") 
+                {
+                    if (_cap2Replay.Replay_Cap2_Ready)
+                    {
+                        Countmax2 = _cap2Replay.DP1.Length;
+
+                        if (ReplayRestart)
+                        {
+                            replayCount2 = Countmax; // Sends to Restart Loop
+                            ReplayRestart = false;
+                        }
+                        if (replayCount2 < Countmax && ReplayStart)
+                        {
+                            if (replayCount2 > 1000 && Countmax2 > Countmax && UpdateRange2 >= 100)
+                            {
+                                TimeRangeG7 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG8 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG9 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG10 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG11 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG12 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG13 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG14 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG15 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                                TimeRangeG16 = new DoubleRange(replayCount2 - 999, replayCount2 + 200);
+                            }
+                            else if (Countmax2 > Countmax && UpdateRange2 >= 100)
+                            {
+                                TimeRangeG7 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG8 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG9 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG10 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG11 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG12 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG13 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG14 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG15 = new DoubleRange(0, replayCount2 + 200);
+                                TimeRangeG16 = new DoubleRange(0, replayCount2 + 200);
+                            }
+                            UpdateRange2++;
+                            // Add data to plots. Set timer tick to represent sample rate
+                            dataSeriesCap2G7.Append(replayCount2, _cap2Replay.DP9[replayCount2]); // Alt
+                            dataSeriesCap2G16.Append(replayCount2, _cap2Replay.DP3[replayCount2]); // GPS Alt
+                            dataSeriesCap2G8.Append(replayCount2, _cap2Replay.DP4[replayCount2]); // Sat Count
+                            dataSeriesCap2G14X.Append(replayCount2, _cap2Replay.DP6[replayCount2]); // Accel X
+                            dataSeriesCap2G14Y.Append(replayCount2, _cap2Replay.DP7[replayCount2]); // Accel Y
+                            dataSeriesCap2G14Z.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel Z
+                            dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
+                            dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap
+                            replayCount2++;
+                            if (replayCount2 < Countmax)
+                            {
+                                dataSeriesCap2G7.Append(replayCount2, _cap2Replay.DP9[replayCount2]); // Alt
+                                dataSeriesCap2G16.Append(replayCount2, _cap2Replay.DP3[replayCount2]); // GPS Alt
+                                dataSeriesCap2G8.Append(replayCount2, _cap2Replay.DP4[replayCount2]); // Sat Count
+                                dataSeriesCap2G14X.Append(replayCount2, _cap2Replay.DP6[replayCount2]); // Accel X
+                                dataSeriesCap2G14Y.Append(replayCount2, _cap2Replay.DP7[replayCount2]); // Accel Y
+                                dataSeriesCap2G14Z.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel Z
+                                dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
+                                dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap2
+                            }
+                            
+
+                            if (mapPlot2 >= 50)
+                            {
+                                AddLatLonReplay2(_cap2Replay.DP1[replayCount2] * 0.0000001, _cap2Replay.DP2[replayCount2] * 0.0000001, "1");
+                                mapPlot2 = 0;
+                            }
+                            mapPlot2++;
+                            replayCount2++;
+                            if (Countmax2 > Countmax)
+                            {
+                                double replay_tmp = ((double)replayCount2) / (double)Countmax;
+                                ReplayProgress = replay_tmp;
+                            }
+
+                        }
+                        if (replayCount2 >= Countmax2 && Countmax2 > Countmax)
+                        {
+                            replayCount = 0;
+                            replayCount2 = 0;
+                            DoSomething2?.Invoke(this, new NotificationEventArgs<string>("Clear"));
+                            dataSeriesCap1G7.Clear();
+                            dataSeriesCap1G8.Clear();
+                            dataSeriesCap1G9X.Clear();
+                            dataSeriesCap1G9Y.Clear();
+                            dataSeriesCap1G9Z.Clear();
+                            dataSeriesCap1G13.Clear();
+                            dataSeriesCap2G14X.Clear();
+                            dataSeriesCap2G14Y.Clear();
+                            dataSeriesCap2G14Z.Clear();
+                            dataSeriesCap2G15.Clear();
+                            dataSeriesCap1G16.Clear();
+
+                            dataSeriesCap2G7.Clear();
+                            dataSeriesCap2G8.Clear();
+                            dataSeriesCap2G13.Clear();
+                            dataSeriesCap2G14X.Clear();
+                            dataSeriesCap2G14Y.Clear();
+                            dataSeriesCap2G14Z.Clear();
+                            dataSeriesCap2G15.Clear();
+                            dataSeriesCap2G16.Clear();
+                            // Clear Graphs
+                            // Restarts the data replay
+                        }
+                    }
+                }
+                
+
             }
            
             
@@ -606,6 +739,12 @@ namespace Rocket_TM_BSC.ViewModel
             set { dataRate_Cap2 = value; OnPropertyChanged("DataRate_Cap2"); }
         }
 
+        private string replayHz = "0";
+        public string ReplayHz
+        {
+            get { return replayHz; }
+            set { replayHz = value; OnPropertyChanged("ReplayHz"); }
+        }
 
         private double replayProgress = 0;
         public double ReplayProgress
@@ -803,11 +942,20 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         private DataReplay_Cap1 _cap1Replay;
-        private DataReplay_Cap1 _cap2Replay;
+        private DataReplay_Cap2 _cap2Replay;
         public void StartReplay(object obj)
         {
-            _cap1Replay = new DataReplay_Cap1();
-            _cap1Replay.RunDataPlayback(Cap1ReplayFile,Cap2ReplayFile);
+            if (Cap1ReplayFile != null && Cap1ReplayFile != "")
+            {
+                _cap1Replay = new DataReplay_Cap1();
+                _cap1Replay.RunDataPlayback(Cap1ReplayFile);
+            }
+            if (Cap2ReplayFile != null && Cap2ReplayFile != "")
+            {
+                _cap2Replay = new DataReplay_Cap2();
+                _cap2Replay.RunDataPlayback(Cap2ReplayFile);
+            }
+
             ReplayStart = true;
             ReplayStop = false;
         }
@@ -842,15 +990,35 @@ namespace Rocket_TM_BSC.ViewModel
         #region Mapping Functions
         // Need to figure out MVVM for GMaps
         GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
-        private void AddLatLon(double Lat, double Lon, string Cap_Num)
+        private void AddLatLonReplay(double Lat, double Lon, string Cap_Num)
         {
             string builder = Lat.ToString() + "," + Lon.ToString() + "," + Cap_Num;
-            
             DoSomething?.Invoke(this, new NotificationEventArgs<string>(builder));
 
         }
-        
-        
+
+        private void AddLatLonReplay2(double Lat, double Lon, string Cap_Num)
+        {
+            string builder = Lat.ToString() + "," + Lon.ToString() + "," + Cap_Num;
+            DoSomething2?.Invoke(this, new NotificationEventArgs<string>(builder));
+
+        }
+
+        private void AddLatLonCap1(double Lat, double Lon)
+        {
+            string builder = Lat.ToString() + "," + Lon.ToString();
+            Cap1TrackEvent?.Invoke(this, new NotificationEventArgs<string>(builder));
+
+        }
+
+        private void AddLatLonCap2(double Lat, double Lon)
+        {
+            string builder = Lat.ToString() + "," + Lon.ToString();
+            Cap2TrackEvent?.Invoke(this, new NotificationEventArgs<string>(builder));
+
+        }
+
+
         #endregion
 
 

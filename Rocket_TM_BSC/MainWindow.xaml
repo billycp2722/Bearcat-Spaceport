@@ -516,7 +516,7 @@
 
             </TabItem>
 
-            <TabItem Header="Data Playback">
+            <TabItem Header="Data Playback" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".7*" />
@@ -626,7 +626,7 @@
                         </Grid>
                         <TextBlock Text="Replay Progress" FontSize="20" Foreground="White" TextAlignment="Center" Margin="0,40,0,0"/>
                         <ProgressBar Width="300" HorizontalContentAlignment="Stretch" Minimum="0" Maximum="1" Value="{Binding ReplayProgress}" Height="25" Margin="10" Background="White" Foreground="Green" BorderBrush="White" BorderThickness="2"/>
-
+                        <TextBox Text="{Binding ReplayHz}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
 
                     </StackPanel>
 

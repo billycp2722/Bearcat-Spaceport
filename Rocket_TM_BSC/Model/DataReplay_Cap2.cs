@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Rocket_TM_BSC.Model
 {
-    public class DataReplay_Cap1
+    public class DataReplay_Cap2
     {
         private BackgroundWorker DataWorker;
-        public DataReplay_Cap1()
+        public DataReplay_Cap2()
         {
             DataWorker = new BackgroundWorker();
             DataWorker.DoWork += DataWorker_DoWork;
@@ -52,7 +52,7 @@ namespace Rocket_TM_BSC.Model
         {
 
             LoadCsv(filepath);
-            Replay_Cap1_Ready = true;
+            Replay_Cap2_Ready = true;
         }
         // All
         public double[] DP1; // Lat
@@ -73,7 +73,7 @@ namespace Rocket_TM_BSC.Model
         public double[] DP14; // gyroY
         public double[] DP15; // gyroZ
 
-        public bool Replay_Cap1_Ready = false;
+        public bool Replay_Cap2_Ready = false;
 
         // Graph Count 1 2 3 4 5 6 7 8 9
         // Graph 10, velocity magnitudes
@@ -131,9 +131,9 @@ namespace Rocket_TM_BSC.Model
                         if (values.Length > 9)
                         {
                             DP10[i-1] = (double.Parse(values[9], NumberStyles.Float));
-                            //DP11[i-1] = (double.Parse(values[10], NumberStyles.Float));
-                            //DP12[i-1] = (double.Parse(values[11], NumberStyles.Float));
-                            //DP13[i-1] = (double.Parse(values[12], NumberStyles.Float));
+                            //DP11[i-1] = (double.Parse(values[10], NumberStyles.Float)); // Voc
+                            //DP12[i-1] = (double.Parse(values[11], NumberStyles.Float)); // Tmp
+                            //DP13[i-1] = (double.Parse(values[12], NumberStyles.Float)); // Humid
                             DP14[i-1] = (double.Parse(values[10], NumberStyles.Float));
                             DP15[i-1] = (double.Parse(values[11], NumberStyles.Float));
                         }
@@ -143,6 +143,7 @@ namespace Rocket_TM_BSC.Model
             }
             MaxAlt = DP9.Max();
         }
+
         private void DisplayData()
         {
             

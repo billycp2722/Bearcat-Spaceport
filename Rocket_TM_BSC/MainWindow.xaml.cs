@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Shapes;
 using SimpleMvvmToolkit;
 using System.Reflection;
+using System.Windows.Interop;
 
 namespace Rocket_TM_BSC
 {
@@ -35,7 +36,10 @@ namespace Rocket_TM_BSC
             InitializeComponent();
             var vm = DataContext as ViewModel.BSCViewModel; //Get VM from view's DataContext
             if (vm == null) return; //Check if conversion succeeded
-            vm.DoSomething += DoSomething; // Subscribe to event
+            vm.DoSomething += DoSomething;
+            vm.DoSomething2 += DoSomething2;
+            vm.Cap1TrackEvent += AddCap1Coord;
+            vm.Cap2TrackEvent += AddCap2Coord;// Subscribe to event
             //var obj = new ObjectModel3D();
             //sciChart3DSurface.SceneObjects.Add(obj);
             //obj.Position = new Vector3(0f, 0f, 0f);
@@ -47,6 +51,36 @@ namespace Rocket_TM_BSC
             //obj.Source = objModelSource;
 
         }
+        private void AddCap1Coord(object sender, NotificationEventArgs<string> e)
+        {
+            string msg = e.Message;
+            string[] strings = msg.Split(',');
+            GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
+            marker.Shape = new Image
+            {
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            };
+            mapView3.Markers.Add(marker);
+            mapView3.Position = new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble());
+        }
+
+        private void AddCap2Coord(object sender, NotificationEventArgs<string> e)
+        {
+            string msg = e.Message;
+            string[] strings = msg.Split(',');
+            GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
+            marker.Shape = new Image
+            {
+                Width = 25,
+                Height = 25,
+                Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
+            };
+            mapView2.Markers.Add(marker);
+            mapView2.Position = new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble());
+        }
+
         private void DoSomething(object sender, NotificationEventArgs<string> e)
         {
             string msg = e.Message;
@@ -69,6 +103,31 @@ namespace Rocket_TM_BSC
             }
             
             
+            //mapView.Markers.Clear();
+        }
+
+        private void DoSomething2(object sender, NotificationEventArgs<string> e)
+        {
+            string msg = e.Message;
+            if (msg == "Clear")
+            {
+                mapView.Markers.Clear();
+            }
+            else
+            {
+                string[] strings = msg.Split(',');
+                GMapMarker marker = new GMapMarker(new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble()));
+                marker.Shape = new Image
+                {
+                    Width = 25,
+                    Height = 25,
+                    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/Bearcat_Spaceport_Cup_Logo1.png"))
+                };
+                mapView.Markers.Add(marker);
+                mapView.Position = new PointLatLng(strings[0].ToDouble(), strings[1].ToDouble());
+            }
+
+
             //mapView.Markers.Clear();
         }
         //private void OnClickHorizontalRotate(object sender, RoutedEventArgs e)
@@ -99,43 +158,7 @@ namespace Rocket_TM_BSC
             mapView.CanDragMap = true;
             // lets the user drag the map with the left mouse button
             mapView.DragButton = MouseButton.Left;
-            //GMapMarker marker = new GMapMarker(new PointLatLng(39.86113302187091, -83.6557333146190));
-            //marker.Shape = new Image
-            //{
-            //    Width = 25,
-            //    Height = 25,
-            //    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-            //};
 
-            //mapView.Markers.Add(marker);
-            //GMapMarker marker2 = new GMapMarker(new PointLatLng(39.82821816857987, -83.63717981659063));
-            //marker2.Shape = new Image
-            //{
-            //    Width = 25,
-            //    Height = 25,
-            //    Source = new BitmapImage(new System.Uri("pack://application:,,,/assets/MarkerIcon.png"))
-            //};
-            //mapView.Markers.Add(marker2);
-            //List<PointLatLng> markers = new List<PointLatLng>();
-            //markers.Add(new PointLatLng(39.82821816857987, -83.63717981659063));
-            //markers.Add(new PointLatLng(39.86113302187091, -83.6557333146190));
-
-
-            // Adds lines between markers
-            //for (int i = 0; i < markers.Count; i++)
-            //{
-            //    GMapRoute gmRoute = new GMapRoute(new List<PointLatLng>() {
-            //    markers[i] , markers.Count-1 == i ? markers[i] : markers[i + 1]})
-            //    {
-            //        Shape = new Line()
-            //        {
-            //            StrokeThickness = 3,
-            //            Stroke = System.Windows.Media.Brushes.Red
-            //        },
-            //    };
-            //    mapView.Markers.Add(gmRoute);
-
-            //}
         }
 
         private void mapView2_Loaded(object sender, RoutedEventArgs e)
