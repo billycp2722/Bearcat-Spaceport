@@ -44,6 +44,13 @@ namespace Rocket_TM_BSC.Model
         public int lost_frames_rocket = 0;
         private bool flag = false;
         private SerialPort _serialport2;
+
+        public int lost_frames3 = 0;
+        private bool SerialFlag2 = false;
+        private bool LostFrameFlag = false;
+        public double FrameRate3 = 0;
+        private Stopwatch sw_Cap3;
+        private int FrameCount = 0;
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -63,6 +70,7 @@ namespace Rocket_TM_BSC.Model
                     _serialport2.DiscardInBuffer();
                     _serialport2.ReadTimeout = 500;
                     flag = true;
+                    sw_Cap3.Start();
                 }
                 
 
@@ -90,6 +98,15 @@ namespace Rocket_TM_BSC.Model
                         try
                         {
                             bytesRead += _serialport2.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+                            if (LostFrameFlag)
+                            {
+                                if ((char)buffer[bytesRead - 1] == '\n')
+                                {
+                                    LostFrameFlag = false;
+                                    break;
+                                }
+
+                            }
                         }
                         catch
                         {
@@ -118,17 +135,33 @@ namespace Rocket_TM_BSC.Model
                     //byte[] CheckByte = new byte[1] { buffer[78] };
                     //if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     //{
-                    if ((char)buffer[65] == '\n')
+                    if (buffer.Length = bytesToRead)
                     {
-                        Rocket_DataProcessing_Hex.RocketDataQueue_Hex.Enqueue(buffer);
+                        FrameCount++;
+                        if ((char)buffer[bytesToRead-1] == '\n')
+                        {
+                            Rocket_DataProcessing_Hex.RocketDataQueue_Hex.Enqueue(buffer);
+                        }
+                        else
+                        {
+                            LostFrameFlag = true;
+                            lost_frames3++;
+                            Console.WriteLine("Lost Frame: " + lost_frames3);
+                        }
+                        
                     }
                     else
-                    {
-                        _serialport2.DiscardInBuffer();
+                    { 
                         lost_frames_rocket++;
                         Console.WriteLine("Lost Frame: " + lost_frames_rocket);
                     }
-                    
+
+                    if (sw_Cap3.ElapsedMilliseconds >= 2000)
+                    {
+                        FrameRate3 = FrameCount / (sw_Cap3.ElapsedMilliseconds / 1000);
+                        FrameCount = 0;
+                        sw_Cap3.Restart();
+                    }
                     //}
                     //else
                     //{

@@ -41,7 +41,7 @@ namespace Rocket_TM_BSC.Model
         public ConcurrentQueue<string> CommandStringTM2;
         private string command_on = "ON";
         public Cap2_DataProcessing_Hex cap2_DataProcessing_Hex;
-        public int lost_frames = 0;
+        public int lost_frames2 = 0;
         private bool flag = false;
         private SerialPort _serialport2;
         private int FrameCount = 0;
@@ -132,25 +132,25 @@ namespace Rocket_TM_BSC.Model
                     //byte[] CheckByte = new byte[1] { buffer[78] };
                     //if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     //{
-                    if ((char)buffer[65] == '\n')
+                    if (buffer.Length = bytesToRead)
                     {
                         FrameCount++;
-                        if ((char)buffer[77] == '\n')
+                        if ((char)buffer[65] == '\n')
                         {
                             cap2_DataProcessing_Hex.Cap2DataQueue_Hex.Enqueue(buffer);
                         }
                         else
                         {
                             LostFrameFlag = true;
-                            lost_frames++;
-                            Console.WriteLine("Lost Frame: " + lost_frames);
+                            lost_frames2++;
+                            Console.WriteLine("Lost Frame: " + lost_frames2);
                         }
                         
                     }
                     else
                     {
-                        lost_frames++;
-                        Console.WriteLine("Lost Frame: " + lost_frames);
+                        lost_frames2++;
+                        Console.WriteLine("Lost Frame: " + lost_frames2);
                     }
 
                     if (sw_Cap2.ElapsedMilliseconds >= 2000)
