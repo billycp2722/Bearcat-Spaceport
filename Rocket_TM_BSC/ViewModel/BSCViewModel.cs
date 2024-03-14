@@ -70,6 +70,7 @@ namespace Rocket_TM_BSC.ViewModel
         public ViewCommand StartReplayCommand { get; set; }
         public ViewCommand StopReplayCommand { get; set; }
         public ViewCommand RestartReplayCommand { get; set; }
+        public ViewCommand EjectRocket { get; set; }
 
         private string cap1ReplayFile = null;
         private string cap2ReplayFile = null;
@@ -79,7 +80,7 @@ namespace Rocket_TM_BSC.ViewModel
         private DispatcherTimer _ReplayTimer;
         private Cap1_TM Cap1_Data = new Cap1_TM();
         private Cap2_TM Cap2_Data = new Cap2_TM();
-        private Cap1_TM Rocket_Data = new Cap1_TM();
+        private Rocket_TM Rocket_Data = new Rocket_TM();
         
 
         // GUI Variables
@@ -139,6 +140,7 @@ namespace Rocket_TM_BSC.ViewModel
             StopReplayCommand = new ViewCommand(StopReplay, CanStopReplay);
             StartReplayCommand = new ViewCommand(StartReplay, CanStartReplay);
             RestartReplayCommand = new ViewCommand(RestartReplay, CanRestartReplay);
+            EjectRocket = new ViewCommand(EjectPayload, CanEjectPayload);
 
             // Initalize Graphs
             InitializeGraph(); 
@@ -166,6 +168,7 @@ namespace Rocket_TM_BSC.ViewModel
         //Stopwatch stopwatch = new Stopwatch();
         bool flag_C1 = false;
         bool flag_C2 = false;
+        bool flag_R = false;
         int mapPlot = 100;
         int mapPlot2 = 100;
         int plotC1 = 100;
@@ -175,13 +178,18 @@ namespace Rocket_TM_BSC.ViewModel
             //stopwatch.Start();
             if (RocketLinkOpen)
             {
-                while (Rocket_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.Count > 0)
+                while (Rocket_Data.Rocket_DataProcessing_Hex.Rocket_DataOut_Hex.Count > 0)
                 {
+                    if (flag_R == false)
+                    {
+                        flag_R = true;
+                        Thread.Sleep(50);
+                    }
                     //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
                     try
                     {
                         // Replace Rocket_Data with Cap1 info
-                        Rocket_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
+                        Rocket_Data.Rocket_DataProcessing_Hex.Rocket_DataOut_Hex.TryDequeue(out var cap1Val);
 
                         dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
                         dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
@@ -840,7 +848,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void StatCheckRocket(object obj)
         {
             // Sends Status Check command to TM to update view
-            Rocket_Data.CommandStringTM1.Enqueue("transmit_data");
+            Rocket_Data.CommandStringTM3.Enqueue("transmit_data");
 
         }
 
@@ -878,7 +886,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void WakeUpRocket(object obj)
         {
             // Sends Wake Command to TM to activate for launch
-            Rocket_Data.CommandStringTM1.Enqueue("WAKE");
+            Rocket_Data.CommandStringTM3.Enqueue("WAKE");
         }
 
         public bool CanWakeUpRocket(object obj)
@@ -983,6 +991,21 @@ namespace Rocket_TM_BSC.ViewModel
         public bool CanRestartReplay(object obj)
         {
             return true;
+        }
+
+        public void EjectPayload(object obj)
+        {
+            DialogResult Result = MessageBox.Show("Confirm Ejection","", MessageBoxButtons.YesNo);
+            if (Result == DialogResult.Yes)
+            {
+                Rocket_Data.CommandStringTM3.Enqueue("Eject");
+            }
+            
+        }
+
+        public bool CanEjectPayload(object obj)
+        {
+            return RocketLinkOpen;
         }
         #endregion
 

@@ -127,12 +127,10 @@
                             <TextBlock Text="System Pressure 1 (PSI)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure1}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="System Pressure 2 (PSI)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure2}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
-
-                            <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
-                            <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
-
+                            <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
+                            <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
+                                    
+                            <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
                             <controls:Graph6 Grid.Row="7" Margin="10" Grid.ColumnSpan="2"/>
                         </Grid>
                     </GroupBox>

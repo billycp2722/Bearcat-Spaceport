@@ -310,6 +310,8 @@
     </ApplicationDefinition>
     <Compile Include="Commands\ViewCommand.cs" />
     <Compile Include="Model\AccelToVelo.cs" />
+    <Compile Include="Model\Rocket_DataProcessing_Hex.cs" />
+    <Compile Include="Model\Rocket_TM.cs" />
     <Compile Include="Model\Cap2_TM.cs" />
     <Compile Include="Model\Cap2_DataProcessing_Hex.cs" />
     <Compile Include="Model\Cap1_DataProcessing_Hex.cs" />
