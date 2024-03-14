@@ -1140,7 +1140,7 @@ namespace Rocket_TM_BSC.ViewModel
         private XyDataSeries<double, double> dataSeriesRocketG5;
 
         private XyDataSeries<double, double> dataSeriesCap1G6;
-        private XyDataSeries<double, double> dataSeriesCap2G6;
+        
         
 
         private void InitializeGraph()
@@ -1205,13 +1205,13 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesRocketG5.AcceptsUnsortedData = true;
 
             dataSeriesCap1G6 = new XyDataSeries<double, double>();
-            dataSeriesCap2G6 = new XyDataSeries<double, double>();
+            
             
             dataSeriesCap1G6.SeriesName = "Capsule 1";
-            dataSeriesCap2G6.SeriesName = "Capsule 2";
+            
             
             dataSeriesCap1G6.AcceptsUnsortedData = true;
-            dataSeriesCap2G6.AcceptsUnsortedData = true;
+            
             
 
             // Chart 1
@@ -1332,14 +1332,6 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
             });
 
-            Graph6Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesCap2G6,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
-            });
 
         }
 
@@ -1416,7 +1408,7 @@ namespace Rocket_TM_BSC.ViewModel
         private ObservableCollection<IRenderableSeriesViewModel> graph13Series { get; set; }
         public ObservableCollection<IRenderableSeriesViewModel> Graph13Series
         {
-            get => graph3Series;
+            get => graph13Series;
             set
             {
                 graph13Series = value;
@@ -1819,7 +1811,7 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
 
-            // Chart 5
+            //Chart 5
             Graph13Series.Add(new LineRenderableSeriesViewModel
             {
                 DataSeries = dataSeriesCap1G13,

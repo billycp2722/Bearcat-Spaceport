@@ -44,6 +44,10 @@ namespace Rocket_TM_BSC.Model
         public int lost_frames = 0;
         private bool flag = false;
         private SerialPort _serialport2;
+        private int FrameCount = 0;
+        public double FrameRate2 = 0;
+        private bool LostFrameFlag = false;
+        private Stopwatch sw_Cap2;
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
@@ -63,6 +67,7 @@ namespace Rocket_TM_BSC.Model
                     _serialport2.DiscardInBuffer();
                     _serialport2.ReadTimeout = 500;
                     flag = true;
+                    sw_Cap2.Start();
                 }
                 
 
@@ -90,6 +95,15 @@ namespace Rocket_TM_BSC.Model
                         try
                         {
                             bytesRead += _serialport2.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+                            if (LostFrameFlag)
+                            {
+                                if ((char)buffer[bytesRead - 1] == '\n')
+                                {
+                                    LostFrameFlag = false;
+                                    break;
+                                }
+
+                            }
                         }
                         catch
                         {
@@ -120,15 +134,31 @@ namespace Rocket_TM_BSC.Model
                     //{
                     if ((char)buffer[65] == '\n')
                     {
-                        cap2_DataProcessing_Hex.Cap2DataQueue_Hex.Enqueue(buffer);
+                        FrameCount++;
+                        if ((char)buffer[77] == '\n')
+                        {
+                            cap2_DataProcessing_Hex.Cap2DataQueue_Hex.Enqueue(buffer);
+                        }
+                        else
+                        {
+                            LostFrameFlag = true;
+                            lost_frames++;
+                            Console.WriteLine("Lost Frame: " + lost_frames);
+                        }
+                        
                     }
                     else
                     {
-                        _serialport2.DiscardInBuffer();
                         lost_frames++;
                         Console.WriteLine("Lost Frame: " + lost_frames);
                     }
-                    
+
+                    if (sw_Cap2.ElapsedMilliseconds >= 2000)
+                    {
+                        FrameRate2 = FrameCount / (sw_Cap2.ElapsedMilliseconds / 1000);
+                        FrameCount = 0;
+                        sw_Cap2.Restart();
+                    }
                     //}
                     //else
                     //{

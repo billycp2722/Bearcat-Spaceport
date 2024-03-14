@@ -111,7 +111,6 @@
                                 <RowDefinition Height=".9*" />
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
-
                                 <RowDefinition Height="4*" />
                             </Grid.RowDefinitions>
 
@@ -124,7 +123,7 @@
                             <TextBlock Text="Apogee (ft)" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding ApogeeAlt}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="System Pressure 1 (PSI)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
+                            <TextBlock Text="System Pressure (PSI)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding SysPressure1}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
 
                             <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
@@ -514,7 +513,7 @@
 
             </TabItem>
 
-            <TabItem Header="Data Playback" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
+            <TabItem Header="Data Playback">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".7*" />
