@@ -45,7 +45,7 @@ namespace Rocket_TM_BSC.Model
         private bool SerialFlag2 = false;
         private bool LostFrameFlag = false;
         public double FrameRate = 0;
-        private Stopwatch sw_Cap1;
+        private Stopwatch sw_Cap1;  
         private int FrameCount = 0;
         
         private void TMDataWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -143,7 +143,8 @@ namespace Rocket_TM_BSC.Model
 
                     if (sw_Cap1.ElapsedMilliseconds >= 2000)
                     {
-                        FrameRate = sw_Cap1.ElapsedMilliseconds / FrameCount;
+                        FrameRate = FrameCount / (sw_Cap1.ElapsedMilliseconds / 1000);
+                        FrameCount = 0;
                         sw_Cap1.Restart();
                     }
                     
