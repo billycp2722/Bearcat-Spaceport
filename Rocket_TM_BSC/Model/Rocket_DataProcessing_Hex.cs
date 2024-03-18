@@ -18,6 +18,7 @@ namespace Rocket_TM_BSC.Model
         private BackgroundWorker RocketDataProcessor;
         public ConcurrentQueue<byte[]> RocketDataQueue_Hex;
         public ConcurrentQueue<double[]> Rocket_DataOut_Hex;
+        public string ApogeeAlt = "0";
         public Rocket_DataProcessing_Hex()
         {
             RocketDataProcessor = new BackgroundWorker();

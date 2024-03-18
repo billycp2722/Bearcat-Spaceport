@@ -347,7 +347,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Foreground="White" FontSize="20" Text="COM Port" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10"/>
-                                <ComboBox ItemsSource="{Binding RocketCOMPortList}" Grid.Column="1"  SelectedItem="{Binding RocketCOM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
+                                <ComboBox ItemsSource="{Binding RocketCOMPortList}" Grid.Column="1"  SelectedItem="{Binding RSSICOM}" Margin="5" MaxWidth="200" Width="200" HorizontalAlignment="Left">
 
                                 </ComboBox>
                             </Grid>

@@ -58,6 +58,7 @@ namespace Rocket_TM_BSC.ViewModel
         public ViewCommand OpenRocketCOMCommand { get; set; }
         public ViewCommand OpenCap1COMCommand { get; set; }
         public ViewCommand OpenCap2COMCommand { get; set; }
+        public ViewCommand OpenRSSICOMCommand { get; set; }
         public ViewCommand StatusCheckRocket { get; set; }
         public ViewCommand StatusCheckCap1 { get; set; }
         public ViewCommand StatusCheckCap2 { get; set; }
@@ -126,6 +127,7 @@ namespace Rocket_TM_BSC.ViewModel
             OpenRocketCOMCommand = new ViewCommand(OpenRocketCOM, CanOpenRocketCOM);
             OpenCap1COMCommand = new ViewCommand(OpenCap1COM, CanOpenCap1COM);
             OpenCap2COMCommand = new ViewCommand(OpenCap2COM, CanOpenCap2COM);
+            OpenRSSICOMCommand = new ViewCommand(OpenRSSICOM, CanOpenRSSICOM);
 
             StatusCheckRocket = new ViewCommand(StatCheckRocket, CanStatCheckRocket);
             StatusCheckCap1 = new ViewCommand(StatCheckCap1, CanStatCheckCap1);
@@ -134,7 +136,7 @@ namespace Rocket_TM_BSC.ViewModel
             WakeRocket = new ViewCommand(WakeUpRocket, CanWakeUpRocket);
             WakeCap1 = new ViewCommand(WakeUpCap1, CanWakeUpCap1);
             WakeCap2 = new ViewCommand(WakeUpCap2, CanWakeUpCap2);
-
+            //
             Cap1ReplayCommand = new ViewCommand(Cap1Replay, CanCap1Replay);
             Cap2ReplayCommand = new ViewCommand(Cap2Replay, CanCap2Replay);
             StopReplayCommand = new ViewCommand(StopReplay, CanStopReplay);
@@ -285,6 +287,8 @@ namespace Rocket_TM_BSC.ViewModel
                             AddLatLonCap1(cap2Val[0], cap2Val[1]);
                             plotC2 = 0;
                         }
+                        LostFrame_Cap2 = Cap2_Data.lost_frames2.ToString();
+                        DataRate_Cap2 = Cap2_Data.FrameRate2.ToString();
                         plotC2++;
                         i++;
                     }
@@ -294,6 +298,10 @@ namespace Rocket_TM_BSC.ViewModel
                     }
                 }
             }
+
+            Cap1Strength = RSSI.RSSI_Cap1.ToString();
+            Cap2Strength = RSSI.RSSI_Cap2.ToString();
+            RocketSigStrength = RSSI.RSSI_Rocket.ToString();
             //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " + j);
             //j++;
             //stopwatch.Reset();
@@ -719,6 +727,13 @@ namespace Rocket_TM_BSC.ViewModel
             set { cap2COM = value; OnPropertyChanged("Cap2COM"); }
         }
 
+        private string rSSICOM = null;
+        public string RSSICOM
+        {
+            get { return rSSICOM; }
+            set { rSSICOM = value; OnPropertyChanged("RSSICOM"); }
+        }
+
         private string lostFrame_cap1= "0";
         public string LostFrame_Cap1
         {
@@ -840,6 +855,17 @@ namespace Rocket_TM_BSC.ViewModel
         }
 
         public bool CanOpenCap2COM(object obj)
+        {
+            return true;
+        }
+        GetRSSI RSSI = new GetRSSI();
+        public void OpenRSSICOM(object obj)
+        {
+            RSSI.OpenNewPort(RSSICOM);
+
+        }
+
+        public bool CanOpenRSSICOM(object obj)
         {
             return true;
         }

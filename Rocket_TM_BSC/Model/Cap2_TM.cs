@@ -132,7 +132,7 @@ namespace Rocket_TM_BSC.Model
                     //byte[] CheckByte = new byte[1] { buffer[78] };
                     //if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     //{
-                    if (buffer.Length = bytesToRead)
+                    if (buffer.Length == bytesToRead)
                     {
                         FrameCount++;
                         if ((char)buffer[65] == '\n')
