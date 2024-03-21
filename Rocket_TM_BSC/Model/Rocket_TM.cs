@@ -89,7 +89,7 @@ namespace Rocket_TM_BSC.Model
                         _serialport2.WriteLine(command);
                     }
 
-                    int bytesToRead = 66;
+                    int bytesToRead = 18;
                     byte[] buffer = new byte[bytesToRead];
                     int bytesRead = 0;
                     while (bytesRead < bytesToRead) 

@@ -193,17 +193,18 @@ namespace Rocket_TM_BSC.ViewModel
                         // Replace Rocket_Data with Cap1 info
                         Rocket_Data.Rocket_DataProcessing_Hex.Rocket_DataOut_Hex.TryDequeue(out var cap1Val);
 
-                        dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
-                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
-                        dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
-                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
-                        dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+                        dataSeriesRocketG1.Append(i, cap1Val[0]); // Alt
+                        dataSeriesCap1G6.Append(i, cap1Val[1]); // Pressure
 
-                        Cap1_GPSLat = cap1Val[0].ToString();
-                        Cap1_GPSLon = cap1Val[1].ToString();
-                        Cap1_SatCount = cap1Val[3].ToString();
-                        Cap1_Alt = cap1Val[10].ToString();
-
+                        RocketAlt = cap1Val[1].ToString();
+                        if (cap1Val[1] > RocketAlt.ToDouble())
+                        {
+                            RocketAlt = cap1Val[1].ToString();
+                        }
+                        if (cap1Val[2] == 1)
+                        {
+                            CapEject = Brushes.Green;
+                        }
                         // Velocity will have to be a seperate thing from accel data
                         i++;
                     }
@@ -228,16 +229,18 @@ namespace Rocket_TM_BSC.ViewModel
                         // Replace Rocket_Data with Cap1 info
                         Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
                        
-
-                        dataSeriesCap1G1.Append(i, cap1Val[11]); // Alt
-                        dataSeriesCap1G2.Append(i, cap1Val[8]); // Velo
+                        double AccelMag = Math.Sqrt(Math.Pow(cap1Val[7],2)+ Math.Pow(cap1Val[8], 2)+ Math.Pow(cap1Val[9],2));
+                        dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
+                        dataSeriesCap1G2.Append(i, AccelMag); // Velo
                         dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
                         dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
+                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
 
                         Cap1_GPSLat = cap1Val[0].ToString();
                         Cap1_GPSLon = cap1Val[1].ToString();
                         Cap1_SatCount = cap1Val[3].ToString();
                         Cap1_Alt = cap1Val[10].ToString();
+                        Cap1_Velo = AccelMag.ToString();
 
                         LostFrame_Cap1 = Cap1_Data.lost_frames.ToString();
                         DataRate_Cap1 = Cap1_Data.FrameRate.ToString();
@@ -256,7 +259,6 @@ namespace Rocket_TM_BSC.ViewModel
                     }
                 }
             }
-            
             if (Cap2LinkOpen)
             {
                 if (flag_C2 == false)
@@ -272,15 +274,16 @@ namespace Rocket_TM_BSC.ViewModel
                         // Replace Rocket_Data with Cap1 info
                         Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.TryDequeue(out var cap2Val);
 
+                        double AccelMag = Math.Sqrt(Math.Pow(cap2Val[7], 2) + Math.Pow(cap2Val[8], 2) + Math.Pow(cap2Val[9], 2));
                         dataSeriesCap2G1.Append(i, cap2Val[10]); // Alt
-                        dataSeriesCap2G2.Append(i, cap2Val[8]); // Velo
-                        //dataSeriesCap2G3.Append(i, cap2Val[12]); // Temp
+                        dataSeriesCap2G2.Append(i, AccelMag); // Velo
                         dataSeriesCap2G5.Append(i, cap2Val[3]); // Sat Count
 
                         Cap2_GPSLat = cap2Val[0].ToString();
                         Cap2_GPSLon = cap2Val[1].ToString();
                         Cap2_SatCount = cap2Val[3].ToString();
                         Cap2_Alt = cap2Val[10].ToString();
+                        Cap2_Velo = AccelMag.ToString();
                         // Velocity will have to be a seperate thing from accel data
                         if (plotC2 >= 100)
                         {
@@ -300,8 +303,22 @@ namespace Rocket_TM_BSC.ViewModel
             }
 
             Cap1Strength = RSSI.RSSI_Cap1.ToString();
+            if (RSSI.RSSI_Cap1 != 0)
+            {
+                Cap1TMStat = Brushes.Green;
+            }
+
             Cap2Strength = RSSI.RSSI_Cap2.ToString();
+            if (RSSI.RSSI_Cap2 != 0)
+            {
+                Cap2TMStat = Brushes.Green;
+            }
+
             RocketSigStrength = RSSI.RSSI_Rocket.ToString();
+            if (RSSI.RSSI_Rocket != 0)
+            {
+                RockTMStat = Brushes.Green;
+            }
             //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " + j);
             //j++;
             //stopwatch.Reset();
