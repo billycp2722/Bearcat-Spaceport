@@ -1314,16 +1314,6 @@ namespace Rocket_TM_BSC.ViewModel
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
             });
-
-            Graph3Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesCap2G3,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
-            });
-
            
             // Chart 4
             Graph4Series.Add(new LineRenderableSeriesViewModel
@@ -1335,16 +1325,7 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
             });
 
-            Graph4Series.Add(new LineRenderableSeriesViewModel
-            {
-                DataSeries = dataSeriesCap2G4,
-                AntiAliasing = false,
-                StrokeThickness = 1,
-                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
-                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
-            });
 
-           
             // Chart 5
             Graph5Series.Add(new LineRenderableSeriesViewModel
             {
