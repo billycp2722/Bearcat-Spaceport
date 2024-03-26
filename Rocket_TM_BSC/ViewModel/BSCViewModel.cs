@@ -155,7 +155,7 @@ namespace Rocket_TM_BSC.ViewModel
             _timer.Start();
 
             _ReplayTimer = new DispatcherTimer();
-            _ReplayTimer.Interval = TimeSpan.FromMilliseconds(10); // Hz? 20ms = 50hz, 10ms = 100 hz 5ms = 200 hz
+            _ReplayTimer.Interval = TimeSpan.FromMilliseconds(12); // Hz? 20ms = 50hz, 10ms = 100 hz 5ms = 200 hz
             _ReplayTimer.Tick += _ReplayTimer_Tick; ;
             _ReplayTimer.Start();
 
@@ -305,19 +305,53 @@ namespace Rocket_TM_BSC.ViewModel
             Cap1Strength = RSSI.RSSI_Cap1.ToString();
             if (RSSI.RSSI_Cap1 != 0)
             {
-                Cap1TMStat = Brushes.Green;
+                if (RSSI.RSSI_Cap1 < -95)
+                {
+                    Cap1TMStat = Brushes.Yellow;
+                }
+                if (RSSI.RSSI_Cap1 < -105)
+                {
+                    Cap1TMStat = Brushes.Red;
+                }
+                if (RSSI.RSSI_Cap1 < 0)
+                {
+                    Cap1TMStat = Brushes.Green;
+                }
             }
 
             Cap2Strength = RSSI.RSSI_Cap2.ToString();
             if (RSSI.RSSI_Cap2 != 0)
             {
-                Cap2TMStat = Brushes.Green;
+                if (RSSI.RSSI_Cap2 < -95)
+                {
+                    Cap2TMStat = Brushes.Yellow;
+                }
+                if (RSSI.RSSI_Cap2 < -105)
+                {
+                    Cap2TMStat = Brushes.Red;
+                }
+                if (RSSI.RSSI_Cap2 < 0)
+                {
+                    Cap2TMStat = Brushes.Green;
+                }
+                
             }
 
             RocketSigStrength = RSSI.RSSI_Rocket.ToString();
             if (RSSI.RSSI_Rocket != 0)
             {
-                RockTMStat = Brushes.Green;
+                if(RSSI.RSSI_Rocket < -95)
+                {
+                    RockTMStat = Brushes.Yellow;
+                }
+                if (RSSI.RSSI_Rocket < -105)
+                {
+                    RockTMStat = Brushes.Red;
+                }
+                if (RSSI.RSSI_Rocket < 0)
+                {
+                    RockTMStat = Brushes.Green;
+                }
             }
             //Console.WriteLine(stopwatch.ElapsedMilliseconds + ": " + j);
             //j++;
@@ -1200,8 +1234,8 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G1 = new XyDataSeries<double, double>();
             dataSeriesCap2G1 = new XyDataSeries<double, double>();
             dataSeriesRocketG1 = new XyDataSeries<double, double>();
-            dataSeriesCap1G1.SeriesName = "Capsule 1";
-            dataSeriesCap2G1.SeriesName = "Capsule 2";
+            dataSeriesCap1G1.SeriesName = "Atmos";
+            dataSeriesCap2G1.SeriesName = "Cam";
             dataSeriesRocketG1.SeriesName = "Rocket";
             dataSeriesCap1G1.AcceptsUnsortedData = true;
             dataSeriesCap2G1.AcceptsUnsortedData = true;
@@ -1210,8 +1244,8 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G2 = new XyDataSeries<double, double>();
             dataSeriesCap2G2 = new XyDataSeries<double, double>();
             dataSeriesRocketG2 = new XyDataSeries<double, double>();
-            dataSeriesCap1G2.SeriesName = "Capsule 1";
-            dataSeriesCap2G2.SeriesName = "Capsule 2";
+            dataSeriesCap1G2.SeriesName = "Atmos";
+            dataSeriesCap2G2.SeriesName = "Cam";
             //dataSeriesRocketG2.SeriesName = "Z-Axis";
             dataSeriesCap1G2.AcceptsUnsortedData = true;
             dataSeriesCap2G2.AcceptsUnsortedData = true;
@@ -1220,8 +1254,8 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G3 = new XyDataSeries<double, double>();
             dataSeriesCap2G3 = new XyDataSeries<double, double>();
             dataSeriesRocketG3 = new XyDataSeries<double, double>();
-            dataSeriesCap1G3.SeriesName = "Capsule 1";
-            dataSeriesCap2G3.SeriesName = "Capsule 2";
+            dataSeriesCap1G3.SeriesName = "Atmos";
+            dataSeriesCap2G3.SeriesName = "Cam";
             //dataSeriesRocketG3.SeriesName = "Z-Axis";
             dataSeriesCap1G3.AcceptsUnsortedData = true;
             dataSeriesCap2G3.AcceptsUnsortedData = true;
@@ -1230,8 +1264,8 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G4 = new XyDataSeries<double, double>();
             dataSeriesCap2G4 = new XyDataSeries<double, double>();
             dataSeriesRocketG4 = new XyDataSeries<double, double>();
-            dataSeriesCap1G4.SeriesName = "Capsule 1";
-            dataSeriesCap2G4.SeriesName = "Capsule 2";
+            dataSeriesCap1G4.SeriesName = "Atmos";
+            dataSeriesCap2G4.SeriesName = "Cam";
             //dataSeriesRocketG4.SeriesName = "Z-Axis";
             dataSeriesCap1G4.AcceptsUnsortedData = true;
             dataSeriesCap2G4.AcceptsUnsortedData = true;
@@ -1240,8 +1274,8 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G5 = new XyDataSeries<double, double>();
             dataSeriesCap2G5 = new XyDataSeries<double, double>();
             dataSeriesRocketG5 = new XyDataSeries<double, double>();
-            dataSeriesCap1G5.SeriesName = "Capsule 1";
-            dataSeriesCap2G5.SeriesName = "Capsule 2";
+            dataSeriesCap1G5.SeriesName = "Atmos";
+            dataSeriesCap2G5.SeriesName = "Cam";
             //dataSeriesRocketG5.SeriesName = "Z-Axis";
             dataSeriesCap1G5.AcceptsUnsortedData = true;
             dataSeriesCap2G5.AcceptsUnsortedData = true;
@@ -1250,7 +1284,7 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G6 = new XyDataSeries<double, double>();
             
             
-            dataSeriesCap1G6.SeriesName = "Capsule 1";
+            dataSeriesCap1G6.SeriesName = "Atmos";
             
             
             dataSeriesCap1G6.AcceptsUnsortedData = true;
@@ -1632,15 +1666,15 @@ namespace Rocket_TM_BSC.ViewModel
             // Payload
             dataSeriesCap1G7 = new XyDataSeries<double, double>();
             dataSeriesCap2G7 = new XyDataSeries<double, double>();
-            dataSeriesCap1G7.SeriesName = "Capsule 1";
-            dataSeriesCap2G7.SeriesName = "Capsule 2";
+            dataSeriesCap1G7.SeriesName = "Atmos";
+            dataSeriesCap2G7.SeriesName = "Cam";
             dataSeriesCap1G7.AcceptsUnsortedData = true;
             dataSeriesCap2G7.AcceptsUnsortedData = true;
 
             dataSeriesCap1G8 = new XyDataSeries<double, double>();
             dataSeriesCap2G8 = new XyDataSeries<double, double>();
-            dataSeriesCap1G8.SeriesName = "Capsule 1";
-            dataSeriesCap2G8.SeriesName = "Capsule 2";
+            dataSeriesCap1G8.SeriesName = "Atmos";
+            dataSeriesCap2G8.SeriesName = "Cam";
             dataSeriesCap1G8.AcceptsUnsortedData = true;
             dataSeriesCap2G8.AcceptsUnsortedData = true;
 
@@ -1656,29 +1690,29 @@ namespace Rocket_TM_BSC.ViewModel
 
             dataSeriesCap1G10 = new XyDataSeries<double, double>();
             dataSeriesCap2G10 = new XyDataSeries<double, double>();
-            dataSeriesCap1G10.SeriesName = "Capsule 1";
-            dataSeriesCap2G10.SeriesName = "Capsule 2";
+            dataSeriesCap1G10.SeriesName = "Atmos";
+            dataSeriesCap2G10.SeriesName = "Cam";
             dataSeriesCap1G10.AcceptsUnsortedData = true;
             dataSeriesCap2G10.AcceptsUnsortedData = true;
 
             dataSeriesCap1G11 = new XyDataSeries<double, double>();
             dataSeriesCap2G11 = new XyDataSeries<double, double>();
-            dataSeriesCap1G11.SeriesName = "Capsule 1";
-            dataSeriesCap2G11.SeriesName = "Capsule 2";
+            dataSeriesCap1G11.SeriesName = "Atmos";
+            dataSeriesCap2G11.SeriesName = "Cam";
             dataSeriesCap1G11.AcceptsUnsortedData = true;
             dataSeriesCap2G11.AcceptsUnsortedData = true;
 
             dataSeriesCap1G12 = new XyDataSeries<double, double>();
             dataSeriesCap2G12 = new XyDataSeries<double, double>();
-            dataSeriesCap1G12.SeriesName = "Capsule 1";
-            dataSeriesCap2G12.SeriesName = "Capsule 2";
+            dataSeriesCap1G12.SeriesName = "Atmos";
+            dataSeriesCap2G12.SeriesName = "Cam";
             dataSeriesCap1G12.AcceptsUnsortedData = true;
             dataSeriesCap2G12.AcceptsUnsortedData = true;
 
             dataSeriesCap1G13 = new XyDataSeries<double, double>();
             dataSeriesCap2G13 = new XyDataSeries<double, double>();
-            dataSeriesCap1G13.SeriesName = "Capsule 1";
-            dataSeriesCap2G13.SeriesName = "Capsule 2";
+            dataSeriesCap1G13.SeriesName = "Atmos";
+            dataSeriesCap2G13.SeriesName = "Cam";
             dataSeriesCap1G13.AcceptsUnsortedData = true;
             dataSeriesCap2G13.AcceptsUnsortedData = true;
 
@@ -1694,15 +1728,15 @@ namespace Rocket_TM_BSC.ViewModel
 
             dataSeriesCap1G15 = new XyDataSeries<double, double>();
             dataSeriesCap2G15 = new XyDataSeries<double, double>();
-            dataSeriesCap1G15.SeriesName = "Capsule 1";
-            dataSeriesCap2G15.SeriesName = "Capsule 2";
+            dataSeriesCap1G15.SeriesName = "Atmos";
+            dataSeriesCap2G15.SeriesName = "Cam";
             dataSeriesCap1G15.AcceptsUnsortedData = true;
             dataSeriesCap2G15.AcceptsUnsortedData = true;
 
             dataSeriesCap1G16 = new XyDataSeries<double, double>();
             dataSeriesCap2G16 = new XyDataSeries<double, double>();
-            dataSeriesCap1G16.SeriesName = "Capsule 1";
-            dataSeriesCap2G16.SeriesName = "Capsule 2";
+            dataSeriesCap1G16.SeriesName = "Atmos";
+            dataSeriesCap2G16.SeriesName = "Cam";
             dataSeriesCap1G16.AcceptsUnsortedData = true;
             dataSeriesCap2G16.AcceptsUnsortedData = true;
 

@@ -16,14 +16,14 @@
         Width="1920"
         MinHeight="600"
         MinWidth="1000">
-    
+
 
     <Window.DataContext>
         <vm:BSCViewModel />
     </Window.DataContext>
-    
+
     <Window.Resources>
-        
+
     </Window.Resources>
 
     <Grid Background="{StaticResource ThemedChartBackground}">
@@ -128,7 +128,7 @@
 
                             <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
                             <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
-                                    
+
                             <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
                             <controls:Graph6 Grid.Row="7" Margin="10" Grid.ColumnSpan="2"/>
                         </Grid>
@@ -516,12 +516,13 @@
             <TabItem Header="Data Playback">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".7*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="198*" />
+                        <ColumnDefinition Width="164*"/>
+                        <ColumnDefinition Width="517*" />
+                        <ColumnDefinition Width="517*" />
+                        <ColumnDefinition Width="517*" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Margin="10">
+                    <StackPanel Grid.Column="0" Margin="10,10,10,10" Grid.ColumnSpan="2">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
@@ -536,63 +537,11 @@
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="C1 Descent Rate" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
+                            <TextBlock Text="Max Acceleration" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
                             <TextBox Text="{Binding DP_2}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
                         </Grid>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="C2 Descent Rate" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_3}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Max VOC" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_4}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Max Humidity" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_5}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Data Point 6" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_6}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Data Point 7" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_7}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Data Point 8" FontSize="20" Foreground="White" TextAlignment="Right" Margin="5"/>
-                            <TextBox Text="{Binding DP_8}" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
-                        </Grid>
 
                         <Border BorderBrush="White" BorderThickness="1" Margin="0,10,0,10"/>
                         <Button Content="Select Capsule 1 Replay File" Command="{Binding Cap1ReplayCommand}" MaxWidth="200" Style="{StaticResource ButtonCorner}" Margin="10"/>
@@ -627,21 +576,21 @@
 
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1">
+                    <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Margin="164,0,0,0">
                         <controls:Graph9 Height="250"/>
                         <controls:Graph12 Height="250"/>
                         <controls:Graph7 Height="250"/>
                         <controls:Graph8 Height="250"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="2">
+                    <StackPanel Grid.Column="2" Grid.ColumnSpan="3" Margin="517,0,517,0">
                         <controls:Graph14 Height="250"/>
                         <controls:Graph11 Height="250"/>
                         <controls:Graph16 Height="250"/>
                         <controls:Graph13 Height="250"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="3">
+                    <StackPanel Grid.Column="4">
                         <controls:Graph15 Height="250"/>
                         <controls:Graph10 Height="250"/>
                         <gmaps:GMapControl x:Name="mapView" Loaded="mapView_Loaded" MapPoint="{Binding GmapsPoint}" Height="500" Margin="10"/>

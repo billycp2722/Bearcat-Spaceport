@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Printing;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -49,28 +50,29 @@ namespace Rocket_TM_BSC.Model
                 byte[] buffer = new byte[bytesToRead];
                 int bytesRead = 0;
                 int LastByte = 0;
-                while (bytesRead < bytesToRead)
-                   
-                {
-                    //Console.WriteLine(bytesRead);
-                    try
-                    {
-                        bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
-                        if ((char)buffer[bytesRead - 1] == '\n')
-                        {
-                            LastByte = bytesRead-1;
-                            break;
-                        }
-                    }
-                    catch
-                    {
-                    }
+                //while (bytesRead < bytesToRead)
 
-                }
+                //{
+                //    //Console.WriteLine(bytesRead);
+                //    try
+                //    {
+                //        bytesRead += _serialport.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+                //        if ((char)buffer[bytesRead - 1] == '\n')
+                //        {
+                //            LastByte = bytesRead-1;
+                //            break;
+                //        }
+                //    }
+                //    catch
+                //    {
+                //    }
 
-                byte[] Tmpbuffer = buffer.Take(LastByte).ToArray();
-                string RSSIData = Encoding.UTF8.GetString(Tmpbuffer);
-                string[] StringList = RSSIData.Split(',');
+                //}
+                string buf = _serialport.ReadLine();
+                //byte[] Tmpbuffer = buffer.Take(LastByte).ToArray();
+                //string RSSIData = Encoding.UTF8.GetString(Tmpbuffer);
+                string[] StringList = buf.Split(',');
+                //Console.WriteLine(StringList[0] + StringList[1] + StringList[2]);
                 try
                 {
                     RSSI_Cap1 = (StringList[0]).ToDouble();

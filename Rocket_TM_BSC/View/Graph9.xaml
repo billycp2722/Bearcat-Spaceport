@@ -82,13 +82,13 @@
         <!--  to the chart and is included for example purposes.  -->
         <!--  If you wish to know how to zoom and pan a chart then do a search for Zoom Pan in the Examples suite!  -->
 
-        <s:SciChartSurface x:Name="MainChartSurface" ChartTitle="Acceleration / Velocity" Grid.Column="1" RenderableSeries="{s:SeriesBinding Graph9Series}"  s:VisualXcceleratorEngine.IsEnabled="True" s:VisualXcceleratorEngine.FallbackType="{x:Type s:HighQualityRenderSurface}" s:VisualXcceleratorEngine.DowngradeWithoutException="False" s:VisualXcceleratorEngine.EnableImpossibleMode="True">
+        <s:SciChartSurface x:Name="MainChartSurface" ChartTitle="Acceleration (Atmos)" Grid.Column="1" RenderableSeries="{s:SeriesBinding Graph9Series}"  s:VisualXcceleratorEngine.IsEnabled="True" s:VisualXcceleratorEngine.FallbackType="{x:Type s:HighQualityRenderSurface}" s:VisualXcceleratorEngine.DowngradeWithoutException="False" s:VisualXcceleratorEngine.EnableImpossibleMode="True">
             <s:SciChartSurface.XAxis>
                 <s:NumericAxis GrowBy="0,0.1" x:Name="XAxis" DrawMinorGridLines="True" DrawMinorTicks="True"  AxisTitle="Time" VisibleRange="{Binding TimeRangeG9}" MaxAutoTicks="20" />
             </s:SciChartSurface.XAxis>
 
             <s:SciChartSurface.YAxis>
-                <s:NumericAxis GrowBy="0,0.1" DrawMinorGridLines="True" DrawMinorTicks="True" AutoRange="Always" AxisTitle="Satalites Connected" AxisAlignment="Left" MaxAutoTicks="20" />
+                <s:NumericAxis GrowBy="0,0.1" DrawMinorGridLines="True" DrawMinorTicks="True" AutoRange="Always" AxisTitle="Acceleration (m/s^2)" AxisAlignment="Left" MaxAutoTicks="20" />
             </s:SciChartSurface.YAxis>
             <s:SciChartSurface.ChartModifier>
                 <s:ModifierGroup>
