@@ -57,7 +57,9 @@ namespace Rocket_TM_BSC.Model
                         ConvertBytes2(data);
 
                     }
-                    catch (Exception ex) { Console.WriteLine(ex.Message.ToString()); }
+                    catch (Exception ex) { Console.WriteLine(ex.Message.ToString());
+                        Console.WriteLine("Hex Data Queue Error");
+                    }
                     
                 }
                 
@@ -83,36 +85,46 @@ namespace Rocket_TM_BSC.Model
             //Console.WriteLine(StringList[13]);
             if (StringList.Length == 11)
             {
+                try
+                {
+                   
+                    double Lat_int = ConvertFromHex(StringList[0]).ToDouble(); // Has +/-
+                    double Lon_int = ConvertFromHex(StringList[1]).ToDouble(); // Has +/-
+                    double MS_int = ConvertFromHex(StringList[2]).ToDouble();
+                    double SatCoun_int = ConvertFromHex(StringList[3]).ToDouble();
+                    double GyroX_int = ConvertFromHex(StringList[4]).ToDouble(); // Has +/-
+                    double GyroY_int = ConvertFromHex(StringList[5]).ToDouble(); // Has +/-
+                    double GyroZ_int = ConvertFromHex(StringList[6]).ToDouble(); // Has +/-
+                    double AccelX_int = ConvertFromHex(StringList[7]).ToDouble();// Has +/-
+                    double AccelY_int = ConvertFromHex(StringList[8]).ToDouble();// Has +/-
+                    double AccelZ_int = ConvertFromHex(StringList[9]).ToDouble();// Has +/-
+                    string replacement = Regex.Replace(StringList[10], @"\t|\n|\r", "");
+                    double Alt_int = ConvertFromHex(replacement).ToDouble(); // Has +/-
 
-                double Lat_int = ConvertFromHex(StringList[0]).ToDouble(); // Has +/-
-                double Lon_int = ConvertFromHex(StringList[1]).ToDouble(); // Has +/-
-                double MS_int = ConvertFromHex(StringList[2]).ToDouble();
-                double SatCoun_int = ConvertFromHex(StringList[3]).ToDouble();
-                double GyroX_int = ConvertFromHex(StringList[4]).ToDouble(); // Has +/-
-                double GyroY_int = ConvertFromHex(StringList[5]).ToDouble(); // Has +/-
-                double GyroZ_int = ConvertFromHex(StringList[6]).ToDouble(); // Has +/-
-                double AccelX_int = ConvertFromHex(StringList[7]).ToDouble();// Has +/-
-                double AccelY_int = ConvertFromHex(StringList[8]).ToDouble();// Has +/-
-                double AccelZ_int = ConvertFromHex(StringList[9]).ToDouble();// Has +/-
-                string replacement = Regex.Replace(StringList[10], @"\t|\n|\r", "");
-                double Alt_int = ConvertFromHex(replacement).ToDouble(); // Has +/-
-                
 
-                
-                
 
-                Lat_int = Lat_int * 0.0000001;
-                Lon_int = Lon_int * 0.0000001;
-                AccelX_int = AccelX_int * 0.01; // M/s^2
-                AccelY_int = AccelY_int * 0.01; // M/s^2
-                AccelZ_int = AccelY_int * 0.01; // M/s*^2
 
-                // Need to convert Time somehow
-                double[] Cap1DataOut = new double[11] { Lat_int, Lon_int, MS_int, SatCoun_int, GyroX_int, GyroY_int, GyroZ_int, AccelX_int, AccelY_int, AccelZ_int, Alt_int};
-                //string output = "";
 
-                //Console.WriteLine(Cap1DataOut[0] + "," + Cap1DataOut[1] + "," + Cap1DataOut[2] + "," + Cap1DataOut[3] + "," + Cap1DataOut[4] + "," + Cap1DataOut[5] + "," + Cap1DataOut[6] + "," + Cap1DataOut[7] + "," + Cap1DataOut[8] + "," + Cap1DataOut[9] + "," + Cap1DataOut[10] + "," + Cap1DataOut[11] + "," + Cap1DataOut[12] + "," + Cap1DataOut[13]);
-                Cap2_DataOut_Hex.Enqueue(Cap1DataOut);
+
+
+
+                    Lat_int = Lat_int * 0.0000001;
+                    Lon_int = Lon_int * 0.0000001;
+                    AccelX_int = AccelX_int * 0.01; // M/s^2
+                    AccelY_int = AccelY_int * 0.01; // M/s^2
+                    AccelZ_int = AccelY_int * 0.01; // M/s*^2
+
+                    // Need to convert Time somehow
+                    double[] Cap1DataOut = new double[11] { Lat_int, Lon_int, MS_int, SatCoun_int, GyroX_int, GyroY_int, GyroZ_int, AccelX_int, AccelY_int, AccelZ_int, Alt_int };
+                    //string output = "";
+
+                    Console.WriteLine(Cap1DataOut[0] + "," + Cap1DataOut[1] + "," + Cap1DataOut[2] + "," + Cap1DataOut[3] + "," + Cap1DataOut[4] + "," + Cap1DataOut[5] + "," + Cap1DataOut[6] + "," + Cap1DataOut[7] + "," + Cap1DataOut[8] + "," + Cap1DataOut[9] + "," + Cap1DataOut[10]);
+                    Cap2_DataOut_Hex.Enqueue(Cap1DataOut);
+                }
+                catch
+                {
+                    Console.WriteLine("Error In ConvertBytes2");
+                }
             }
             else
             {
@@ -161,7 +173,7 @@ namespace Rocket_TM_BSC.Model
 
             catch
             {
-
+                Console.WriteLine("Bad Hex Convert");
             }
 
             return output;

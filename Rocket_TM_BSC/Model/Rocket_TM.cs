@@ -63,13 +63,14 @@ namespace Rocket_TM_BSC.Model
                     Rocket_DataProcessing_Hex.StartCap1DataProcess();
                     TM3Data = new ConcurrentQueue<string>();
 
-                    _serialport2 = new SerialPort(comport, 230400, Parity.None, 8, StopBits.One);
+                    _serialport2 = new SerialPort(comport, 57600, Parity.None, 8, StopBits.One);
 
                     _serialport2.Open();
                     _serialport2.DiscardNull = true;
                     _serialport2.DiscardInBuffer();
                     _serialport2.ReadTimeout = 500;
                     flag = true;
+                    sw_Cap3 = new Stopwatch();
                     sw_Cap3.Start();
                 }
                 

@@ -67,6 +67,7 @@ namespace Rocket_TM_BSC.Model
                     _serialport2.DiscardInBuffer();
                     _serialport2.ReadTimeout = 500;
                     flag = true;
+                    sw_Cap2 = new Stopwatch();
                     sw_Cap2.Start();
                 }
                 
@@ -95,6 +96,8 @@ namespace Rocket_TM_BSC.Model
                         try
                         {
                             bytesRead += _serialport2.BaseStream.Read(buffer, bytesRead, bytesToRead - bytesRead);
+
+                            //Console.WriteLine(bytesRead);
                             if (LostFrameFlag)
                             {
                                 if ((char)buffer[bytesRead - 1] == '\n')
@@ -102,7 +105,6 @@ namespace Rocket_TM_BSC.Model
                                     LostFrameFlag = false;
                                     break;
                                 }
-
                             }
                         }
                         catch
@@ -117,8 +119,6 @@ namespace Rocket_TM_BSC.Model
                             CommandStringTM2.TryDequeue(out string command);
                             _serialport2.WriteLine(command);
                         }
-                        
-
                     }
                     //stopwatch.Start();
                     //FrameCount++;
@@ -128,12 +128,13 @@ namespace Rocket_TM_BSC.Model
                     //    //Console.WriteLine(FrameCount / 2);
                     //}
 
-                    //Console.Write(Encoding.UTF8.GetString(buffer));
+                    //Console.WriteLine(Encoding.UTF8.GetString(buffer));
                     //byte[] CheckByte = new byte[1] { buffer[78] };
                     //if (Encoding.UTF8.GetString(CheckByte) == "\n")
                     //{
-                    if (buffer.Length == bytesToRead)
+                    if (buffer.Length == 66)
                     {
+
                         FrameCount++;
                         if ((char)buffer[65] == '\n')
                         {
@@ -144,13 +145,15 @@ namespace Rocket_TM_BSC.Model
                             LostFrameFlag = true;
                             lost_frames2++;
                             Console.WriteLine("Lost Frame: " + lost_frames2);
+                            //Console.WriteLine("No New Line");
                         }
                         
                     }
                     else
                     {
                         lost_frames2++;
-                        Console.WriteLine("Lost Frame: " + lost_frames2);
+                        //Console.WriteLine("Lost Frame: " + lost_frames2);
+                        Console.WriteLine("Wrong Buffer Length");
                     }
 
                     if (sw_Cap2.ElapsedMilliseconds >= 2000)

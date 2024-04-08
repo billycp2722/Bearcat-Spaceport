@@ -48,7 +48,10 @@ namespace Rocket_TM_BSC.ViewModel
     // 6. Add Statistics to data replay
     // 7. Retest TM changes with live TM link
     // 8. Check Final Replay version functions, Causing issues with UI thread
-
+    // // Radio Setup: RSSI 500 ms, ROCK ID 1015 COM 4
+    // CAM: ID 1090 COM 9
+    // ATM: COM 8
+    // ARduino: COM 6
     public class BSCViewModel : BaseViewModel
     {
         #region Variables
@@ -72,6 +75,8 @@ namespace Rocket_TM_BSC.ViewModel
         public ViewCommand StopReplayCommand { get; set; }
         public ViewCommand RestartReplayCommand { get; set; }
         public ViewCommand EjectRocket { get; set; }
+
+        public ViewCommand FillPV { get; set; }
 
         private string cap1ReplayFile = null;
         private string cap2ReplayFile = null;
@@ -131,7 +136,7 @@ namespace Rocket_TM_BSC.ViewModel
 
             StatusCheckRocket = new ViewCommand(StatCheckRocket, CanStatCheckRocket);
             StatusCheckCap1 = new ViewCommand(StatCheckCap1, CanStatCheckCap1);
-            StatusCheckCap2 = new ViewCommand(StatCheckCap1, CanStatCheckCap2);
+            StatusCheckCap2 = new ViewCommand(StatCheckCap2, CanStatCheckCap2);
 
             WakeRocket = new ViewCommand(WakeUpRocket, CanWakeUpRocket);
             WakeCap1 = new ViewCommand(WakeUpCap1, CanWakeUpCap1);
@@ -143,6 +148,7 @@ namespace Rocket_TM_BSC.ViewModel
             StartReplayCommand = new ViewCommand(StartReplay, CanStartReplay);
             RestartReplayCommand = new ViewCommand(RestartReplay, CanRestartReplay);
             EjectRocket = new ViewCommand(EjectPayload, CanEjectPayload);
+            FillPV = new ViewCommand(FillPressure, CanFillPressure);
 
             // Initalize Graphs
             InitializeGraph(); 
@@ -180,6 +186,11 @@ namespace Rocket_TM_BSC.ViewModel
             //stopwatch.Start();
             if (RocketLinkOpen)
             {
+                if (flag_R == false)
+                {
+                    flag_R = true;
+                    Thread.Sleep(50);
+                }
                 while (Rocket_Data.Rocket_DataProcessing_Hex.Rocket_DataOut_Hex.Count > 0)
                 {
                     if (flag_R == false)
@@ -963,7 +974,7 @@ namespace Rocket_TM_BSC.ViewModel
         public void WakeUpRocket(object obj)
         {
             // Sends Wake Command to TM to activate for launch
-            Rocket_Data.CommandStringTM3.Enqueue("WAKE");
+            Rocket_Data.CommandStringTM3.Enqueue("start");
         }
 
         public bool CanWakeUpRocket(object obj)
@@ -1075,12 +1086,21 @@ namespace Rocket_TM_BSC.ViewModel
             DialogResult Result = MessageBox.Show("Confirm Ejection","", MessageBoxButtons.YesNo);
             if (Result == DialogResult.Yes)
             {
-                Rocket_Data.CommandStringTM3.Enqueue("Eject");
+                Rocket_Data.CommandStringTM3.Enqueue("eject");
             }
-            
         }
 
         public bool CanEjectPayload(object obj)
+        {
+            return RocketLinkOpen;
+        }
+
+        public void FillPressure(object obj)
+        {
+            Rocket_Data.CommandStringTM3.Enqueue("fill");
+        }
+
+        public bool CanFillPressure(object obj)
         {
             return RocketLinkOpen;
         }

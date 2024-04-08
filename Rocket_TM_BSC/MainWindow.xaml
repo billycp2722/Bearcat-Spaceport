@@ -81,7 +81,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Capsule 1 TM" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                                 <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1TMStat}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
-                                <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap1Strength}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
+                                <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding DataRate_Cap1}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
                             </Grid>
 
                             <Grid>
@@ -92,7 +92,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Capsule 2 TM" Grid.Column="0" HorizontalAlignment="Right" Grid.Row="0" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                                 <TextBox Grid.Column="1" Grid.Row="0" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap2TMStat}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
-                                <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2Strength}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
+                                <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding DataRate_Cap2}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10"/>
                             </Grid>
                         </StackPanel>
                         <controls:Graph5 Grid.Column="3" Margin="10"/>
@@ -129,12 +129,13 @@
                             <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
                             <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
 
-                            <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
+                            <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5"  Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
+                            <Button Command="{Binding FillPV}" Content="Fill Mode" Grid.Row="5" Grid.ColumnSpan="2"  Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
                             <controls:Graph6 Grid.Row="7" Margin="10" Grid.ColumnSpan="2"/>
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Capsule 1" Foreground="White" BorderThickness="2" Margin="10">
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Atmos" Foreground="White" BorderThickness="2" Margin="10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1.5*" />
@@ -173,9 +174,6 @@
                             <TextBlock Text="Lost Frames" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
                             <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding LostFrame_Cap1}" Height="30" Grid.Row="6" Grid.Column="1" Margin="10"/>
 
-                            <TextBlock Text="Data Rate (Hz)" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding DataRate_Cap1}" Height="30" Grid.Row="7" Grid.Column="1" Margin="10"/>
-
                             <!--<TextBox Grid.Column="1" Grid.Row="4" Width="23" Height="23" Margin="10" HorizontalAlignment="Left" BorderBrush="White" BorderThickness="2" Background="{Binding Cap1_ParachuteDep}" IsReadOnly="True" Style="{StaticResource Lightbox}" />
                             <TextBlock Text="Parachute Deployment" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>-->
                             <gmaps:GMapControl x:Name="mapView3" Loaded="mapView3_Loaded" Margin="10" Grid.Row="8" Grid.ColumnSpan="2"/>
@@ -183,11 +181,12 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="1" Grid.Column="2" Header="Capsule 2" Foreground="White" BorderThickness="2" Margin="10">
+                    <GroupBox Grid.Row="1" Grid.Column="2" Header="Camera" Foreground="White" BorderThickness="2" Margin="10">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5*" />
-                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="158*" />
+                                <ColumnDefinition Width="41*"/>
+                                <ColumnDefinition Width="133*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
@@ -201,31 +200,28 @@
 
                                 <RowDefinition Height="5*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="GPS Satalite Count" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_SatCount}" Height="30" Grid.Row="0" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="GPS Satalite Count" Grid.Column="0" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="25,0,0,0" Grid.ColumnSpan="2"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_SatCount}" Height="30" Grid.Row="0" Grid.Column="2" Margin="10,12,10,12"/>
 
-                            <TextBlock Text="GPS Latitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_GPSLat}" Height="30" Grid.Row="1" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="GPS Latitude" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="49,0,0,0"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_GPSLat}" Height="30" Grid.Row="1" Grid.Column="2" Margin="10,11,10,12"/>
 
-                            <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_GPSLon}" Height="30" Grid.Row="2" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="GPS Longitude" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="41,0,0,0" Grid.ColumnSpan="2"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_GPSLon}" Height="30" Grid.Row="2" Grid.Column="2" Margin="10,12,10,12"/>
 
-                            <TextBlock Text="Altitude (ft)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Alt}" Height="30" Grid.Row="3" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="Altitude (ft)" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="54,0,0,0"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Alt}" Height="30" Grid.Row="3" Grid.Column="2" Margin="10,12,10,11"/>
 
-                            <TextBlock Text="Acceleration (m/s^2)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Velo}" Height="30" Grid.Row="4" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="Acceleration (m/s^2)" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="17,0,0,0" Grid.ColumnSpan="2"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding Cap2_Velo}" Height="30" Grid.Row="4" Grid.Column="2" Margin="10,12,10,12"/>
 
-                            <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-                            <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                            <Button Command="{Binding StatusCheckCap2}" Content="Status Check" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="10,2,0,2"/>
+                            <Button Command="{Binding WakeCap2}" Content="Enable TM Link" Grid.Row="5" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Left" Margin="14,2,0,2" Grid.Column="1"/>
 
-                            <TextBlock Text="Lost Frames" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding LostFrame_Cap2}" Height="30" Grid.Row="6" Grid.Column="1" Margin="10"/>
+                            <TextBlock Text="Lost Frames" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="52,0,0,0"/>
+                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding LostFrame_Cap2}" Height="30" Grid.Row="6" Grid.Column="2" Margin="10,12,10,11"/>
 
-                            <TextBlock Text="Data Rate (Hz)" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="10"/>
-                            <TextBox Style="{StaticResource TextboxCorner}" Text="{Binding DataRate_Cap2}" Height="30" Grid.Row="7" Grid.Column="1" Margin="10"/>
-
-                            <gmaps:GMapControl x:Name="mapView2" Loaded="mapView2_Loaded" Margin="10" Grid.Row="8" Grid.ColumnSpan="2"/>
+                            <gmaps:GMapControl x:Name="mapView2" Loaded="mapView2_Loaded" Margin="10,10,10,10" Grid.Row="8" Grid.ColumnSpan="3"/>
                         </Grid>
                     </GroupBox>
 
