@@ -181,8 +181,11 @@ namespace Rocket_TM_BSC.ViewModel
         int mapPlot2 = 100;
         int plotC1 = 100;
         int plotC2 = 100;
+        int GraphRangeCounter = 0;
+        bool cap1Flag = false;
         private void _timer_Tick(object sender, EventArgs e)
         {
+            int tempInc = i;
             //stopwatch.Start();
             if (RocketLinkOpen)
             {
@@ -242,7 +245,7 @@ namespace Rocket_TM_BSC.ViewModel
                        
                         double AccelMag = Math.Sqrt(Math.Pow(cap1Val[7],2)+ Math.Pow(cap1Val[8], 2)+ Math.Pow(cap1Val[9],2));
                         dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
-                        dataSeriesCap1G2.Append(i, AccelMag); // Velo
+                        dataSeriesCap1G2.Append(i, AccelMag); // Accel
                         dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
                         dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
                         dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
@@ -261,8 +264,19 @@ namespace Rocket_TM_BSC.ViewModel
                             AddLatLonCap1(cap1Val[0], cap1Val[1]);
                             plotC1 = 0;
                         }
+                        if (GraphRangeCounter > 200 && i>1000)
+                        {
+                            TimeRangeG2 = new DoubleRange(i - 799, i + 200);
+                            GraphRangeCounter = 0;
+                        }
+                        cap1Flag = true;
+                        GraphRangeCounter++;
                         plotC1++;
-                        i++;
+                        if (tempInc == i)
+                        {
+                            i++;
+                        }
+                        
                     }
                     catch (Exception ex)
                     {
@@ -303,8 +317,21 @@ namespace Rocket_TM_BSC.ViewModel
                         }
                         LostFrame_Cap2 = Cap2_Data.lost_frames2.ToString();
                         DataRate_Cap2 = Cap2_Data.FrameRate2.ToString();
+
+                        if (GraphRangeCounter > 200 && i > 1000)
+                        {
+                            TimeRangeG2 = new DoubleRange(i - 799, i + 200);
+                            GraphRangeCounter = 0;
+                        }
+                        if (cap1Flag == false)
+                        {
+                            GraphRangeCounter++;
+                        } 
                         plotC2++;
-                        i++;
+                        if (tempInc == i)
+                        {
+                            i++;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1237,8 +1264,17 @@ namespace Rocket_TM_BSC.ViewModel
         private XyDataSeries<double, double> dataSeriesRocketG5;
 
         private XyDataSeries<double, double> dataSeriesCap1G6;
-        
-        
+
+        private DoubleRange timeRangeG2;
+        public DoubleRange TimeRangeG2
+        {
+            get => timeRangeG2;
+            set
+            {
+                timeRangeG2 = value;
+                OnPropertyChanged(nameof(TimeRangeG2));
+            }
+        }
 
         private void InitializeGraph()
         {
