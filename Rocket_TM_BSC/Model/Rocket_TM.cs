@@ -10,6 +10,7 @@ using SciChart.Core.Extensions;
 using System.Drawing.Printing;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace Rocket_TM_BSC.Model
 {
@@ -63,7 +64,7 @@ namespace Rocket_TM_BSC.Model
                     Rocket_DataProcessing_Hex.StartCap1DataProcess();
                     TM3Data = new ConcurrentQueue<string>();
 
-                    _serialport2 = new SerialPort(comport, 57600, Parity.None, 8, StopBits.One);
+                    _serialport2 = new SerialPort(comport, 57600, Parity.None, 8, StopBits.Two);
 
                     _serialport2.Open();
                     _serialport2.DiscardNull = true;
@@ -90,7 +91,7 @@ namespace Rocket_TM_BSC.Model
                         _serialport2.WriteLine(command);
                     }
 
-                    int bytesToRead = 18;
+                    int bytesToRead = 13;
                     byte[] buffer = new byte[bytesToRead];
                     int bytesRead = 0;
                     while (bytesRead < bytesToRead) 
@@ -154,7 +155,7 @@ namespace Rocket_TM_BSC.Model
                     else
                     { 
                         lost_frames_rocket++;
-                        Console.WriteLine("Lost Frame: " + lost_frames_rocket);
+                        Console.WriteLine("Wrong Buffer Size: " + lost_frames_rocket);
                     }
 
                     if (sw_Cap3.ElapsedMilliseconds >= 2000)

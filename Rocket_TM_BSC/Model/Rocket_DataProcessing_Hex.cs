@@ -85,10 +85,10 @@ namespace Rocket_TM_BSC.Model
             if (StringList.Length == 3)
             {
 
-                double Payload_Alt = ConvertFromHex(StringList[0]).ToDouble(); // Has +/-
-                double Payload_Pres = ConvertFromHex(StringList[1]).ToDouble(); // Has +/-
+                double Payload_Alt = (StringList[0]).ToDouble(); // Has +/-
+                double Payload_Pres = (StringList[1]).ToDouble(); // Has +/-
                 string replacement = Regex.Replace(StringList[2], @"\t|\n|\r", "");
-                double EjectionSwitch = ConvertFromHex(replacement).ToDouble();
+                double EjectionSwitch = (replacement).ToDouble();
                 
 
                 

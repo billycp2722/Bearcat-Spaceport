@@ -166,6 +166,7 @@ namespace Rocket_TM_BSC.ViewModel
             _ReplayTimer.Start();
 
             UpdateComPortCommand.Execute(this);
+            TimeRangeG2 = new DoubleRange(0, 500);
 
         }
 
@@ -183,6 +184,7 @@ namespace Rocket_TM_BSC.ViewModel
         int plotC2 = 100;
         int GraphRangeCounter = 0;
         bool cap1Flag = false;
+        
         private void _timer_Tick(object sender, EventArgs e)
         {
             int tempInc = i;
@@ -264,7 +266,7 @@ namespace Rocket_TM_BSC.ViewModel
                             AddLatLonCap1(cap1Val[0], cap1Val[1]);
                             plotC1 = 0;
                         }
-                        if (GraphRangeCounter > 200 && i>1000)
+                        if (GraphRangeCounter > 200 && i>500)
                         {
                             TimeRangeG2 = new DoubleRange(i - 799, i + 200);
                             GraphRangeCounter = 0;
@@ -318,7 +320,7 @@ namespace Rocket_TM_BSC.ViewModel
                         LostFrame_Cap2 = Cap2_Data.lost_frames2.ToString();
                         DataRate_Cap2 = Cap2_Data.FrameRate2.ToString();
 
-                        if (GraphRangeCounter > 200 && i > 1000)
+                        if (GraphRangeCounter > 200 && i > 500)
                         {
                             TimeRangeG2 = new DoubleRange(i - 799, i + 200);
                             GraphRangeCounter = 0;
