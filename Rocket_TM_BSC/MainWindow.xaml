@@ -129,7 +129,7 @@
                             <Button Command="{Binding StatusCheckRocket}" Content="Status Check" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
                             <Button Command="{Binding WakeRocket}" Content="Enable TM Link" Grid.Row="4" Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
 
-                            <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5"  Grid.ColumnSpan="2" Width="150" Height="50" HorizontalAlignment="left" Margin="30,0,0,0"/>
+                            <Button Command="{Binding EjectRocket}" Content="Ejection Test" Grid.Row="5" Width="150" Height="50" HorizontalAlignment="Left" Margin="30,0,0,0"/>
                             <Button Command="{Binding FillPV}" Content="Fill Mode" Grid.Row="5" Grid.ColumnSpan="2"  Width="150" Height="50" HorizontalAlignment="Right" Margin="0,0,30,0"/>
                             <controls:Graph6 Grid.Row="7" Margin="10" Grid.ColumnSpan="2"/>
                         </Grid>

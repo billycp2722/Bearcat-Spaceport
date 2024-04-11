@@ -184,6 +184,7 @@ namespace Rocket_TM_BSC.ViewModel
         int plotC2 = 100;
         int GraphRangeCounter = 0;
         bool cap1Flag = false;
+        double apogeeMax = 0;
         
         private void _timer_Tick(object sender, EventArgs e)
         {
@@ -198,6 +199,7 @@ namespace Rocket_TM_BSC.ViewModel
                 }
                 while (Rocket_Data.Rocket_DataProcessing_Hex.Rocket_DataOut_Hex.Count > 0)
                 {
+                    RockTMStat = Brushes.Green;
                     if (flag_R == false)
                     {
                         flag_R = true;
@@ -211,12 +213,14 @@ namespace Rocket_TM_BSC.ViewModel
 
                         dataSeriesRocketG1.Append(i, cap1Val[0]); // Alt
                         dataSeriesCap1G6.Append(i, cap1Val[1]); // Pressure
-
-                        RocketAlt = cap1Val[1].ToString();
-                        if (cap1Val[1] > RocketAlt.ToDouble())
+                        SysPressure1 = cap1Val[1].ToString();
+                        RocketAlt = cap1Val[0].ToString();
+                        if (cap1Val[0] > apogeeMax)
                         {
-                            RocketAlt = cap1Val[1].ToString();
+                            apogeeMax = cap1Val[0];
+                            ApogeeAlt = apogeeMax.ToString();
                         }
+                                               
                         if (cap1Val[2] == 1)
                         {
                             CapEject = Brushes.Green;
@@ -239,6 +243,7 @@ namespace Rocket_TM_BSC.ViewModel
                 }
                 while (Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.Count > 0)
                 {
+                    Cap1TMStat = Brushes.Green;
                     //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
                     try
                     {
@@ -295,6 +300,7 @@ namespace Rocket_TM_BSC.ViewModel
                 }
                 while (Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.Count > 0)
                 {
+                    Cap2TMStat = Brushes.Green;
                     //Console.WriteLine(Rocket_Data.cap1_DataProcessing.Cap1_DataOut.Count);
                     try
                     {
@@ -911,6 +917,8 @@ namespace Rocket_TM_BSC.ViewModel
             RocketLinkOpen = true;
             WakeRocket.RaiseCanExecuteChanged();
             StatusCheckRocket.RaiseCanExecuteChanged();
+            FillPV.RaiseCanExecuteChanged();
+            EjectRocket.RaiseCanExecuteChanged();
             
         }
 
