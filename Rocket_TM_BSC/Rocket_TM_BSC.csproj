@@ -316,7 +316,6 @@
     <Compile Include="Model\Cap2_TM.cs" />
     <Compile Include="Model\Cap2_DataProcessing_Hex.cs" />
     <Compile Include="Model\Cap1_DataProcessing_Hex.cs" />
-    <Compile Include="Model\Cap1_DataProcessing.cs" />
     <Compile Include="Model\DataReplay_Cap2.cs" />
     <Compile Include="Model\DataReplay_Cap1.cs" />
     <Compile Include="Model\Cap1_TM.cs" />

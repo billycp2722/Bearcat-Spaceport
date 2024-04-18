@@ -234,8 +234,9 @@
                         </Grid.RowDefinitions>
                         <controls:Graph1 Grid.Row="0" Margin="5"/>
                         <controls:Graph2 Grid.Row="1" Margin="5"/>
-                        <controls:Graph3 Grid.Row="2" Margin="5"/>
-                        <controls:Graph4 Grid.Row="3" Margin="5"/>
+                        <controls:Graph4 Grid.Row="2" Margin="5"/>
+                        <controls:Graph3 Grid.Row="3" Margin="5"/>
+                        
                     </Grid>
                 </Grid>
 

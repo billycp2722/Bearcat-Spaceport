@@ -100,9 +100,9 @@ namespace Rocket_TM_BSC.ViewModel
         private Brush capEject = Brushes.Red;
         private Brush cap1_ParachuteDep = Brushes.Red;
         private Brush cap2_ParachuteDep = Brushes.Red;
-        private string rocketAlt = null;
-        private string apogeeAlt = null;
-        private string sysPressure1 = null;
+        private string rocketAlt = "0";
+        private string apogeeAlt = "0";
+        private string sysPressure1 = "0";
         private string sysPressure2 = null;
         private string cap1_SatCount = "0";
         private string cap2_SatCount = "0";
@@ -167,6 +167,8 @@ namespace Rocket_TM_BSC.ViewModel
 
             UpdateComPortCommand.Execute(this);
             TimeRangeG2 = new DoubleRange(0, 500);
+            TimeRangeG5 = new DoubleRange(0, 500);
+            TimeRangeG6 = new DoubleRange(0, 500);
 
         }
 
@@ -182,7 +184,10 @@ namespace Rocket_TM_BSC.ViewModel
         int mapPlot2 = 100;
         int plotC1 = 100;
         int plotC2 = 100;
+
+
         int GraphRangeCounter = 0;
+        int GraphRangeCounter2 = 0;
         bool cap1Flag = false;
         double apogeeMax = 0;
         
@@ -215,12 +220,20 @@ namespace Rocket_TM_BSC.ViewModel
                         dataSeriesCap1G6.Append(i, cap1Val[1]); // Pressure
                         SysPressure1 = cap1Val[1].ToString();
                         RocketAlt = cap1Val[0].ToString();
+                        RocketSigStrength = Rocket_Data.FrameRate3.ToString();
                         if (cap1Val[0] > apogeeMax)
                         {
                             apogeeMax = cap1Val[0];
                             ApogeeAlt = apogeeMax.ToString();
                         }
-                                               
+
+                        if (GraphRangeCounter2 > 200 && i > 500)
+                        {
+                            TimeRangeG6 = new DoubleRange(i - 300, i + 200);
+                            GraphRangeCounter2 = 0;
+                        }
+                        GraphRangeCounter2++;
+
                         if (cap1Val[2] == 0)
                         {
                             CapEject = Brushes.Green;
@@ -251,17 +264,20 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
                        
                         double AccelMag = Math.Sqrt(Math.Pow(cap1Val[7],2)+ Math.Pow(cap1Val[8], 2)+ Math.Pow(cap1Val[9],2));
+                        string s = string.Format("{0:N4}%", AccelMag);
                         dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
-                        dataSeriesCap1G2.Append(i, AccelMag); // Accel
+                        dataSeriesCap1G2X.Append(i, cap1Val[7]); // Accel
+                        dataSeriesCap1G2Y.Append(i, cap1Val[8]); // Accel
+                        dataSeriesCap1G2Z.Append(i, cap1Val[9]); // Accel
                         dataSeriesCap1G3.Append(i, cap1Val[12]); // Temp
                         dataSeriesCap1G5.Append(i, cap1Val[3]); // Sat Count
-                        dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
+                        //dataSeriesCap1G4.Append(i, cap1Val[11]); // VOC
 
                         Cap1_GPSLat = cap1Val[0].ToString();
                         Cap1_GPSLon = cap1Val[1].ToString();
                         Cap1_SatCount = cap1Val[3].ToString();
                         Cap1_Alt = cap1Val[10].ToString();
-                        Cap1_Velo = AccelMag.ToString();
+                        Cap1_Velo = s;
 
                         LostFrame_Cap1 = Cap1_Data.lost_frames.ToString();
                         DataRate_Cap1 = Cap1_Data.FrameRate.ToString();
@@ -273,7 +289,8 @@ namespace Rocket_TM_BSC.ViewModel
                         }
                         if (GraphRangeCounter > 200 && i>500)
                         {
-                            TimeRangeG2 = new DoubleRange(i - 799, i + 200);
+                            TimeRangeG2 = new DoubleRange(i - 300, i + 200);
+                            TimeRangeG5 = TimeRangeG2;
                             GraphRangeCounter = 0;
                         }
                         cap1Flag = true;
@@ -308,19 +325,22 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.TryDequeue(out var cap2Val);
 
                         double AccelMag = Math.Sqrt(Math.Pow(cap2Val[7], 2) + Math.Pow(cap2Val[8], 2) + Math.Pow(cap2Val[9], 2));
+                        string s = string.Format("{0:N4}%", AccelMag);
                         dataSeriesCap2G1.Append(i, cap2Val[10]); // Alt
-                        dataSeriesCap2G2.Append(i, AccelMag); // Velo
+                        dataSeriesCap2G3X.Append(i, cap2Val[7]); // Velo
+                        dataSeriesCap2G3X.Append(i, cap2Val[8]);
+                        dataSeriesCap2G3X.Append(i, cap2Val[9]);
                         dataSeriesCap2G5.Append(i, cap2Val[3]); // Sat Count
 
                         Cap2_GPSLat = cap2Val[0].ToString();
                         Cap2_GPSLon = cap2Val[1].ToString();
                         Cap2_SatCount = cap2Val[3].ToString();
                         Cap2_Alt = cap2Val[10].ToString();
-                        Cap2_Velo = AccelMag.ToString();
+                        Cap2_Velo = s;
                         // Velocity will have to be a seperate thing from accel data
                         if (plotC2 >= 100)
                         {
-                            AddLatLonCap1(cap2Val[0], cap2Val[1]);
+                            AddLatLonCap2(cap2Val[0], cap2Val[1]);
                             plotC2 = 0;
                         }
                         LostFrame_Cap2 = Cap2_Data.lost_frames2.ToString();
@@ -329,6 +349,7 @@ namespace Rocket_TM_BSC.ViewModel
                         if (GraphRangeCounter > 200 && i > 500)
                         {
                             TimeRangeG2 = new DoubleRange(i - 799, i + 200);
+                            TimeRangeG5 = TimeRangeG2;
                             GraphRangeCounter = 0;
                         }
                         if (cap1Flag == false)
@@ -730,17 +751,17 @@ namespace Rocket_TM_BSC.ViewModel
         public string ApogeeAlt
         {
             get { return apogeeAlt; }
-            set { apogeeAlt = value; OnPropertyChanged(" ApogeeAlt"); }
+            set { apogeeAlt = value; OnPropertyChanged("ApogeeAlt"); }
         }
         public string SysPressure1
         {
             get { return sysPressure1; }
-            set { sysPressure1 = value; OnPropertyChanged(" SysPressure1"); }
+            set { sysPressure1 = value; OnPropertyChanged("SysPressure1"); }
         }
         public string SysPressure2
         {
             get { return sysPressure2; }
-            set { sysPressure2 = value; OnPropertyChanged(" SysPressure2"); }
+            set { sysPressure2 = value; OnPropertyChanged("SysPressure2"); }
         }
         public string Cap1_SatCount
         {
@@ -1257,9 +1278,13 @@ namespace Rocket_TM_BSC.ViewModel
         private XyDataSeries<double, double> dataSeriesCap2G1;
         private XyDataSeries<double, double> dataSeriesRocketG1;
 
-        private XyDataSeries<double, double> dataSeriesCap1G2;
-        private XyDataSeries<double, double> dataSeriesCap2G2;
-        private XyDataSeries<double, double> dataSeriesRocketG2;
+        private XyDataSeries<double, double> dataSeriesCap1G2X;
+        private XyDataSeries<double, double> dataSeriesCap1G2Y;
+        private XyDataSeries<double, double> dataSeriesCap1G2Z;
+
+        private XyDataSeries<double, double> dataSeriesCap2G3X;
+        private XyDataSeries<double, double> dataSeriesCap2G3Y;
+        private XyDataSeries<double, double> dataSeriesCap2G3Z;
 
         private XyDataSeries<double, double> dataSeriesCap1G3;
         private XyDataSeries<double, double> dataSeriesCap2G3;
@@ -1286,6 +1311,27 @@ namespace Rocket_TM_BSC.ViewModel
             }
         }
 
+        private DoubleRange timeRangeG5;
+        public DoubleRange TimeRangeG5
+        {
+            get => timeRangeG5;
+            set
+            {
+                timeRangeG5 = value;
+                OnPropertyChanged(nameof(TimeRangeG5));
+            }
+        }
+
+        private DoubleRange timeRangeG6;
+        public DoubleRange TimeRangeG6
+        {
+            get => timeRangeG6;
+            set
+            {
+                timeRangeG6 = value;
+                OnPropertyChanged(nameof(TimeRangeG6));
+            }
+        }
         private void InitializeGraph()
         {
             Graph1Series = new ObservableCollection<IRenderableSeriesViewModel>();
@@ -1307,15 +1353,28 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap2G1.AcceptsUnsortedData = true;
             dataSeriesRocketG1.AcceptsUnsortedData = true;
 
-            dataSeriesCap1G2 = new XyDataSeries<double, double>();
-            dataSeriesCap2G2 = new XyDataSeries<double, double>();
-            dataSeriesRocketG2 = new XyDataSeries<double, double>();
-            dataSeriesCap1G2.SeriesName = "Atmos";
-            dataSeriesCap2G2.SeriesName = "Cam";
+            dataSeriesCap1G2X = new XyDataSeries<double, double>();
+            dataSeriesCap1G2Y = new XyDataSeries<double, double>();
+            dataSeriesCap1G2Z = new XyDataSeries<double, double>();
+            dataSeriesCap1G2X.SeriesName = "X";
+            dataSeriesCap1G2Y.SeriesName = "Y";
+            dataSeriesCap1G2Z.SeriesName = "Z";
             //dataSeriesRocketG2.SeriesName = "Z-Axis";
-            dataSeriesCap1G2.AcceptsUnsortedData = true;
-            dataSeriesCap2G2.AcceptsUnsortedData = true;
-            dataSeriesRocketG2.AcceptsUnsortedData = true;
+            dataSeriesCap1G2X.AcceptsUnsortedData = true;
+            dataSeriesCap1G2Y.AcceptsUnsortedData = true;
+            dataSeriesCap1G2Z.AcceptsUnsortedData = true;
+
+            dataSeriesCap2G3X = new XyDataSeries<double, double>();
+            dataSeriesCap2G3Y = new XyDataSeries<double, double>();
+            dataSeriesCap2G3Z = new XyDataSeries<double, double>();
+            dataSeriesCap2G3X.SeriesName = "X";
+            dataSeriesCap2G3Y.SeriesName = "Y";
+            dataSeriesCap2G3Z.SeriesName = "Z";
+
+            //dataSeriesRocketG2.SeriesName = "Z-Axis";
+            dataSeriesCap1G2X.AcceptsUnsortedData = true;
+            dataSeriesCap1G2Y.AcceptsUnsortedData = true;
+            dataSeriesCap1G2Z.AcceptsUnsortedData = true;
 
             dataSeriesCap1G3 = new XyDataSeries<double, double>();
             dataSeriesCap2G3 = new XyDataSeries<double, double>();
@@ -1388,7 +1447,7 @@ namespace Rocket_TM_BSC.ViewModel
             // Chart 2
             Graph2Series.Add(new LineRenderableSeriesViewModel
             {
-                DataSeries = dataSeriesCap1G2,
+                DataSeries = dataSeriesCap1G2X,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
@@ -1397,14 +1456,22 @@ namespace Rocket_TM_BSC.ViewModel
 
             Graph2Series.Add(new LineRenderableSeriesViewModel
             {
-                DataSeries = dataSeriesCap2G2,
+                DataSeries = dataSeriesCap1G2Y,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
             });
+            Graph2Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1G2Z,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
+            });
 
-            
+
             // Chart 3
             Graph3Series.Add(new LineRenderableSeriesViewModel
             {
@@ -1415,16 +1482,40 @@ namespace Rocket_TM_BSC.ViewModel
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
             });
            
-            // Chart 4
+            //// Chart 4
+            //Graph4Series.Add(new LineRenderableSeriesViewModel
+            //{
+            //    DataSeries = dataSeriesCap1G4,
+            //    AntiAliasing = false,
+            //    StrokeThickness = 1,
+            //    ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+            //    Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
+            //});
+
             Graph4Series.Add(new LineRenderableSeriesViewModel
             {
-                DataSeries = dataSeriesCap1G4,
+                DataSeries = dataSeriesCap2G3X,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 0),
             });
-
+            Graph4Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G3Y,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214),
+            });
+            Graph4Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap2G3Z,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0),
+            });
 
             // Chart 5
             Graph5Series.Add(new LineRenderableSeriesViewModel
