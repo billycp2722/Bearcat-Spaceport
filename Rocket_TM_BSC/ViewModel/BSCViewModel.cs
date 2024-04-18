@@ -221,7 +221,7 @@ namespace Rocket_TM_BSC.ViewModel
                             ApogeeAlt = apogeeMax.ToString();
                         }
                                                
-                        if (cap1Val[2] == 1)
+                        if (cap1Val[2] == 0)
                         {
                             CapEject = Brushes.Green;
                         }
