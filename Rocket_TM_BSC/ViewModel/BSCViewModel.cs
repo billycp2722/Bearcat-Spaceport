@@ -156,7 +156,7 @@ namespace Rocket_TM_BSC.ViewModel
 
             // Initalize Timers
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(10);
+            _timer.Interval = TimeSpan.FromMilliseconds(15);
             _timer.Tick += _timer_Tick;
             _timer.Start();
 
@@ -166,9 +166,10 @@ namespace Rocket_TM_BSC.ViewModel
             _ReplayTimer.Start();
 
             UpdateComPortCommand.Execute(this);
-            TimeRangeG2 = new DoubleRange(0, 500);
-            TimeRangeG5 = new DoubleRange(0, 500);
-            TimeRangeG6 = new DoubleRange(0, 500);
+            TimeRangeG2 = new DoubleRange(0, 800);
+            TimeRangeG4 = new DoubleRange(0, 800);     
+            TimeRangeG5 = new DoubleRange(0, 800);
+            TimeRangeG6 = new DoubleRange(0, 800);
 
         }
 
@@ -227,9 +228,9 @@ namespace Rocket_TM_BSC.ViewModel
                             ApogeeAlt = apogeeMax.ToString();
                         }
 
-                        if (GraphRangeCounter2 > 200 && i > 500)
+                        if (GraphRangeCounter2 > 200 && i > 800)
                         {
-                            TimeRangeG6 = new DoubleRange(i - 300, i + 200);
+                            TimeRangeG6 = new DoubleRange(i - 800, i + 200);
                             GraphRangeCounter2 = 0;
                         }
                         GraphRangeCounter2++;
@@ -264,7 +265,7 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap1_Data.cap1_DataProcessing_Hex.Cap1_DataOut_Hex.TryDequeue(out var cap1Val);
                        
                         double AccelMag = Math.Sqrt(Math.Pow(cap1Val[7],2)+ Math.Pow(cap1Val[8], 2)+ Math.Pow(cap1Val[9],2));
-                        string s = string.Format("{0:N4}%", AccelMag);
+                        string s = string.Format("{0:N4}", AccelMag);
                         dataSeriesCap1G1.Append(i, cap1Val[10]); // Alt
                         dataSeriesCap1G2X.Append(i, cap1Val[7]); // Accel
                         dataSeriesCap1G2Y.Append(i, cap1Val[8]); // Accel
@@ -287,19 +288,18 @@ namespace Rocket_TM_BSC.ViewModel
                             AddLatLonCap1(cap1Val[0], cap1Val[1]);
                             plotC1 = 0;
                         }
-                        if (GraphRangeCounter > 200 && i>500)
+                        if (GraphRangeCounter > 200 && i>800)
                         {
-                            TimeRangeG2 = new DoubleRange(i - 300, i + 200);
+                            TimeRangeG2 = new DoubleRange(i - 800, i + 200);
                             TimeRangeG5 = TimeRangeG2;
                             GraphRangeCounter = 0;
                         }
                         cap1Flag = true;
                         GraphRangeCounter++;
                         plotC1++;
-                        if (tempInc == i)
-                        {
-                            i++;
-                        }
+                        
+                        i++;
+                        
                         
                     }
                     catch (Exception ex)
@@ -325,11 +325,11 @@ namespace Rocket_TM_BSC.ViewModel
                         Cap2_Data.cap2_DataProcessing_Hex.Cap2_DataOut_Hex.TryDequeue(out var cap2Val);
 
                         double AccelMag = Math.Sqrt(Math.Pow(cap2Val[7], 2) + Math.Pow(cap2Val[8], 2) + Math.Pow(cap2Val[9], 2));
-                        string s = string.Format("{0:N4}%", AccelMag);
+                        string s = string.Format("{0:N4}", AccelMag);
                         dataSeriesCap2G1.Append(i, cap2Val[10]); // Alt
                         dataSeriesCap2G3X.Append(i, cap2Val[7]); // Velo
-                        dataSeriesCap2G3X.Append(i, cap2Val[8]);
-                        dataSeriesCap2G3X.Append(i, cap2Val[9]);
+                        dataSeriesCap2G3Y.Append(i, cap2Val[8]);
+                        dataSeriesCap2G3Z.Append(i, cap2Val[9]);
                         dataSeriesCap2G5.Append(i, cap2Val[3]); // Sat Count
 
                         Cap2_GPSLat = cap2Val[0].ToString();
@@ -346,10 +346,10 @@ namespace Rocket_TM_BSC.ViewModel
                         LostFrame_Cap2 = Cap2_Data.lost_frames2.ToString();
                         DataRate_Cap2 = Cap2_Data.FrameRate2.ToString();
 
-                        if (GraphRangeCounter > 200 && i > 500)
+                        if (GraphRangeCounter > 200 && i > 800)
                         {
-                            TimeRangeG2 = new DoubleRange(i - 799, i + 200);
-                            TimeRangeG5 = TimeRangeG2;
+                            TimeRangeG4 = new DoubleRange(i - 800, i + 200);
+                            TimeRangeG5 = new DoubleRange(i - 800, i + 200);
                             GraphRangeCounter = 0;
                         }
                         if (cap1Flag == false)
@@ -357,10 +357,9 @@ namespace Rocket_TM_BSC.ViewModel
                             GraphRangeCounter++;
                         } 
                         plotC2++;
-                        if (tempInc == i)
-                        {
-                            i++;
-                        }
+                       
+                        i++;
+                        
                     }
                     catch (Exception ex)
                     {
@@ -1308,6 +1307,17 @@ namespace Rocket_TM_BSC.ViewModel
             {
                 timeRangeG2 = value;
                 OnPropertyChanged(nameof(TimeRangeG2));
+            }
+        }
+
+        private DoubleRange timeRangeG4;
+        public DoubleRange TimeRangeG4
+        {
+            get => timeRangeG4;
+            set
+            {
+                timeRangeG4 = value;
+                OnPropertyChanged(nameof(TimeRangeG4));
             }
         }
 
