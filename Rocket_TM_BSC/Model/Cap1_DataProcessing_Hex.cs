@@ -102,7 +102,7 @@ namespace Rocket_TM_BSC.Model
                 Lon_int = Lon_int * 0.0000001;
                 AccelX_int = AccelX_int * 0.01; // M/s^2
                 AccelY_int = AccelY_int * 0.01; // M/s^2
-                AccelZ_int = AccelY_int * 0.01; // M/s*^2
+                AccelZ_int = AccelZ_int * 0.01; // M/s*^2
 
                 // Need to convert Time somehow
                 double[] Cap1DataOut = new double[14] { Lat_int, Lon_int, MS_int, SatCoun_int, GyroX_int, GyroY_int, GyroZ_int, AccelX_int, AccelY_int, AccelZ_int, Alt_int, VOC_int, Temp_int, Humid_int };
