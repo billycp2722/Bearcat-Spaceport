@@ -436,6 +436,7 @@ namespace Rocket_TM_BSC.ViewModel
         private Stopwatch replaySW = new Stopwatch();
         private int UpdateRange = 100;
         private int UpdateRange2 = 100;
+        private double maxaccel = 0;
         private void _ReplayTimer_Tick(object sender, EventArgs e)
         {
             if (!ReplayStop)
@@ -493,8 +494,16 @@ namespace Rocket_TM_BSC.ViewModel
                         //dataSeriesCap1G10.Append(replayCount, _cap1Replay.DP10[replayCount]); // VOC
                         //dataSeriesCap1G11.Append(replayCount, _cap1Replay.DP11[replayCount]); // Humid
                         //dataSeriesCap1G12.Append(replayCount, _cap1Replay.DP12[replayCount]); // Temp
-                        dataSeriesCap1G13.Append(replayCount, _cap1Replay.DP13[replayCount]); // gyro X
-                        dataSeriesCap1G15.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel X Cap2
+                        dataSeriesCap1XG13.Append(replayCount, _cap1Replay.DP10[replayCount]); // gyro X
+                        dataSeriesCap1YG13.Append(replayCount, _cap1Replay.DP14[replayCount]); // gyro X
+                        dataSeriesCap1ZG13.Append(replayCount, _cap1Replay.DP15[replayCount]); // gyro X
+                        double AccelMag = Math.Sqrt(Math.Pow(_cap1Replay.DP6[replayCount], 2) + Math.Pow(_cap1Replay.DP7[replayCount], 2) + Math.Pow(_cap1Replay.DP8[replayCount], 2));
+                        dataSeriesCap1G15.Append(replayCount, AccelMag); // Accel X Cap2
+                        if (maxaccel < AccelMag)
+                        {
+                            DP_2 = AccelMag;
+                            maxaccel = AccelMag;
+                        }
                         replayCount++;
                         if (replayCount < Countmax)
                         {
@@ -507,12 +516,19 @@ namespace Rocket_TM_BSC.ViewModel
                             //dataSeriesCap1G10.Append(replayCount, _cap1Replay.DP10[replayCount]); // VOC
                             //dataSeriesCap1G11.Append(replayCount, _cap1Replay.DP11[replayCount]); // Humid
                             //dataSeriesCap1G12.Append(replayCount, _cap1Replay.DP12[replayCount]); // Temp
-                            dataSeriesCap1G13.Append(replayCount, _cap1Replay.DP13[replayCount]); // gyro X
-                            dataSeriesCap1G15.Append(replayCount, _cap1Replay.DP8[replayCount]); // Accel X Cap2
+                            dataSeriesCap1XG13.Append(replayCount, _cap1Replay.DP10[replayCount]); // gyro X
+                            dataSeriesCap1YG13.Append(replayCount, _cap1Replay.DP14[replayCount]);
+                            dataSeriesCap1ZG13.Append(replayCount, _cap1Replay.DP15[replayCount]);
+                            AccelMag = Math.Sqrt(Math.Pow(_cap1Replay.DP6[replayCount],2) + Math.Pow(_cap1Replay.DP7[replayCount],2) + Math.Pow(_cap1Replay.DP8[replayCount],2));
+                            dataSeriesCap1G15.Append(replayCount, AccelMag); // Accel X Cap2
                         }
                         
-                        
-                        if (mapPlot >= 50)
+                        if (maxaccel < AccelMag)
+                        {
+                            DP_2 = AccelMag;
+                            maxaccel = AccelMag;
+                        }
+                        if (mapPlot >= 10)
                         {
                             AddLatLonReplay(_cap1Replay.DP1[replayCount] * 0.0000001, _cap1Replay.DP2[replayCount] * 0.0000001, "1");
                             mapPlot = 0;
@@ -541,7 +557,9 @@ namespace Rocket_TM_BSC.ViewModel
                         dataSeriesCap1G9X.Clear();
                         dataSeriesCap1G9Y.Clear();
                         dataSeriesCap1G9Z.Clear();
-                        dataSeriesCap1G13.Clear();
+                        dataSeriesCap1XG13.Clear();
+                        dataSeriesCap1YG13.Clear();
+                        dataSeriesCap1ZG13.Clear();
                         dataSeriesCap2G14X.Clear();
                         dataSeriesCap2G14Y.Clear();
                         dataSeriesCap2G14Z.Clear();
@@ -550,7 +568,7 @@ namespace Rocket_TM_BSC.ViewModel
 
                         dataSeriesCap2G7.Clear();
                         dataSeriesCap2G8.Clear();
-                        dataSeriesCap2G13.Clear();
+//dataSeriesCap2G13.Clear();
                         dataSeriesCap2G14X.Clear();
                         dataSeriesCap2G14Y.Clear();
                         dataSeriesCap2G14Z.Clear();
@@ -607,8 +625,8 @@ namespace Rocket_TM_BSC.ViewModel
                             dataSeriesCap2G14X.Append(replayCount2, _cap2Replay.DP6[replayCount2]); // Accel X
                             dataSeriesCap2G14Y.Append(replayCount2, _cap2Replay.DP7[replayCount2]); // Accel Y
                             dataSeriesCap2G14Z.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel Z
-                            dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
-                            dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap
+                            //dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
+                            //dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap
                             replayCount2++;
                             if (replayCount2 < Countmax)
                             {
@@ -618,12 +636,12 @@ namespace Rocket_TM_BSC.ViewModel
                                 dataSeriesCap2G14X.Append(replayCount2, _cap2Replay.DP6[replayCount2]); // Accel X
                                 dataSeriesCap2G14Y.Append(replayCount2, _cap2Replay.DP7[replayCount2]); // Accel Y
                                 dataSeriesCap2G14Z.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel Z
-                                dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
-                                dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap2
+                                //dataSeriesCap2G13.Append(replayCount2, _cap2Replay.DP13[replayCount2]); // gyro X
+                                //dataSeriesCap2G15.Append(replayCount2, _cap2Replay.DP8[replayCount2]); // Accel X Cap2
                             }
                             
 
-                            if (mapPlot2 >= 50)
+                            if (mapPlot2 >= 10)
                             {
                                 AddLatLonReplay2(_cap2Replay.DP1[replayCount2] * 0.0000001, _cap2Replay.DP2[replayCount2] * 0.0000001, "1");
                                 mapPlot2 = 0;
@@ -647,7 +665,9 @@ namespace Rocket_TM_BSC.ViewModel
                             dataSeriesCap1G9X.Clear();
                             dataSeriesCap1G9Y.Clear();
                             dataSeriesCap1G9Z.Clear();
-                            dataSeriesCap1G13.Clear();
+                            dataSeriesCap1XG13.Clear();
+                            dataSeriesCap1YG13.Clear();
+                            dataSeriesCap1ZG13.Clear();
                             dataSeriesCap2G14X.Clear();
                             dataSeriesCap2G14Y.Clear();
                             dataSeriesCap2G14Z.Clear();
@@ -656,7 +676,7 @@ namespace Rocket_TM_BSC.ViewModel
 
                             dataSeriesCap2G7.Clear();
                             dataSeriesCap2G8.Clear();
-                            dataSeriesCap2G13.Clear();
+                            //dataSeriesCap2G13.Clear();
                             dataSeriesCap2G14X.Clear();
                             dataSeriesCap2G14Y.Clear();
                             dataSeriesCap2G14Z.Clear();
@@ -1322,6 +1342,17 @@ namespace Rocket_TM_BSC.ViewModel
             }
         }
 
+        private double dp_1;
+        public double DP_2
+        {
+            get => dp_1;
+            set
+            {
+                dp_1 = value;
+                OnPropertyChanged(nameof(DP_2));
+            }
+        }
+
         private DoubleRange timeRangeG6;
         public DoubleRange TimeRangeG6
         {
@@ -1682,8 +1713,9 @@ namespace Rocket_TM_BSC.ViewModel
         private XyDataSeries<double, double> dataSeriesCap1G12;
         private XyDataSeries<double, double> dataSeriesCap2G12;
 
-        private XyDataSeries<double, double> dataSeriesCap1G13;
-        private XyDataSeries<double, double> dataSeriesCap2G13;
+        private XyDataSeries<double, double> dataSeriesCap1XG13;
+        private XyDataSeries<double, double> dataSeriesCap1YG13;
+        private XyDataSeries<double, double> dataSeriesCap1ZG13;
 
         private XyDataSeries<double, double> dataSeriesCap2G14X;
         private XyDataSeries<double, double> dataSeriesCap2G14Y;
@@ -1866,12 +1898,15 @@ namespace Rocket_TM_BSC.ViewModel
             dataSeriesCap1G12.AcceptsUnsortedData = true;
             dataSeriesCap2G12.AcceptsUnsortedData = true;
 
-            dataSeriesCap1G13 = new XyDataSeries<double, double>();
-            dataSeriesCap2G13 = new XyDataSeries<double, double>();
-            dataSeriesCap1G13.SeriesName = "Atmos";
-            dataSeriesCap2G13.SeriesName = "Cam";
-            dataSeriesCap1G13.AcceptsUnsortedData = true;
-            dataSeriesCap2G13.AcceptsUnsortedData = true;
+            dataSeriesCap1XG13 = new XyDataSeries<double, double>();
+            dataSeriesCap1YG13 = new XyDataSeries<double, double>();
+            dataSeriesCap1ZG13 = new XyDataSeries<double, double>();
+            dataSeriesCap1XG13.SeriesName = "X";
+            dataSeriesCap1YG13.SeriesName = "Y";
+            dataSeriesCap1ZG13.SeriesName = "Z";
+            dataSeriesCap1XG13.AcceptsUnsortedData = true;
+            dataSeriesCap1YG13.AcceptsUnsortedData = true;
+            dataSeriesCap1ZG13.AcceptsUnsortedData = true;
 
             dataSeriesCap2G14X = new XyDataSeries<double, double>();
             dataSeriesCap2G14Y = new XyDataSeries<double, double>();
@@ -2029,7 +2064,7 @@ namespace Rocket_TM_BSC.ViewModel
             //Chart 5
             Graph13Series.Add(new LineRenderableSeriesViewModel
             {
-                DataSeries = dataSeriesCap1G13,
+                DataSeries = dataSeriesCap1XG13,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
@@ -2038,11 +2073,20 @@ namespace Rocket_TM_BSC.ViewModel
 
             Graph13Series.Add(new LineRenderableSeriesViewModel
             {
-                DataSeries = dataSeriesCap2G13,
+                DataSeries = dataSeriesCap1YG13,
                 AntiAliasing = false,
                 StrokeThickness = 1,
                 ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
                 Stroke = System.Windows.Media.Color.FromArgb(255, 255, 0, 214)
+            });
+
+            Graph13Series.Add(new LineRenderableSeriesViewModel
+            {
+                DataSeries = dataSeriesCap1ZG13,
+                AntiAliasing = false,
+                StrokeThickness = 1,
+                ResamplingMode = SciChart.Data.Numerics.ResamplingMode.None,
+                Stroke = System.Windows.Media.Color.FromArgb(255, 0, 255, 0)
             });
 
             // Chart 5

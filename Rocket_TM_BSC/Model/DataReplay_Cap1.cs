@@ -15,6 +15,7 @@ namespace Rocket_TM_BSC.Model
     public class DataReplay_Cap1
     {
         private BackgroundWorker DataWorker;
+        public double maxAccel = 0;
         public DataReplay_Cap1()
         {
             DataWorker = new BackgroundWorker();
@@ -128,15 +129,14 @@ namespace Rocket_TM_BSC.Model
                         DP8[i-1] = (double.Parse(values[7], NumberStyles.Float));
                         DP9[i-1] = (double.Parse(values[8], NumberStyles.Float));
                         // Continue adding as needed
-                        if (values.Length > 9)
-                        {
+                        
                             DP10[i-1] = (double.Parse(values[9], NumberStyles.Float));
                             //DP11[i-1] = (double.Parse(values[10], NumberStyles.Float));
                             //DP12[i-1] = (double.Parse(values[11], NumberStyles.Float));
                             //DP13[i-1] = (double.Parse(values[12], NumberStyles.Float));
                             DP14[i-1] = (double.Parse(values[10], NumberStyles.Float));
                             DP15[i-1] = (double.Parse(values[11], NumberStyles.Float));
-                        }
+                        
                     }
                     
                 }
